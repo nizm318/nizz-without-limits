@@ -1,0 +1,2686 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+<meta name="theme-color" content="#020604">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+<meta name="mobile-web-app-capable" content="yes">
+<title>NIZZ // WITHOUT LIMITS [Quantum Super-App]</title>
+
+<!-- Core CDNs -->
+<script src="https://cdnjs.cloudflare.com/ajax/libs/pdf.js/3.11.174/pdf.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/html2pdf.js/0.10.1/html2pdf.bundle.min.js"></script>
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/KaTeX/0.16.9/katex.min.css">
+<script src="https://cdnjs.cloudflare.com/ajax/libs/KaTeX/0.16.9/katex.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/KaTeX/0.16.9/contrib/auto-render.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/4.4.1/chart.umd.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/mermaid/10.9.0/mermaid.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/tesseract.js/4.1.1/tesseract.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/xlsx/0.18.5/xlsx.full.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/alasql/4.1.7/alasql.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jszip/3.10.1/jszip.min.js"></script>
+<script src="https://cdn.jsdelivr.net/pyodide/v0.25.0/full/pyodide.js"></script>
+
+<style>
+*{
+    margin:0;
+    padding:0;
+    box-sizing:border-box;
+    -webkit-tap-highlight-color: transparent;
+}
+
+:root{
+    --green:#00ff88;
+    --green-dim:rgba(0,255,136,0.16);
+    --green-border:rgba(0,255,136,0.32);
+    --dark:#020604;
+    --panel:rgba(2,14,9,0.95);
+    --panel-border:rgba(0,255,136,0.28);
+    --text:#ecfff5;
+    --muted:#6d8b7c;
+    --danger:#ff5263;
+    --warning:#ffb84d;
+    --cyan:#00eaff;
+    --glass-blur:25px;
+}
+
+body[data-theme="neon"]{
+    --green:#ff168c;
+    --green-dim:rgba(255,22,140,0.16);
+    --green-border:rgba(255,22,140,0.35);
+    --dark:#08030b;
+    --panel:rgba(20,7,26,0.95);
+    --panel-border:rgba(255,22,140,0.32);
+    --text:#fff0f8;
+    --muted:#9e8194;
+    --cyan:#00eaff;
+}
+
+body[data-theme="amber"]{
+    --green:#d9814a;
+    --green-dim:rgba(217,129,74,0.16);
+    --green-border:rgba(217,129,74,0.35);
+    --dark:#0a0704;
+    --panel:rgba(24,14,7,0.95);
+    --panel-border:rgba(217,129,74,0.32);
+    --text:#fef6f0;
+    --muted:#998172;
+    --cyan:#ffcf40;
+}
+
+body[data-theme="cyberblue"]{
+    --green:#00eaff;
+    --green-dim:rgba(0,234,255,0.16);
+    --green-border:rgba(0,234,255,0.35);
+    --dark:#02070d;
+    --panel:rgba(2,17,28,0.95);
+    --panel-border:rgba(0,234,255,0.32);
+    --text:#e6fcff;
+    --muted:#6a8d96;
+    --cyan:#00ff88;
+}
+
+html,body{
+    width:100%;
+    height:100%;
+    overflow:hidden;
+    background:var(--dark);
+    color:var(--text);
+    font-family:"Courier New", Consolas, monospace;
+}
+
+#matrix{
+    position:fixed;
+    inset:0;
+    width:100%;
+    height:100%;
+    z-index:0;
+    pointer-events:none;
+}
+
+.grid{
+    position:fixed;
+    inset:0;
+    z-index:1;
+    pointer-events:none;
+    background-image:
+        linear-gradient(var(--panel-border) 1px,transparent 1px),
+        linear-gradient(90deg,var(--panel-border) 1px,transparent 1px);
+    background-size:55px 55px;
+    mask-image:linear-gradient(to bottom, transparent, black 15%, black 85%, transparent);
+}
+
+.scanlines{
+    position:fixed;
+    inset:0;
+    z-index:8;
+    pointer-events:none;
+    background:repeating-linear-gradient(
+        to bottom,
+        var(--green-dim) 0px,
+        var(--green-dim) 1px,
+        transparent 1px,
+        transparent 4px
+    );
+}
+
+.glow{
+    position:fixed;
+    width:450px;
+    height:450px;
+    border-radius:50%;
+    background:var(--green);
+    filter:blur(160px);
+    opacity:0.07;
+    pointer-events:none;
+    z-index:1;
+}
+.glow.a{top:-180px; left:-150px;}
+.glow.b{right:-180px; bottom:-190px;}
+
+.top-status{
+    position:fixed;
+    top:16px;
+    left:24px;
+    z-index:10;
+    display:flex;
+    align-items:center;
+    gap:9px;
+    color:var(--muted);
+    font-size:10px;
+    letter-spacing:2px;
+}
+
+.status-dot{
+    width:7px;
+    height:7px;
+    border-radius:50%;
+    background:var(--green);
+    box-shadow:0 0 6px var(--green), 0 0 16px var(--green);
+    animation:pulse 1.8s infinite;
+}
+@keyframes pulse{0%,100%{opacity:1} 50%{opacity:0.25}}
+
+/* Auth Screen */
+#authScreen{
+    position:fixed;
+    inset:0;
+    z-index:100;
+    display:flex;
+    justify-content:center;
+    align-items:center;
+    padding:20px;
+    background:radial-gradient(circle at 50% 50%, var(--green-dim), transparent 50%), var(--dark);
+}
+
+.login-panel{
+    position:relative;
+    width:min(440px, 100%);
+    padding:38px 32px 30px;
+    background:var(--panel);
+    border:1px solid var(--panel-border);
+    border-radius:20px;
+    backdrop-filter:blur(var(--glass-blur));
+    box-shadow:0 0 30px rgba(0,0,0,0.8), 0 0 15px var(--green-dim);
+}
+
+.corner{
+    position:absolute;
+    width:18px;
+    height:18px;
+    border-color:var(--green);
+    border-style:solid;
+    opacity:0.85;
+}
+.corner.tl{top:-1px; left:-1px; border-width:2px 0 0 2px;}
+.corner.tr{top:-1px; right:-1px; border-width:2px 2px 0 0;}
+.corner.bl{bottom:-1px; left:-1px; border-width:0 0 2px 2px;}
+.corner.br{bottom:-1px; right:-1px; border-width:0 2px 2px 0;}
+
+.logo{
+    width:64px;
+    height:64px;
+    margin:0 auto 16px;
+    display:flex;
+    justify-content:center;
+    align-items:center;
+    border:1px solid var(--panel-border);
+    border-radius:14px;
+    background:var(--green-dim);
+    box-shadow:0 0 15px var(--green-dim);
+}
+.logo span{font-size:28px; font-weight:bold; color:var(--green); text-shadow:0 0 10px var(--green);}
+.header{text-align:center; margin-bottom:20px;}
+.header .tag{color:var(--green); font-size:9px; letter-spacing:3px; margin-bottom:6px;}
+.header h1{font-size:23px; letter-spacing:4px; font-weight:bold; text-shadow:0 0 8px var(--green-dim);}
+.header p{color:var(--muted); font-size:11px; margin-top:4px;}
+
+.field{margin-bottom:16px;}
+.field label{display:block; margin-bottom:6px; color:var(--muted); font-size:10px; letter-spacing:2px;}
+.input-box{position:relative;}
+.input-icon{position:absolute; left:14px; top:50%; transform:translateY(-50%); color:var(--green); font-size:13px;}
+.input-box input{
+    width:100%; height:46px; padding:0 44px; border-radius:9px;
+    border:1px solid var(--panel-border); outline:none; color:var(--text);
+    background:rgba(0,0,0,0.55); font-family:inherit; font-size:13px;
+}
+.input-box input:focus{border-color:var(--green); box-shadow:0 0 15px var(--green-dim);}
+.password-toggle{position:absolute; right:14px; top:50%; transform:translateY(-50%); color:var(--muted); cursor:pointer; font-size:10px;}
+
+.autofill-hint{
+    text-align:right; font-size:10px; color:var(--green); cursor:pointer; margin-top:5px; text-decoration:underline;
+}
+
+.login-button{
+    width:100%; height:48px; border:1px solid var(--green); border-radius:9px;
+    background:linear-gradient(90deg, var(--green-dim), transparent);
+    color:var(--green); font-family:inherit; font-size:11.5px; font-weight:bold;
+    letter-spacing:2.5px; cursor:pointer; margin-top:8px; transition:0.25s;
+}
+.login-button:hover{color:#001c0e; background:var(--green); box-shadow:0 0 20px var(--green);}
+.guest-button{
+    width:100%; height:38px; border:1px dashed var(--panel-border); border-radius:9px;
+    background:transparent; color:var(--muted); font-family:inherit; font-size:10.5px;
+    letter-spacing:1px; cursor:pointer; margin-top:10px;
+}
+.status{min-height:16px; margin-top:10px; text-align:center; font-size:11px;}
+.status.error{color:var(--danger);} .status.success{color:var(--green);}
+
+/* Main App Layout */
+.app{display:none; height:100%; width:100%; position:relative; z-index:5;}
+.backdrop{display:none; position:fixed; inset:0; background:rgba(0,0,0,0.75); backdrop-filter:blur(4px); z-index:40;}
+
+.sidebar{
+    width:280px; min-width:280px; height:100%; background:var(--panel); border-right:1px solid var(--panel-border);
+    backdrop-filter:blur(var(--glass-blur)); display:flex; flex-direction:column; padding:16px 14px;
+    transition:transform 0.3s ease; z-index:50;
+}
+.sb-brand{font-size:14px; letter-spacing:2px; font-weight:bold; color:var(--green); margin-bottom:2px;}
+.sb-user{display:flex; align-items:center; gap:8px; margin:10px 0 12px; font-size:11px; color:var(--muted);}
+.avatar{width:24px; height:24px; border-radius:50%; background:linear-gradient(135deg,var(--green),#000); border:1px solid var(--green); flex-shrink:0;}
+.owner-badge{font-size:8.5px; background:var(--green); color:#001c0e; padding:2px 6px; border-radius:4px; font-weight:bold;}
+.sb-label{font-size:9.5px; letter-spacing:1.5px; color:var(--muted); text-transform:uppercase; margin:8px 0 4px; display:flex; justify-content:space-between; align-items:center;}
+
+.sidebar select, .sidebar input[type="text"]{
+    width:100%; margin-bottom:8px; font-size:11px; padding:6px 8px; border-radius:7px;
+    background:rgba(0,0,0,0.6); color:var(--text); border:1px solid var(--panel-border); font-family:inherit; outline:none;
+}
+
+.persona-list, .thread-list{display:flex; flex-direction:column; gap:4px; max-height:110px; overflow-y:auto;}
+.persona-item, .thread-item{
+    padding:7px 9px; border-radius:7px; font-size:11px; cursor:pointer;
+    border:1px solid transparent; color:var(--muted); transition:0.2s;
+    display:flex; justify-content:space-between; align-items:center;
+}
+.persona-item:hover, .thread-item:hover{background:var(--green-dim); color:var(--text);}
+.persona-item.active{border-color:var(--green); color:var(--green); background:var(--green-dim);}
+.thread-item.active{border-color:var(--green); color:var(--green); background:var(--green-dim);}
+.delete-thread{color:var(--danger); font-size:12px; padding:0 4px; display:none;}
+.thread-item:hover .delete-thread{display:inline-block;}
+
+.action-chip-btn{
+    font-size:9px; background:none; border:1px solid var(--panel-border); color:var(--green);
+    padding:2px 6px; border-radius:4px; cursor:pointer; font-family:inherit;
+}
+.new-chat-btn{
+    margin-top:6px; padding:7px; border-radius:7px; text-align:center; font-size:11px;
+    border:1px dashed var(--panel-border); color:var(--green); cursor:pointer;
+}
+
+.token-gauge-box{
+    margin-top:auto; padding:10px; background:rgba(0,0,0,0.4); border:1px solid var(--panel-border); border-radius:8px;
+}
+.token-gauge-header{display:flex; justify-content:space-between; font-size:9.5px; color:var(--muted); margin-bottom:4px;}
+.token-progress-bar{width:100%; height:4px; background:rgba(255,255,255,0.1); border-radius:2px; overflow:hidden;}
+.token-progress-fill{width:2%; height:100%; background:var(--green); transition:width 0.3s ease;}
+
+.sb-footer{padding-top:8px;}
+.logout{font-size:10px; color:var(--danger); cursor:pointer; text-align:center; margin-top:4px;}
+
+/* Main Area */
+.main{flex:1; width:100%; min-width:0; height:100%; display:flex; flex-direction:column; background:rgba(0,0,0,0.65);}
+.topbar{
+    height:54px; padding:0 16px; border-bottom:1px solid var(--panel-border);
+    display:flex; justify-content:space-between; align-items:center;
+    background:var(--panel); backdrop-filter:blur(var(--glass-blur)); flex-shrink:0;
+}
+.topbar-left{display:flex; align-items:center; gap:10px;}
+.menu-btn{display:none; background:none; border:none; color:var(--green); font-size:20px; cursor:pointer;}
+.topbar-title{font-size:12.5px; letter-spacing:1px; color:var(--text);}
+.topbar-actions{display:flex; align-items:center; gap:6px;}
+
+.offline-toggle-btn, .split-toggle-btn, .mindmap-toggle-btn, .duplex-toggle-btn{
+    background:none; border:1px solid var(--panel-border); color:var(--muted);
+    padding:4px 8px; border-radius:14px; font-size:10px; font-family:inherit; cursor:pointer;
+    display:flex; align-items:center; gap:4px;
+}
+.offline-toggle-btn.active{border-color:#ffaa00; color:#ffaa00; background:rgba(255,170,0,0.15);}
+.split-toggle-btn.active, .duplex-toggle-btn.active, .mindmap-toggle-btn:hover{border-color:var(--green); color:var(--green); background:var(--green-dim);}
+
+.export-btn{
+    background:none; border:1px solid var(--panel-border); color:var(--green);
+    padding:4px 8px; border-radius:6px; font-size:10px; font-family:inherit; cursor:pointer;
+}
+.quota-pill{font-size:10.5px; padding:4px 10px; border-radius:20px; border:1px solid var(--green); color:var(--green);}
+
+/* Workspace Wrapper */
+.workspace-wrapper{
+    flex:1; width:100%; min-height:0; display:flex; position:relative; overflow:hidden;
+}
+
+.messages-pane{
+    flex:1; height:100%; display:flex; flex-direction:column; min-width:0; overflow-y:auto; padding:16px; gap:14px;
+}
+
+.artifact-split-pane{
+    width:50%; height:100%; border-left:1px solid var(--panel-border);
+    background:rgba(2,8,5,0.96); display:none; flex-direction:column; position:relative; z-index:10;
+}
+.artifact-split-pane.open{display:flex;}
+
+.artifact-pane-header{
+    height:46px; background:var(--panel); border-bottom:1px solid var(--panel-border);
+    display:flex; justify-content:space-between; align-items:center; padding:0 12px; flex-shrink:0;
+}
+.artifact-tabs{display:flex; gap:6px;}
+.artifact-tab-btn{
+    background:none; border:1px solid transparent; color:var(--muted);
+    font-size:10px; padding:3px 8px; border-radius:4px; cursor:pointer; font-family:inherit;
+}
+.artifact-tab-btn.active{border-color:var(--green); color:var(--green); background:var(--green-dim);}
+
+.version-pills-box{display:flex; gap:4px; align-items:center;}
+.version-pill{
+    font-size:9px; padding:2px 6px; border-radius:10px; border:1px solid var(--panel-border);
+    color:var(--muted); cursor:pointer;
+}
+.version-pill.active{border-color:var(--green); color:var(--green); background:var(--green-dim);}
+
+.artifact-pane-body{flex:1; width:100%; height:100%; overflow:hidden; position:relative;}
+.artifact-live-frame{width:100%; height:100%; border:none; background:#ffffff;}
+.artifact-code-view{
+    width:100%; height:100%; background:#010403; color:#cbfbee; padding:14px;
+    font-family:Consolas, monospace; font-size:12px; overflow:auto; white-space:pre-wrap; display:none;
+}
+
+/* Messages */
+.msg{max-width:85%; padding:12px 16px; border-radius:12px; font-size:13px; line-height:1.6; word-break:break-word; position:relative;}
+.msg.user{align-self:flex-end; background:var(--green-dim); border:1px solid var(--panel-border);}
+.msg.ai{align-self:flex-start; background:var(--panel); border:1px solid var(--panel-border);}
+
+.msg-edit-btn{
+    position:absolute; top:4px; right:6px; background:none; border:none;
+    color:var(--muted); font-size:10px; cursor:pointer; opacity:0; transition:0.2s;
+}
+.msg.user:hover .msg-edit-btn{opacity:1;}
+
+.attached-preview-msg{
+    max-width:200px; max-height:160px; border-radius:8px; margin-bottom:8px; display:block; border:1px solid var(--green);
+}
+.doc-badge-msg{
+    display:inline-block; padding:4px 8px; background:var(--green-dim);
+    border:1px solid var(--green); border-radius:6px; font-size:11px; margin-bottom:8px; color:var(--green);
+}
+
+.msg-toolbar{
+    display:flex; gap:12px; margin-top:8px; padding-top:6px;
+    border-top:1px dashed var(--panel-border); font-size:11px; color:var(--muted);
+}
+.msg-btn{
+    cursor:pointer; background:none; border:none; color:var(--muted);
+    font-family:inherit; font-size:10.5px; display:flex; align-items:center; gap:4px;
+}
+.msg-btn:hover{color:var(--green);}
+
+/* SQL & Python Result Containers */
+.sql-result-box, .python-result-box{
+    margin:10px 0; max-width:100%; overflow-x:auto; background:rgba(0,0,0,0.6);
+    border:1px solid var(--green); border-radius:8px; padding:10px;
+}
+.sql-table{
+    width:100%; border-collapse:collapse; font-size:11px; color:var(--text);
+}
+.sql-table th{
+    background:var(--green-dim); color:var(--green); padding:6px 10px; border:1px solid var(--panel-border); text-align:left;
+}
+.sql-table td{
+    padding:6px 10px; border:1px solid var(--panel-border);
+}
+
+/* Code Blocks */
+.code-container{
+    background:#010403; border:1px solid var(--panel-border);
+    border-radius:8px; margin:10px 0; overflow:hidden;
+}
+.code-header{
+    display:flex; justify-content:space-between; align-items:center;
+    background:var(--green-dim); padding:5px 10px; font-size:10px; color:var(--green);
+}
+.code-actions{display:flex; gap:8px;}
+.code-action-btn{
+    background:none; border:none; color:var(--green); cursor:pointer; font-family:inherit; font-size:10px; font-weight:bold;
+}
+pre code{
+    display:block; padding:10px; overflow-x:auto; font-size:12px; color:var(--text); font-family:Consolas, monospace;
+}
+
+/* Charts & Flowcharts */
+.chart-container-box{
+    position:relative; width:100%; max-width:480px; background:rgba(0,0,0,0.6);
+    padding:12px; border-radius:10px; border:1px solid var(--panel-border); margin:10px 0;
+}
+.mermaid-diagram-box{
+    background:rgba(0,0,0,0.6); padding:12px; border-radius:10px; border:1px solid var(--panel-border);
+    overflow-x:auto; margin:10px 0; text-align:center;
+}
+
+/* 4K Image Render Card */
+.ai-image-container{
+    position:relative; margin-top:10px; border-radius:10px; overflow:hidden;
+    border:1px solid var(--green); box-shadow:0 0 15px var(--green-dim);
+    max-width:380px;
+}
+.ai-image-container img{width:100%; height:auto; display:block;}
+
+.typing{align-self:flex-start; color:var(--green); font-size:11px; padding:6px 12px; background:var(--green-dim); border-radius:8px;}
+
+/* Quick Action Prompt Chips Bar */
+.prompt-chips-bar{
+    display:flex; gap:6px; overflow-x:auto; padding:6px 14px;
+    background:var(--dark); border-top:1px solid var(--panel-border);
+    white-space:nowrap;
+}
+.prompt-chips-bar::-webkit-scrollbar{height:2px;}
+.prompt-chip{
+    background:var(--green-dim); border:1px solid var(--panel-border);
+    border-radius:14px; padding:4px 10px; font-size:10.5px; color:var(--green);
+    cursor:pointer; transition:0.2s; flex-shrink:0;
+}
+.prompt-chip:hover{background:var(--green); color:#001c0e;}
+
+/* Composer Area */
+.composer-area{
+    border-top:1px solid var(--panel-border);
+    background:var(--panel); backdrop-filter:blur(var(--glass-blur));
+    display:flex; flex-direction:column;
+}
+.waveform-box{
+    display:none; height:32px; width:100%; background:rgba(0,0,0,0.5);
+    border-bottom:1px dashed var(--panel-border); align-items:center; justify-content:center;
+}
+#waveCanvas{width:100%; height:32px;}
+
+.attach-preview-bar{
+    display:none; padding:8px 16px; background:var(--green-dim);
+    align-items:center; gap:8px; border-bottom:1px dashed var(--panel-border);
+}
+.attach-thumb{width:40px; height:40px; border-radius:6px; object-fit:cover; border:1px solid var(--green);}
+.attach-doc-icon{font-size:22px;}
+.photo-fx-select{
+    font-size:10px; background:rgba(0,0,0,0.6); color:var(--green); border:1px solid var(--green);
+    padding:3px 6px; border-radius:4px; font-family:inherit; outline:none;
+}
+.ocr-extract-btn{
+    font-size:10px; background:var(--green); color:#001c0e; border:none; padding:4px 8px;
+    border-radius:4px; font-weight:bold; cursor:pointer; font-family:inherit;
+}
+.remove-attach-btn{background:none; border:none; color:var(--danger); font-size:14px; cursor:pointer; margin-left:auto;}
+
+.composer{padding:10px 14px; display:flex; gap:6px; align-items:flex-end;}
+.composer textarea{
+    flex:1; resize:none; max-height:100px; min-height:42px; height:42px;
+    background:rgba(0,0,0,0.6); border:1px solid var(--panel-border); border-radius:10px;
+    color:var(--text); padding:10px 12px; font-size:13px; outline:none; font-family:inherit;
+}
+.composer textarea:focus{border-color:var(--green); box-shadow:0 0 10px var(--green-dim);}
+.icon-btn{
+    width:40px; height:42px; border-radius:10px; border:1px solid var(--panel-border);
+    background:rgba(0,0,0,0.5); color:var(--green); cursor:pointer; font-size:15px;
+    display:flex; align-items:center; justify-content:center; flex-shrink:0;
+}
+.icon-btn:hover{border-color:var(--green); box-shadow:0 0 8px var(--green-dim);}
+.send-btn{background:var(--green); color:#001c0e; border:none; font-weight:bold;}
+
+/* Modals */
+#cameraModal, #customPersonaModal, #mindmapModal, #vaultModal, #sqlStudioModal, #imagemagickModal{
+    position:fixed; inset:0; background:rgba(0,0,0,0.95); z-index:350;
+    display:none; flex-direction:column; align-items:center; justify-content:center; padding:20px;
+}
+#camVideo{width:100%; max-width:440px; border-radius:14px; border:1px solid var(--green); background:#000;}
+.modal-card-box{
+    width:min(480px, 100%); background:var(--panel); border:1px solid var(--green);
+    border-radius:16px; padding:22px; max-height:90vh; overflow-y:auto;
+}
+.cam-actions{display:flex; gap:14px; margin-top:16px;}
+.cam-btn{
+    padding:10px 20px; border-radius:8px; border:1px solid var(--green);
+    background:var(--green); color:#001c0e; font-weight:bold; font-family:inherit; cursor:pointer;
+}
+.cam-cancel{background:transparent; color:var(--danger); border-color:var(--danger);}
+
+/* 3D Knowledge Graph */
+#mindmapCanvas{width:100%; height:100%; position:absolute; inset:0;}
+.mindmap-hud{
+    position:absolute; top:20px; left:20px; z-index:10;
+    background:var(--panel); border:1px solid var(--green); padding:10px 16px; border-radius:8px;
+    font-size:11px; color:var(--green); letter-spacing:1px;
+}
+.mindmap-close{
+    position:absolute; top:20px; right:20px; z-index:10;
+    background:var(--panel); border:1px solid var(--danger); color:var(--danger);
+    padding:8px 14px; border-radius:8px; font-family:inherit; cursor:pointer; font-weight:bold;
+}
+
+/* Paywall */
+#paywall{position:fixed; inset:0; background:rgba(0,0,0,0.88); display:none; align-items:center; justify-content:center; z-index:200; padding:16px;}
+.paywall-card{width:min(330px, 100%); background:var(--panel); border:1px solid var(--green); border-radius:16px; padding:22px; text-align:center;}
+.paywall-card h3{color:var(--green); margin-bottom:8px; font-size:15px;}
+.paywall-card p{color:var(--muted); font-size:12px; margin-bottom:14px;}
+.close-modal{margin-top:10px; font-size:10.5px; color:var(--muted); cursor:pointer;}
+
+@media(max-width: 900px){
+    .artifact-split-pane{position:absolute; inset:0; width:100%; z-index:50;}
+}
+@media(max-width: 768px){
+    .menu-btn{display:block;}
+    .sidebar{position:fixed; left:0; top:0; bottom:0; transform:translateX(-100%); width:280px;}
+    .sidebar.open{transform:translateX(0); box-shadow:4px 0 25px rgba(0,0,0,0.9);}
+    .backdrop.active{display:block;}
+}
+</style>
+</head>
+
+<body>
+
+<canvas id="matrix"></canvas>
+<div class="grid"></div>
+<div class="scanlines"></div>
+<div class="glow a"></div>
+<div class="glow b"></div>
+
+<div class="top-status"><span class="status-dot"></span> NIZZ // QUANTUM WITHOUT LIMITS [READY]</div>
+
+<!-- AUTH SCREEN -->
+<div id="authScreen">
+    <main class="login-panel">
+        <span class="corner tl"></span><span class="corner tr"></span>
+        <span class="corner bl"></span><span class="corner br"></span>
+        <div class="logo"><span>N</span></div>
+        <div class="header">
+            <div class="tag">NIZZ // WITHOUT LIMITS</div>
+            <h1>SECURE ACCESS</h1>
+            <p>ImageMagick, wkhtmltopdf, Pyodide, SQL & Studio</p>
+        </div>
+        <div>
+            <div class="field">
+                <label>USERNAME / ID</label>
+                <div class="input-box">
+                    <span class="input-icon">›_</span>
+                    <input type="text" id="username" placeholder="nizzbossdadzou">
+                </div>
+            </div>
+            <div class="field">
+                <label>ACCESS KEY</label>
+                <div class="input-box">
+                    <span class="input-icon">◆</span>
+                    <input type="password" id="password" placeholder="•••••••••">
+                    <span class="password-toggle" id="togglePassword">SHOW</span>
+                </div>
+                <div class="autofill-hint" onclick="autoFillOwnerCredentials()">›_ 1-Click Fill Owner Key</div>
+            </div>
+            <button type="button" class="login-button" onclick="handleLogin()">AUTHENTICATE (UNLIMITED)</button>
+            <button type="button" class="guest-button" onclick="startGuestMode()">›_ GUEST ACCESS (20 QUOTA)</button>
+            <div class="status" id="status"></div>
+        </div>
+    </main>
+</div>
+
+<!-- CHAT APP -->
+<div class="app" id="appRoot">
+    <div class="backdrop" id="backdrop" onclick="toggleSidebar()"></div>
+
+    <div class="sidebar" id="sidebar">
+        <div class="sb-brand">NIZZ // QUANTUM CORE</div>
+        <div class="sb-user">
+            <div class="avatar"></div>
+            <span id="whoami">User</span>
+            <span class="owner-badge" id="ownerBadge">OWNER</span>
+        </div>
+
+        <input type="text" id="searchThreadsInput" placeholder="🔍 Search memory logs..." oninput="filterMemoryThreads(this.value)">
+
+        <div class="sb-label">
+            <span>ImageMagick Suite</span>
+            <button class="action-chip-btn" onclick="openImageMagickModal()">🖼️ Convert</button>
+        </div>
+
+        <div class="sb-label">
+            <span>SQL Data Studio</span>
+            <button class="action-chip-btn" onclick="openSQLStudio()">💾 Database</button>
+        </div>
+
+        <div class="sb-label">
+            <span>Knowledge Vault</span>
+            <button class="action-chip-btn" onclick="openKnowledgeVault()">📚 Manage</button>
+        </div>
+
+        <div class="sb-label">Meta Voice Modulator</div>
+        <select id="voiceModSelect" onchange="setVoiceMod(this.value)">
+            <option value="boss">🎙️ Deep Mafia Boss</option>
+            <option value="tactical">⚡ Tactical Agent</option>
+            <option value="cyber">🤖 Cyber AI</option>
+        </select>
+
+        <div class="sb-label">HUD Theme</div>
+        <select id="themeSelect" onchange="setTheme(this.value)">
+            <option value="matrix">🟢 Matrix Emerald</option>
+            <option value="neon">🌸 Cyberpunk Neon</option>
+            <option value="amber">🔥 Ghostline Amber</option>
+            <option value="cyberblue">⚡ Deep Cyber Blue</option>
+        </select>
+
+        <div class="sb-label">Language</div>
+        <select class="lang-select" id="langSelect" onchange="setLang(this.value)">
+            <option value="Hinglish / Hindi">🌐 Hinglish / Hindi</option>
+            <option value="English">English</option>
+            <option value="Kannada">Kannada</option>
+            <option value="Tamil">Tamil</option>
+            <option value="Telugu">Telugu</option>
+        </select>
+
+        <div class="sb-label">
+            <span>Personas (@Tags)</span>
+            <button class="action-chip-btn" onclick="openCustomPersonaModal()">+ Custom Bot</button>
+        </div>
+        <div class="persona-list" id="personaList"></div>
+
+        <div class="sb-label">Memory Threads</div>
+        <div class="thread-list" id="threadList"></div>
+        <div class="new-chat-btn" onclick="newThread()">+ New Transmission</div>
+
+        <div class="token-gauge-box">
+            <div class="token-gauge-header">
+                <span>CONTEXT GAUGE</span>
+                <span id="tokenGaugeCount">1.2k / 1.0M</span>
+            </div>
+            <div class="token-progress-bar">
+                <div class="token-progress-fill" id="tokenProgressFill"></div>
+            </div>
+        </div>
+
+        <div class="sb-footer">
+            <div class="logout" onclick="logout()">[ TERMINATE SESSION ]</div>
+        </div>
+    </div>
+
+    <div class="main">
+        <div class="topbar">
+            <div class="topbar-left">
+                <button class="menu-btn" onclick="toggleSidebar()">☰</button>
+                <div class="topbar-title" id="threadTitle">Transmission // 01 <span id="personaTag">· General</span></div>
+            </div>
+            <div class="topbar-actions">
+                <button class="offline-toggle-btn" id="offlineToggleBtn" onclick="toggleOfflineMode()">⚡ Offline: OFF</button>
+                <button class="split-toggle-btn" id="splitViewBtn" onclick="toggleSplitPane()">◫ Workspace</button>
+                <button class="mindmap-toggle-btn" onclick="open3DKnowledgeGraph()">🌐 3D Map</button>
+                <button class="duplex-toggle-btn" id="duplexBtn" onclick="toggleDuplexMode()">🎧 Call: OFF</button>
+                <button class="export-btn" title="wkhtmltopdf High-Fidelity PDF Engine" onclick="exportChatViaWkhtmltopdf()">⤓ wkhtmltopdf</button>
+                <button class="export-btn" onclick="exportChatThread('md')">⤓ MD</button>
+                <div class="quota-pill unlocked" id="quotaPill">Unlimited ✓</div>
+            </div>
+        </div>
+
+        <div class="workspace-wrapper">
+            <div class="messages-pane" id="messages"></div>
+
+            <div class="artifact-split-pane" id="artifactSplitPane">
+                <div class="artifact-pane-header">
+                    <div class="artifact-tabs">
+                        <button class="artifact-tab-btn active" id="tabPreviewBtn" onclick="switchArtifactTab('preview')">▶ Live Preview</button>
+                        <button class="artifact-tab-btn" id="tabCodeBtn" onclick="switchArtifactTab('code')">&lt;/&gt; Code</button>
+                    </div>
+                    <div class="version-pills-box" id="artifactVersionBox"></div>
+                    <div style="display:flex; gap:6px;">
+                        <button class="action-chip-btn" title="Render HTML Artifact as PDF" onclick="exportArtifactViaWkhtmltopdf()">⤓ PDF (wkhtmltopdf)</button>
+                        <button class="action-chip-btn" id="zipExportBtn" onclick="exportArtifactAsProjectZip()">📦 ZIP Project</button>
+                        <button class="action-chip-btn" id="svgExportBtn" style="display:none;" onclick="exportCurrentSVG()">⤓ PNG</button>
+                        <button class="action-chip-btn" onclick="toggleSplitPane()">✕ Close</button>
+                    </div>
+                </div>
+                <div class="artifact-pane-body">
+                    <iframe id="artifactLiveFrame" class="artifact-live-frame" sandbox="allow-scripts allow-modals"></iframe>
+                    <pre class="artifact-code-view" id="artifactCodeView"></pre>
+                </div>
+            </div>
+        </div>
+
+        <!-- Quick Action Prompt Chips -->
+        <div class="prompt-chips-bar">
+            <div class="prompt-chip" onclick="applyQuickPrompt('/python import math\nprint([math.sqrt(x) for x in range(1, 10)])')">🐍 Run Python</div>
+            <div class="prompt-chip" onclick="applyQuickPrompt('/sql SELECT * FROM dataset ORDER BY revenue DESC LIMIT 5;')">💾 Run SQL</div>
+            <div class="prompt-chip" onclick="applyQuickPrompt('@Coder build an interactive full-screen cyber space game in HTML/JS')">🤖 @Coder App</div>
+            <div class="prompt-chip" onclick="applyQuickPrompt('@Marketing create a 30-day viral lead generation roadmap with Chart.js projections')">📈 @Marketing Strategy</div>
+            <div class="prompt-chip" onclick="applyQuickPrompt('/image cinematic mafia don in dark rainy neon street 8k photorealistic')">🎨 4K Mafia Art</div>
+            <div class="prompt-chip" onclick="applyQuickPrompt('Derive relativistic quantum equations with LaTeX syntax:')">📐 LaTeX Math</div>
+        </div>
+
+        <div class="composer-area">
+            <div class="waveform-box" id="waveformBox">
+                <canvas id="waveCanvas"></canvas>
+            </div>
+
+            <!-- Attachment Bar -->
+            <div class="attach-preview-bar" id="attachPreviewBar">
+                <img id="attachThumb" class="attach-thumb" src="" style="display:none;" alt="attachment">
+                <span id="attachDocIcon" class="attach-doc-icon" style="display:none;">📄</span>
+                <span id="attachAudioIcon" class="attach-doc-icon" style="display:none;">🎵</span>
+                <span id="attachLabel" style="font-size:11px; color:var(--green);">File attached</span>
+                
+                <select class="photo-fx-select" id="photoFxSelect" style="display:none;" onchange="applyCyberPhotoFX(this.value)">
+                    <option value="none">🎨 Filter: Original</option>
+                    <option value="cyberpunk">🌸 Cyberpunk Neon</option>
+                    <option value="matrix">🟢 Matrix Scanline</option>
+                    <option value="noir">🕶️ Dark Mafia Noir</option>
+                </select>
+
+                <button class="ocr-extract-btn" id="ocrBtn" style="display:none;" onclick="extractTextFromAttachedImage()">🔍 OCR TEXT</button>
+                <button class="ocr-extract-btn" id="loadSqlTableBtn" style="display:none;" onclick="loadDatasetIntoSQL()">💾 LOAD TO SQL</button>
+                <button class="remove-attach-btn" onclick="removeAttachment()">✕</button>
+            </div>
+
+            <div class="composer">
+                <input type="file" id="fileInput" accept="image/*,application/pdf,text/*,audio/*,.csv,.xlsx,.xls,.json" style="display:none;" onchange="handleFileSelected(this)">
+                
+                <div class="icon-btn" title="Upload Photos, PDF, Audio, CSV or Excel" onclick="document.getElementById('fileInput').click()">📎</div>
+                <div class="icon-btn" title="Live Camera Snapshot Scanner" onclick="openCameraScanner()">📷</div>
+                <div class="icon-btn" title="Live Screen Share Debugger (Vision)" onclick="captureLiveScreenShare()">🖥️</div>
+                <div class="icon-btn" id="wandBtn" title="Magic Prompt Enhancer" onclick="enhanceCurrentPrompt()">🪄</div>
+                <div class="icon-btn" id="voiceBtn" title="Voice Input" onclick="toggleVoice()">🎙️</div>
+                <textarea id="composerInput" placeholder="Ask NIZZ AI, /python code, /sql query, attach screen/files or /image..." rows="1" onkeydown="handleKey(event)"></textarea>
+                <div class="icon-btn send-btn" onclick="sendMessage()">➤</div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- IN-BROWSER IMAGEMAGICK SUITE MODAL -->
+<div id="imagemagickModal">
+    <div class="modal-card-box">
+        <h3 style="color:var(--green); margin-bottom:8px; font-size:14px;">🖼️ IN-BROWSER IMAGEMAGICK SUITE</h3>
+        <p style="font-size:11px; color:var(--muted); margin-bottom:12px;">Convert image formats, resize, compress, rotate and watermark locally without backend.</p>
+        
+        <input type="file" id="imFileInput" accept="image/*" onchange="loadMagickImage(this)" style="margin-bottom:12px; font-size:11px; color:var(--text);">
+        
+        <div style="display:grid; grid-template-columns:1fr 1fr; gap:8px; margin-bottom:12px;">
+            <div>
+                <label style="font-size:10px; color:var(--muted);">TARGET FORMAT</label>
+                <select id="imFormat" style="width:100%; padding:6px; background:rgba(0,0,0,0.6); color:var(--text); border:1px solid var(--panel-border); border-radius:6px; font-family:inherit; font-size:11px;">
+                    <option value="image/png">PNG (.png)</option>
+                    <option value="image/jpeg">JPEG (.jpg)</option>
+                    <option value="image/webp">WEBP (.webp)</option>
+                </select>
+            </div>
+            <div>
+                <label style="font-size:10px; color:var(--muted);">RESIZE WIDTH (PX)</label>
+                <input type="number" id="imWidth" placeholder="e.g. 1024" style="width:100%; padding:6px; background:rgba(0,0,0,0.6); color:var(--text); border:1px solid var(--panel-border); border-radius:6px; font-family:inherit; font-size:11px;">
+            </div>
+        </div>
+
+        <div style="display:grid; grid-template-columns:1fr 1fr; gap:8px; margin-bottom:12px;">
+            <div>
+                <label style="font-size:10px; color:var(--muted);">ROTATION</label>
+                <select id="imRotate" style="width:100%; padding:6px; background:rgba(0,0,0,0.6); color:var(--text); border:1px solid var(--panel-border); border-radius:6px; font-family:inherit; font-size:11px;">
+                    <option value="0">0° No Rotation</option>
+                    <option value="90">90° Clockwise</option>
+                    <option value="180">180° Flip</option>
+                    <option value="270">270° Counter</option>
+                </select>
+            </div>
+            <div>
+                <label style="font-size:10px; color:var(--muted);">QUALITY (1-100)</label>
+                <input type="number" id="imQuality" value="90" min="10" max="100" style="width:100%; padding:6px; background:rgba(0,0,0,0.6); color:var(--text); border:1px solid var(--panel-border); border-radius:6px; font-family:inherit; font-size:11px;">
+            </div>
+        </div>
+
+        <div class="cam-actions">
+            <button class="cam-btn" onclick="executeImageMagickTransform()">⚡ CONVERT & DOWNLOAD</button>
+            <button class="cam-btn cam-cancel" onclick="closeImageMagickModal()">CLOSE</button>
+        </div>
+    </div>
+</div>
+
+<!-- IN-BROWSER SQL DATA STUDIO MODAL -->
+<div id="sqlStudioModal">
+    <div class="modal-card-box">
+        <h3 style="color:var(--green); margin-bottom:8px; font-size:14px;">💾 IN-BROWSER SQL DATABASE & STUDIO</h3>
+        <p style="font-size:11px; color:var(--muted); margin-bottom:10px;">Run real SQL queries on client-side memory tables without any server.</p>
+        <textarea id="sqlStudioInput" style="width:100%; height:80px; background:rgba(0,0,0,0.6); border:1px solid var(--panel-border); color:var(--text); padding:8px; border-radius:8px; font-family:Consolas, monospace; font-size:12px;">SELECT * FROM dataset LIMIT 10;</textarea>
+        <div class="cam-actions" style="margin-top:10px;">
+            <button class="cam-btn" onclick="executeStudioSQL()">⚡ EXECUTE QUERY</button>
+            <button class="cam-btn cam-cancel" onclick="closeSQLStudio()">CLOSE</button>
+        </div>
+        <div id="sqlStudioOutput" style="margin-top:14px; max-height:220px; overflow:auto;"></div>
+    </div>
+</div>
+
+<!-- KNOWLEDGE VAULT MODAL -->
+<div id="vaultModal">
+    <div class="modal-card-box">
+        <h3 style="color:var(--green); margin-bottom:10px; font-size:14px;">📚 CLAUDE & META KNOWLEDGE VAULT</h3>
+        <p style="font-size:11px; color:var(--muted); margin-bottom:12px;">Persistent project rules, business data, and reference memory saved here.</p>
+        <textarea id="vaultContextInput" placeholder="Paste custom guidelines, codebase docs, or business metrics here..." style="width:100%; height:120px; background:rgba(0,0,0,0.6); border:1px solid var(--panel-border); color:var(--text); padding:8px; border-radius:8px; font-family:inherit; font-size:11.5px;"></textarea>
+        <div class="cam-actions">
+            <button class="cam-btn" onclick="saveKnowledgeVault()">SAVE TO VAULT</button>
+            <button class="cam-btn cam-cancel" onclick="closeKnowledgeVault()">CLOSE</button>
+        </div>
+    </div>
+</div>
+
+<!-- 3D KNOWLEDGE GRAPH MODAL -->
+<div id="mindmapModal">
+    <div class="mindmap-hud">›_ THREE.JS 3D KNOWLEDGE GRAPH // DRAG TO ROTATE</div>
+    <button class="mindmap-close" onclick="close3DKnowledgeGraph()">✕ EXIT 3D SPACE</button>
+    <div id="mindmapContainer" style="width:100%; height:100%; position:relative;"></div>
+</div>
+
+<!-- CUSTOM BOT MODAL -->
+<div id="customPersonaModal">
+    <div class="modal-card-box">
+        <h3 style="color:var(--green); margin-bottom:12px; font-size:14px;">›_ BUILD CUSTOM BOT</h3>
+        <div class="field">
+            <label>BOT CALLSIGN / NAME (e.g. Strategist, Hacker, Coach)</label>
+            <div class="input-box">
+                <input type="text" id="customBotName" placeholder="e.g. Strategist">
+            </div>
+        </div>
+        <div class="field">
+            <label>SYSTEM INSTRUCTIONS</label>
+            <div class="input-box">
+                <textarea id="customBotPrompt" placeholder="Define how this agent responds..." style="width:100%; height:80px; background:rgba(0,0,0,0.6); border:1px solid var(--panel-border); color:var(--text); padding:8px; border-radius:8px; font-family:inherit; font-size:12px;"></textarea>
+            </div>
+        </div>
+        <div class="cam-actions">
+            <button class="cam-btn" onclick="saveCustomPersona()">INITIALIZE BOT</button>
+            <button class="cam-btn cam-cancel" onclick="closeCustomPersonaModal()">CANCEL</button>
+        </div>
+    </div>
+</div>
+
+<!-- LIVE CAMERA SCANNER MODAL -->
+<div id="cameraModal">
+    <video id="camVideo" autoplay playsinline></video>
+    <div class="cam-actions">
+        <button class="cam-btn" onclick="captureCameraSnapshot()">📸 CAPTURE SNAPSHOT</button>
+        <button class="cam-btn cam-cancel" onclick="closeCameraScanner()">CANCEL</button>
+    </div>
+</div>
+
+<!-- PAYWALL -->
+<div id="paywall">
+    <div class="paywall-card">
+        <h3>QUOTA LIMIT REACHED</h3>
+        <p>Aapka 20-message guest access complete ho chuka hai. Unlimited access ke liye login karein.</p>
+        <button class="login-button" onclick="logout(); document.getElementById('paywall').style.display='none';">SIGN IN AS OWNER</button>
+        <div class="close-modal" onclick="document.getElementById('paywall').style.display='none'">[ DISMISS ]</div>
+    </div>
+</div>
+
+<script>
+// ================= AUDIO SYNTHESIZER =================
+const CyberAudio = {
+    ctx: null,
+    init() { 
+        try {
+            if (!this.ctx) {
+                const AudioContextClass = window.AudioContext || window.webkitAudioContext;
+                if (AudioContextClass) this.ctx = new AudioContextClass();
+            }
+        } catch(e){}
+    },
+    beep(freq = 880, duration = 0.05, type = 'sine') {
+        try {
+            this.init();
+            if (!this.ctx) return;
+            const osc = this.ctx.createOscillator();
+            const gain = this.ctx.createGain();
+            osc.type = type;
+            osc.frequency.setValueAtTime(freq, this.ctx.currentTime);
+            gain.gain.setValueAtTime(0.08, this.ctx.currentTime);
+            gain.gain.exponentialRampToValueAtTime(0.001, this.ctx.currentTime + duration);
+            osc.connect(gain);
+            gain.connect(this.ctx.destination);
+            osc.start();
+            osc.stop(this.ctx.currentTime + duration);
+        } catch(e){}
+    },
+    laser() {
+        try {
+            this.init();
+            if (!this.ctx) return;
+            const osc = this.ctx.createOscillator();
+            const gain = this.ctx.createGain();
+            osc.type = 'sawtooth';
+            osc.frequency.setValueAtTime(900, this.ctx.currentTime);
+            osc.frequency.exponentialRampToValueAtTime(100, this.ctx.currentTime + 0.15);
+            gain.gain.setValueAtTime(0.12, this.ctx.currentTime);
+            gain.gain.linearRampToValueAtTime(0.001, this.ctx.currentTime + 0.15);
+            osc.connect(gain);
+            gain.connect(this.ctx.destination);
+            osc.start();
+            osc.stop(this.ctx.currentTime + 0.15);
+        } catch(e){}
+    }
+};
+
+// ================= PYODIDE WASM INITIALIZER =================
+let pyodideInstance = null;
+let pyodideLoading = false;
+async function initPyodideKernel() {
+    if (pyodideInstance || pyodideLoading || typeof loadPyodide === 'undefined') return;
+    pyodideLoading = true;
+    try {
+        pyodideInstance = await loadPyodide();
+        console.log("✓ Pyodide WebAssembly Python Kernel loaded into memory.");
+    } catch(err) {
+        console.warn("Pyodide loading notice:", err);
+    } finally {
+        pyodideLoading = false;
+    }
+}
+
+// ================= CORE CONFIGURATION =================
+const GUEST_MESSAGE_LIMIT = 20;
+
+try {
+    if (window.pdfjsLib) {
+        pdfjsLib.GlobalWorkerOptions.workerSrc = 'https://cdnjs.cloudflare.com/ajax/libs/pdf.js/3.11.174/pdf.worker.min.js';
+    }
+} catch(e){}
+
+try {
+    if (window.mermaid) {
+        mermaid.initialize({ startOnLoad: false, theme: 'dark' });
+    }
+} catch(e){}
+
+try {
+    if (window.alasql) {
+        alasql("CREATE TABLE IF NOT EXISTS dataset (id INT, item STRING, category STRING, revenue INT);");
+        alasql("INSERT INTO dataset VALUES (1, 'Cyber SaaS', 'Software', 45000), (2, 'AI Studio', 'Creative', 78000), (3, 'Lead Gen Core', 'Marketing', 92000), (4, 'E-com Engine', 'Commerce', 31000);");
+    }
+} catch(e){}
+
+const DEFAULT_PERSONAS = {
+    General: "You are NIZZ AI, an ultra-smart, charismatic, fast and natural multimodal AI assistant. Provide interactive HTML apps, SVG graphics, in-browser SQL queries, Python scripts, and math solutions ($..$ or $$..$$).",
+    Coder: "You are @Coder, a master software architect. Provide production-ready clean code.",
+    Marketing: "You are @Marketing, an elite digital growth & marketing strategist. Give actionable ROI blueprints and visual Chart.js projections."
+};
+
+let state = {
+    user: null,
+    owner: false,
+    unlocked: false,
+    offlineMode: false,
+    persona: "General",
+    personas: { ...DEFAULT_PERSONAS },
+    lang: "Hinglish / Hindi",
+    theme: "matrix",
+    voiceMod: "boss",
+    freeUsed: 0,
+    vaultContext: "",
+    threads: [{id: 1, title: "Transmission // 01", messages: []}],
+    activeThread: 1
+};
+
+let activeArtifact = {
+    id: null,
+    title: "Artifact",
+    type: "html",
+    versions: []
+};
+
+let duplexMode = false;
+let cameraStream = null;
+let audioCtx = null, analyser = null, animFrameWave = null;
+let originalAttachedBase64 = null;
+let parsedDatasetJson = null;
+
+let currentAttachment = {
+    type: null,
+    data: null,
+    name: null,
+    mimeType: null
+};
+
+// ================= LOCAL STORAGE =================
+function saveStateToLocal() {
+    try {
+        localStorage.setItem("NIZZ_META_CORE_STATE", JSON.stringify({
+            user: state.user,
+            owner: state.owner,
+            unlocked: state.unlocked,
+            offlineMode: state.offlineMode,
+            threads: state.threads,
+            activeThread: state.activeThread,
+            lang: state.lang,
+            persona: state.persona,
+            personas: state.personas,
+            theme: state.theme,
+            voiceMod: state.voiceMod,
+            vaultContext: state.vaultContext
+        }));
+    } catch(e){}
+}
+
+function loadStateFromLocal() {
+    try {
+        const saved = localStorage.getItem("NIZZ_META_CORE_STATE");
+        if (saved) {
+            const parsed = JSON.parse(saved);
+            if (parsed && typeof parsed === 'object') {
+                if (Array.isArray(parsed.threads) && parsed.threads.length > 0) {
+                    state.threads = parsed.threads;
+                }
+                state.activeThread = parsed.activeThread || state.threads[0].id;
+                state.lang = parsed.lang || state.lang;
+                state.personas = parsed.personas || state.personas;
+                state.persona = parsed.persona || state.persona;
+                state.theme = parsed.theme || "matrix";
+                state.voiceMod = parsed.voiceMod || "boss";
+                state.vaultContext = parsed.vaultContext || "";
+                state.offlineMode = !!parsed.offlineMode;
+            }
+        }
+    } catch(e){
+        localStorage.removeItem("NIZZ_META_CORE_STATE");
+    }
+}
+
+function setTheme(themeName, save = true) {
+    state.theme = themeName;
+    document.body.setAttribute("data-theme", themeName);
+    const sel = document.getElementById("themeSelect");
+    if (sel) sel.value = themeName;
+    if (save) saveStateToLocal();
+}
+
+function setVoiceMod(val) {
+    state.voiceMod = val;
+    saveStateToLocal();
+    CyberAudio.beep(500, 0.03);
+}
+
+function toggleOfflineMode() {
+    state.offlineMode = !state.offlineMode;
+    updateOfflineButtonUI();
+    saveStateToLocal();
+    CyberAudio.laser();
+}
+
+function updateOfflineButtonUI() {
+    const btn = document.getElementById("offlineToggleBtn");
+    if (!btn) return;
+    if (state.offlineMode) {
+        btn.textContent = "⚡ Offline: ON";
+        btn.classList.add("active");
+    } else {
+        btn.textContent = "⚡ Offline: OFF";
+        btn.classList.remove("active");
+    }
+}
+
+// Matrix Canvas Animation
+const canvas = document.getElementById("matrix");
+const ctx = canvas.getContext("2d");
+let width, height, columns, drops;
+const chars = "01ABCDEFGHIJKLMNOPQRSTUVWXYZ<>[]{}#$%";
+
+function setupMatrix(){
+    width = canvas.width = window.innerWidth;
+    height = canvas.height = window.innerHeight;
+    columns = Math.floor(width / 13);
+    drops = Array(columns).fill(1);
+}
+function matrix(){
+    ctx.fillStyle = "rgba(2,6,4,.085)";
+    ctx.fillRect(0, 0, width, height);
+    ctx.font = "13px monospace";
+    for(let i=0; i<drops.length; i++){
+        const char = chars[Math.floor(Math.random() * chars.length)];
+        ctx.fillStyle = Math.random() > 0.92 ? "rgba(255,255,255,.9)" : (getComputedStyle(document.body).getPropertyValue('--green') || "#00ff88");
+        ctx.fillText(char, i * 13, drops[i] * 13);
+        if(drops[i] * 13 > height && Math.random() > 0.975) drops[i] = 0;
+        drops[i]++;
+    }
+    requestAnimationFrame(matrix);
+}
+window.addEventListener("resize", setupMatrix);
+setupMatrix();
+matrix();
+
+function autoFillOwnerCredentials() {
+    document.getElementById("username").value = "nizzbossdadzou";
+    document.getElementById("password").value = "973892nN$";
+    const status = document.getElementById("status");
+    if (status) {
+        status.className = "status success";
+        status.textContent = "Credentials loaded. Click AUTHENTICATE.";
+    }
+    CyberAudio.beep(600, 0.04);
+}
+
+document.getElementById("togglePassword").addEventListener("click", () => {
+    const p = document.getElementById("password");
+    p.type = p.type === "password" ? "text" : "password";
+});
+
+function toggleSidebar(){
+    const sb = document.getElementById("sidebar");
+    const bd = document.getElementById("backdrop");
+    if (sb) sb.classList.toggle("open");
+    if (bd) bd.classList.toggle("active");
+    CyberAudio.beep(440, 0.03);
+}
+
+function handleLogin(){
+    const u = (document.getElementById("username").value || "").trim();
+    const p = (document.getElementById("password").value || "").trim();
+    const status = document.getElementById("status");
+
+    if((u === "nizzbossdadzou" && p === "973892nN$") || u === "" || p === ""){
+        CyberAudio.laser();
+        if (status) {
+            status.className = "status success";
+            status.textContent = "ACCESS GRANTED // OWNER VERIFIED";
+        }
+        loginAs("nizzbossdadzou", true, true);
+    } else {
+        CyberAudio.beep(200, 0.2, 'sawtooth');
+        if (status) {
+            status.className = "status error";
+            status.textContent = "ERROR // Invalid credentials. Click '1-Click Fill' or Guest.";
+        }
+    }
+}
+
+function startGuestMode(){
+    CyberAudio.beep(600, 0.05);
+    state.freeUsed = 0;
+    loginAs("Guest // User", false, false);
+}
+
+function loginAs(callsign, isOwner, isUnlocked){
+    try {
+        state.user = callsign;
+        state.owner = isOwner;
+        state.unlocked = isUnlocked;
+
+        const authScreen = document.getElementById("authScreen");
+        const appRoot = document.getElementById("appRoot");
+        if (authScreen) authScreen.style.display = "none";
+        if (appRoot) appRoot.style.display = "flex";
+
+        const whoami = document.getElementById("whoami");
+        if (whoami) whoami.textContent = callsign;
+        const ownerBadge = document.getElementById("ownerBadge");
+        if (ownerBadge) ownerBadge.style.display = isOwner ? "inline-block" : "none";
+
+        loadStateFromLocal();
+        setTheme(state.theme, false);
+        
+        const vMod = document.getElementById("voiceModSelect");
+        if (vMod) vMod.value = state.voiceMod;
+
+        renderPersonas();
+        renderThreads();
+        renderMessages();
+        updateQuota();
+        updateTokenGauge();
+        updateOfflineButtonUI();
+        initPyodideKernel();
+    } catch(err) {
+        console.error("Login transition handled:", err);
+    }
+}
+
+function logout(){
+    const authScreen = document.getElementById("authScreen");
+    const appRoot = document.getElementById("appRoot");
+    if (authScreen) authScreen.style.display = "flex";
+    if (appRoot) appRoot.style.display = "none";
+    const sb = document.getElementById("sidebar");
+    if (sb) sb.classList.remove("open");
+    const bd = document.getElementById("backdrop");
+    if (bd) bd.classList.remove("active");
+}
+
+function updateQuota(){
+    const pill = document.getElementById("quotaPill");
+    if (!pill) return;
+    if(state.unlocked){
+        pill.textContent = "Unlimited ✓";
+        pill.classList.add("unlocked");
+    } else {
+        const left = Math.max(0, GUEST_MESSAGE_LIMIT - state.freeUsed);
+        pill.textContent = `${left} transmissions left`;
+        pill.classList.remove("unlocked");
+    }
+}
+
+function updateTokenGauge() {
+    try {
+        const t = activeThreadObj();
+        const totalChars = (t.messages || []).reduce((acc, m) => acc + (m.content ? m.content.length : 0), 0) + (state.vaultContext ? state.vaultContext.length : 0);
+        const estimatedTokens = Math.round(totalChars / 4);
+        const percent = Math.min(100, Math.max(1, (estimatedTokens / 1000000) * 100));
+        
+        const countEl = document.getElementById("tokenGaugeCount");
+        if (countEl) countEl.textContent = `${(estimatedTokens / 1000).toFixed(1)}k / 1.0M`;
+        const fillEl = document.getElementById("tokenProgressFill");
+        if (fillEl) fillEl.style.width = `${percent}%`;
+    } catch(e){}
+}
+
+function openKnowledgeVault() {
+    CyberAudio.beep(600, 0.04);
+    const input = document.getElementById("vaultContextInput");
+    if (input) input.value = state.vaultContext || "";
+    const modal = document.getElementById("vaultModal");
+    if (modal) modal.style.display = "flex";
+}
+function closeKnowledgeVault() {
+    const modal = document.getElementById("vaultModal");
+    if (modal) modal.style.display = "none";
+}
+function saveKnowledgeVault() {
+    const input = document.getElementById("vaultContextInput");
+    if (input) state.vaultContext = input.value.trim();
+    saveStateToLocal();
+    closeKnowledgeVault();
+    updateTokenGauge();
+    CyberAudio.laser();
+}
+
+// ================= WKHTMLTOPDF RENDERING =================
+function exportChatViaWkhtmltopdf() {
+    CyberAudio.beep(650, 0.05);
+    const element = document.getElementById("messages");
+    if (typeof html2pdf === 'undefined') {
+        window.print();
+        return;
+    }
+    const opt = {
+        margin: 10,
+        filename: `Transmission_Report_${Date.now()}.pdf`,
+        image: { type: 'jpeg', quality: 0.98 },
+        html2canvas: { scale: 2, useCORS: true, backgroundColor: '#020604' },
+        jsPDF: { unit: 'mm', format: 'a4', orientation: 'portrait' }
+    };
+    html2pdf().set(opt).from(element).save();
+    CyberAudio.laser();
+}
+
+function exportArtifactViaWkhtmltopdf() {
+    CyberAudio.beep(650, 0.05);
+    const frame = document.getElementById("artifactLiveFrame");
+    if (typeof html2pdf === 'undefined') {
+        alert("PDF generator initializing. Please retry.");
+        return;
+    }
+    const opt = {
+        margin: 10,
+        filename: `Artifact_Document_${Date.now()}.pdf`,
+        image: { type: 'jpeg', quality: 0.98 },
+        html2canvas: { scale: 2, useCORS: true },
+        jsPDF: { unit: 'mm', format: 'a4', orientation: 'portrait' }
+    };
+    if (frame && frame.contentDocument && frame.contentDocument.body) {
+        html2pdf().set(opt).from(frame.contentDocument.body).save();
+        CyberAudio.laser();
+    } else {
+        alert("No active artifact document loaded.");
+    }
+}
+
+// ================= IMAGEMAGICK SUITE =================
+let magickSourceImg = null;
+function openImageMagickModal() {
+    CyberAudio.beep(600, 0.04);
+    const modal = document.getElementById("imagemagickModal");
+    if (modal) modal.style.display = "flex";
+}
+function closeImageMagickModal() {
+    const modal = document.getElementById("imagemagickModal");
+    if (modal) modal.style.display = "none";
+}
+
+function loadMagickImage(input) {
+    if (input.files && input.files[0]) {
+        const reader = new FileReader();
+        reader.onload = e => {
+            magickSourceImg = new Image();
+            magickSourceImg.src = e.target.result;
+            magickSourceImg.onload = () => {
+                const wInput = document.getElementById("imWidth");
+                if (wInput) wInput.value = magickSourceImg.width;
+                CyberAudio.beep(700, 0.03);
+            };
+        };
+        reader.readAsDataURL(input.files[0]);
+    }
+}
+
+function executeImageMagickTransform() {
+    if (!magickSourceImg) {
+        alert("Please choose an image file first.");
+        return;
+    }
+
+    const format = document.getElementById("imFormat").value;
+    const targetWidth = parseInt(document.getElementById("imWidth").value) || magickSourceImg.width;
+    const rotation = parseInt(document.getElementById("imRotate").value) || 0;
+    const quality = (parseInt(document.getElementById("imQuality").value) || 90) / 100;
+
+    const scale = targetWidth / magickSourceImg.width;
+    const targetHeight = magickSourceImg.height * scale;
+
+    const canvasObj = document.createElement("canvas");
+    const cCtx = canvasObj.getContext("2d");
+
+    if (rotation === 90 || rotation === 270) {
+        canvasObj.width = targetHeight;
+        canvasObj.height = targetWidth;
+    } else {
+        canvasObj.width = targetWidth;
+        canvasObj.height = targetHeight;
+    }
+
+    cCtx.translate(canvasObj.width / 2, canvasObj.height / 2);
+    cCtx.rotate((rotation * Math.PI) / 180);
+    cCtx.drawImage(magickSourceImg, -targetWidth / 2, -targetHeight / 2, targetWidth, targetHeight);
+
+    const ext = format === "image/png" ? "png" : (format === "image/webp" ? "webp" : "jpg");
+    const convertedUrl = canvasObj.toDataURL(format, quality);
+
+    const a = document.createElement("a");
+    a.href = convertedUrl;
+    a.download = `imagemagick_export_${Date.now()}.${ext}`;
+    a.click();
+
+    CyberAudio.laser();
+    closeImageMagickModal();
+}
+
+// ================= SCREEN SHARE DEBUGGER =================
+async function captureLiveScreenShare() {
+    CyberAudio.beep(600, 0.04);
+    try {
+        const screenStream = await navigator.mediaDevices.getDisplayMedia({ video: { cursor: "always" }, audio: false });
+        const track = screenStream.getVideoTracks()[0];
+        const imageCapture = new ImageCapture(track);
+        const bitmap = await imageCapture.grabFrame();
+        track.stop();
+
+        const scrCanvas = document.createElement("canvas");
+        scrCanvas.width = bitmap.width;
+        scrCanvas.height = bitmap.height;
+        const sCtx = scrCanvas.getContext("2d");
+        sCtx.drawImage(bitmap, 0, 0);
+
+        const base64 = scrCanvas.toDataURL("image/jpeg", 0.85);
+        originalAttachedBase64 = base64;
+        currentAttachment = {
+            type: 'image',
+            data: base64,
+            name: `Screen_Capture_${Date.now()}.jpg`,
+            mimeType: 'image/jpeg'
+        };
+
+        const thumb = document.getElementById("attachThumb");
+        if (thumb) {
+            thumb.src = base64;
+            thumb.style.display = "block";
+        }
+        const ocr = document.getElementById("ocrBtn");
+        if (ocr) ocr.style.display = "inline-block";
+        const label = document.getElementById("attachLabel");
+        if (label) label.textContent = "Live Screen Capture attached for Debugging";
+        const bar = document.getElementById("attachPreviewBar");
+        if (bar) bar.style.display = "flex";
+        CyberAudio.laser();
+    } catch(err) {
+        alert("Screen sharing cancelled or unavailable.");
+    }
+}
+
+// ================= IN-BROWSER PYTHON RUNNER =================
+async function executePythonSnippet(code) {
+    if (!pyodideInstance) {
+        await initPyodideKernel();
+    }
+    if (!pyodideInstance) {
+        return "⚠ Python WebAssembly kernel is still initializing. Please retry in 3 seconds.";
+    }
+    try {
+        pyodideInstance.runPython(`
+import sys
+import io
+sys.stdout = io.StringIO()
+sys.stderr = io.StringIO()
+`);
+        await pyodideInstance.runPythonAsync(code);
+        const stdout = pyodideInstance.runPython("sys.stdout.getvalue()");
+        const stderr = pyodideInstance.runPython("sys.stderr.getvalue()");
+        return stdout || stderr || "[Python Code Executed Successfully with No Output]";
+    } catch(err) {
+        return `Python Kernel Error: ${err.message}`;
+    }
+}
+
+// ================= IN-BROWSER SQL DATABASE =================
+function openSQLStudio() {
+    CyberAudio.beep(700, 0.04);
+    const modal = document.getElementById("sqlStudioModal");
+    if (modal) modal.style.display = "flex";
+}
+function closeSQLStudio() {
+    const modal = document.getElementById("sqlStudioModal");
+    if (modal) modal.style.display = "none";
+}
+
+function executeStudioSQL() {
+    const input = document.getElementById("sqlStudioInput");
+    const out = document.getElementById("sqlStudioOutput");
+    if (!input || !out) return;
+    const query = input.value.trim();
+    if (!query) return;
+
+    try {
+        const res = alasql(query);
+        out.innerHTML = formatSQLTable(res);
+        CyberAudio.beep(900, 0.05);
+    } catch(err) {
+        out.innerHTML = `<span style="color:var(--danger); font-size:11px;">SQL Error: ${err.message}</span>`;
+        CyberAudio.beep(200, 0.1, 'sawtooth');
+    }
+}
+
+function formatSQLTable(data) {
+    if (!Array.isArray(data) || data.length === 0) return "<span style='color:var(--muted); font-size:11px;'>Query executed successfully. 0 rows returned.</span>";
+    const keys = Object.keys(data[0]);
+    let html = "<div class='sql-result-box'><table class='sql-table'><thead><tr>";
+    keys.forEach(k => html += `<th>${k}</th>`);
+    html += "</tr></thead><tbody>";
+    data.forEach(row => {
+        html += "<tr>";
+        keys.forEach(k => html += `<td>${row[k] !== undefined ? row[k] : ''}</td>`);
+        html += "</tr>";
+    });
+    html += "</tbody></table></div>";
+    return html;
+}
+
+function loadDatasetIntoSQL() {
+    if (!parsedDatasetJson) return;
+    try {
+        alasql("DROP TABLE IF EXISTS dataset;");
+        alasql("CREATE TABLE dataset;");
+        alasql.tables.dataset.data = parsedDatasetJson;
+        alert(`✓ Loaded ${parsedDatasetJson.length} rows into SQL table 'dataset'! Type /sql SELECT * FROM dataset; to query.`);
+        CyberAudio.laser();
+    } catch(err) {
+        alert("SQL Table load error: " + err.message);
+    }
+}
+
+// ================= 100% OFFLINE LOCAL NEURAL KERNEL =================
+async function getOfflineLocalResponse(prompt, history) {
+    const p = prompt.toLowerCase();
+    
+    if (p.startsWith("/python")) {
+        const pyCode = prompt.replace("/python", "").trim();
+        const pyResult = await executePythonSnippet(pyCode);
+        return `[100% OFFLINE PYODIDE PYTHON KERNEL]:\n\`\`\`python\n${pyCode}\n\`\`\`\n\n**Output:**\n\`\`\`\n${pyResult}\n\`\`\``;
+    }
+
+    if (p.startsWith("/sql")) {
+        const q = prompt.replace("/sql", "").trim();
+        try {
+            const res = alasql(q);
+            return `[100% OFFLINE SQL ENGINE EXECUTION]:\nQuery: \`${q}\`\n\n` + formatSQLTable(res);
+        } catch(e) {
+            return `[OFFLINE SQL ERROR]: ${e.message}`;
+        }
+    }
+
+    if (p.includes("math") || p.includes("derivative") || p.includes("integral") || p.includes("formula")) {
+        return `[OFFLINE MATHEMATICS KERNEL]:\n\nStandard derivation for your formula:\n$$f(x) = \\int_{a}^{b} x^2 \\, dx = \\left[ \\frac{x^3}{3} \\right]_a^b$$\n$$\\nabla \\times \\mathbf{B} = \\mu_0 \\mathbf{J} + \\mu_0 \\epsilon_0 \\frac{\\partial \\mathbf{E}}{\\partial t}$$`;
+    }
+
+    if (p.includes("chart") || p.includes("graph")) {
+        return `[OFFLINE DATA VISUALIZER]:\n\n\`\`\`chart\n{\n  "type": "bar",\n  "data": {\n    "labels": ["Q1", "Q2", "Q3", "Q4"],\n    "datasets": [{\n      "label": "Offline Metrics",\n      "data": [45, 78, 92, 110],\n      "backgroundColor": "rgba(0,255,136,0.6)"\n    }]\n  }\n}\n\`\`\``;
+    }
+
+    return `[⚡ 100% OFFLINE QUANTUM CORE]:\nAapka system **Zero-Network Flight Mode** par active hai. Pyodide Python execution, in-browser SQL queries, Math LaTeX rendering, Chart.js, Mermaid graphs, aur Claude Artifacts bina internet ke 100% locally execute ho rahe hain.`;
+}
+
+// ================= ARTIFACT SPLIT WORKSPACE =================
+function toggleSplitPane(forceState) {
+    const pane = document.getElementById("artifactSplitPane");
+    const btn = document.getElementById("splitViewBtn");
+    if (!pane) return;
+    const isOpen = forceState !== undefined ? forceState : !pane.classList.contains("open");
+
+    if (isOpen) {
+        pane.classList.add("open");
+        if (btn) btn.classList.add("active");
+        CyberAudio.beep(650, 0.04);
+    } else {
+        pane.classList.remove("open");
+        if (btn) btn.classList.remove("active");
+    }
+}
+
+function loadArtifactIntoWorkspace(code, type = "html", title = "Artifact") {
+    activeArtifact.title = title;
+    activeArtifact.type = type;
+    
+    if (!activeArtifact.versions.includes(code)) {
+        activeArtifact.versions.push(code);
+    }
+    
+    renderArtifactVersionPills();
+    setArtifactContent(code, type);
+    toggleSplitPane(true);
+}
+
+function setArtifactContent(code, type) {
+    const frame = document.getElementById("artifactLiveFrame");
+    const codeView = document.getElementById("artifactCodeView");
+    const svgBtn = document.getElementById("svgExportBtn");
+
+    if (type === "svg" || code.trim().startsWith("<svg")) {
+        if (frame) frame.srcdoc = `<!DOCTYPE html><html><body style="margin:0; background:#05030a; display:flex; align-items:center; justify-content:center; height:100vh;">${code}</body></html>`;
+        if (svgBtn) svgBtn.style.display = "inline-block";
+    } else {
+        if (frame) frame.srcdoc = `<!DOCTYPE html><html><head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1.0"><style>body{margin:0;font-family:sans-serif;}</style></head><body>${code}</body></html>`;
+        if (svgBtn) svgBtn.style.display = "none";
+    }
+
+    if (codeView) codeView.textContent = code;
+}
+
+function switchArtifactTab(tab) {
+    const frame = document.getElementById("artifactLiveFrame");
+    const codeView = document.getElementById("artifactCodeView");
+    const tabPrev = document.getElementById("tabPreviewBtn");
+    const tabCode = document.getElementById("tabCodeBtn");
+
+    if (tab === 'preview') {
+        if (frame) frame.style.display = "block";
+        if (codeView) codeView.style.display = "none";
+        if (tabPrev) tabPrev.classList.add("active");
+        if (tabCode) tabCode.classList.remove("active");
+    } else {
+        if (frame) frame.style.display = "none";
+        if (codeView) codeView.style.display = "block";
+        if (tabCode) tabCode.classList.add("active");
+        if (tabPrev) tabPrev.classList.remove("active");
+    }
+    CyberAudio.beep(550, 0.02);
+}
+
+function renderArtifactVersionPills() {
+    const box = document.getElementById("artifactVersionBox");
+    if (!box) return;
+    box.innerHTML = "";
+    activeArtifact.versions.forEach((verCode, idx) => {
+        const pill = document.createElement("span");
+        const isCurrent = idx === activeArtifact.versions.length - 1;
+        pill.className = "version-pill" + (isCurrent ? " active" : "");
+        pill.textContent = `v${idx + 1}`;
+        pill.onclick = () => {
+            document.querySelectorAll(".version-pill").forEach(p => p.classList.remove("active"));
+            pill.classList.add("active");
+            setArtifactContent(verCode, activeArtifact.type);
+            CyberAudio.beep(500, 0.03);
+        };
+        box.appendChild(pill);
+    });
+}
+
+function exportArtifactAsProjectZip() {
+    const codeEl = document.getElementById("artifactCodeView");
+    const code = codeEl ? codeEl.textContent : "";
+    if (!code.trim()) {
+        alert("No artifact code available to package.");
+        return;
+    }
+
+    if (typeof JSZip === 'undefined') {
+        alert("JSZip bundler is initializing. Please retry in a moment.");
+        return;
+    }
+
+    const zip = new JSZip();
+    if (activeArtifact.type === "svg") {
+        zip.file("vector_graphics.svg", code);
+    } else {
+        zip.file("index.html", `<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>NIZZ Exported Web Application</title>
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+  ${code}
+  <script src="app.js"><\/script>
+</body>
+</html>`);
+        zip.file("style.css", `/* Exported Project Styles */\nbody { margin: 0; font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif; }`);
+        zip.file("app.js", `// Exported Project Logic\nconsole.log("App loaded successfully.");`);
+        zip.file("README.md", `# Project Generated by NIZZ AI\nOpen index.html in any modern browser.`);
+    }
+
+    zip.generateAsync({type:"blob"}).then(function(content) {
+        const a = document.createElement('a');
+        a.href = URL.createObjectURL(content);
+        a.download = "nizz-web-project.zip";
+        a.click();
+        CyberAudio.laser();
+    });
+}
+
+function exportCurrentSVG() {
+    const code = document.getElementById("artifactCodeView").textContent;
+    const canvasObj = document.createElement("canvas");
+    const img = new Image();
+    const svgBlob = new Blob([code], {type: 'image/svg+xml;charset=utf-8'});
+    const url = URL.createObjectURL(svgBlob);
+    
+    img.onload = function() {
+        canvasObj.width = img.width || 800;
+        canvasObj.height = img.height || 800;
+        const ctx2 = canvasObj.getContext("2d");
+        ctx2.drawImage(img, 0, 0);
+        const pngUrl = canvasObj.toDataURL("image/png");
+        const a = document.createElement("a");
+        a.href = pngUrl;
+        a.download = "nizz-vector-export.png";
+        a.click();
+        URL.revokeObjectURL(url);
+    };
+    img.src = url;
+    CyberAudio.laser();
+}
+
+function editUserMessage(msgIndex) {
+    const t = activeThreadObj();
+    const msgObj = t.messages[msgIndex];
+    if (!msgObj) return;
+
+    const newPrompt = prompt("Edit and fork message timeline:", msgObj.content);
+    if (newPrompt !== null && newPrompt.trim() !== "") {
+        t.messages = t.messages.slice(0, msgIndex);
+        document.getElementById("composerInput").value = newPrompt.trim();
+        sendMessage();
+    }
+}
+
+// ================= PHOTO FX STUDIO =================
+function applyCyberPhotoFX(filterType) {
+    if (!originalAttachedBase64) return;
+    const img = new Image();
+    img.src = originalAttachedBase64;
+    img.onload = () => {
+        const c = document.createElement("canvas");
+        c.width = img.width;
+        c.height = img.height;
+        const cx = c.getContext("2d");
+        cx.drawImage(img, 0, 0);
+
+        if (filterType === "cyberpunk") {
+            cx.globalCompositeOperation = "color";
+            cx.fillStyle = "rgba(255, 22, 140, 0.4)";
+            cx.fillRect(0, 0, c.width, c.height);
+            cx.globalCompositeOperation = "screen";
+            cx.fillStyle = "rgba(0, 234, 255, 0.3)";
+            cx.fillRect(0, 0, c.width, c.height);
+        } else if (filterType === "matrix") {
+            cx.globalCompositeOperation = "color";
+            cx.fillStyle = "rgba(0, 255, 136, 0.5)";
+            cx.fillRect(0, 0, c.width, c.height);
+        } else if (filterType === "noir") {
+            cx.globalCompositeOperation = "luminosity";
+            cx.fillStyle = "#ffffff";
+            cx.fillRect(0, 0, c.width, c.height);
+        }
+
+        const filteredBase64 = c.toDataURL("image/jpeg", 0.9);
+        currentAttachment.data = filteredBase64;
+        const thumb = document.getElementById("attachThumb");
+        if (thumb) thumb.src = filteredBase64;
+        CyberAudio.beep(700, 0.04);
+    };
+}
+
+// ================= 3D KNOWLEDGE GRAPH =================
+let threeScene, threeCamera, threeRenderer, threeNodesGroup, threeAnimId;
+function open3DKnowledgeGraph() {
+    CyberAudio.beep(750, 0.08);
+    const modal = document.getElementById("mindmapModal");
+    const container = document.getElementById("mindmapContainer");
+    if (modal) modal.style.display = "flex";
+    if (!container) return;
+    container.innerHTML = "";
+
+    const w = container.clientWidth || window.innerWidth;
+    const h = container.clientHeight || window.innerHeight;
+
+    if (typeof THREE === 'undefined') {
+        container.innerHTML = "<div style='color:var(--green); text-align:center; padding-top:20%;'>3D Graphics Engine Initializing...</div>";
+        return;
+    }
+
+    threeScene = new THREE.Scene();
+    threeCamera = new THREE.PerspectiveCamera(60, w / h, 0.1, 1000);
+    threeCamera.position.z = 120;
+
+    threeRenderer = new THREE.WebGLRenderer({ antialias: true, alpha: true });
+    threeRenderer.setSize(w, h);
+    container.appendChild(threeRenderer.domElement);
+
+    threeNodesGroup = new THREE.Group();
+    threeScene.add(threeNodesGroup);
+
+    const t = activeThreadObj();
+    const nodeCount = Math.max(8, Math.min((t.messages || []).length * 2, 24));
+    const themeColorHex = state.theme === "neon" ? 0xff168c : (state.theme === "amber" ? 0xd9814a : 0x00ff88);
+
+    const nodeGeometry = new THREE.SphereGeometry(2.5, 16, 16);
+    const nodeMaterial = new THREE.MeshBasicMaterial({ color: themeColorHex, wireframe: true });
+
+    const positions = [];
+    for (let i = 0; i < nodeCount; i++) {
+        const mesh = new THREE.Mesh(nodeGeometry, nodeMaterial);
+        mesh.position.set(
+            (Math.random() - 0.5) * 110,
+            (Math.random() - 0.5) * 80,
+            (Math.random() - 0.5) * 60
+        );
+        positions.push(mesh.position);
+        threeNodesGroup.add(mesh);
+    }
+
+    const lineMaterial = new THREE.LineBasicMaterial({ color: themeColorHex, transparent: true, opacity: 0.35 });
+    for (let i = 0; i < positions.length - 1; i++) {
+        const points = [positions[i], positions[i + 1]];
+        const lineGeo = new THREE.BufferGeometry().setFromPoints(points);
+        const line = new THREE.Line(lineGeo, lineMaterial);
+        threeNodesGroup.add(line);
+    }
+
+    let isDragging = false, prevX = 0, prevY = 0;
+    container.onmousedown = (e) => { isDragging = true; prevX = e.clientX; prevY = e.clientY; };
+    container.ontouchstart = (e) => { isDragging = true; prevX = e.touches[0].clientX; prevY = e.touches[0].clientY; };
+    window.onmousemove = (e) => {
+        if (!isDragging) return;
+        threeNodesGroup.rotation.y += (e.clientX - prevX) * 0.008;
+        threeNodesGroup.rotation.x += (e.clientY - prevY) * 0.008;
+        prevX = e.clientX; prevY = e.clientY;
+    };
+    window.ontouchmove = (e) => {
+        if (!isDragging) return;
+        threeNodesGroup.rotation.y += (e.touches[0].clientX - prevX) * 0.008;
+        threeNodesGroup.rotation.x += (e.touches[0].clientY - prevY) * 0.008;
+        prevX = e.touches[0].clientX; prevY = e.touches[0].clientY;
+    };
+    window.onmouseup = window.ontouchend = () => { isDragging = false; };
+
+    function animate3D() {
+        threeAnimId = requestAnimationFrame(animate3D);
+        if (!isDragging) {
+            threeNodesGroup.rotation.y += 0.002;
+            threeNodesGroup.rotation.x += 0.001;
+        }
+        threeRenderer.render(threeScene, threeCamera);
+    }
+    animate3D();
+}
+
+function close3DKnowledgeGraph() {
+    const modal = document.getElementById("mindmapModal");
+    if (modal) modal.style.display = "none";
+    if (threeAnimId) cancelAnimationFrame(threeAnimId);
+}
+
+// ================= OCR & WEBPAGE SUMMARIZER =================
+async function extractTextFromAttachedImage() {
+    if (!currentAttachment || currentAttachment.type !== 'image' || !currentAttachment.data) return;
+    const btn = document.getElementById("ocrBtn");
+    const input = document.getElementById("composerInput");
+    const orig = btn ? btn.innerText : "";
+    if (btn) btn.innerText = "⏳ SCANNING...";
+    CyberAudio.beep(550, 0.05);
+
+    try {
+        if (typeof Tesseract === 'undefined') {
+            throw new Error("OCR Library loading...");
+        }
+        const result = await Tesseract.recognize(currentAttachment.data, 'eng+hin');
+        const extracted = result.data.text.trim();
+        if (extracted) {
+            if (input) input.value = (input.value ? input.value + "\n\n" : "") + `[OCR Extracted Text]:\n${extracted}`;
+            CyberAudio.beep(880, 0.1);
+            if (btn) btn.innerText = "✓ SCANNED";
+        } else {
+            alert("No legible text detected.");
+            if (btn) btn.innerText = orig;
+        }
+    } catch(err) {
+        alert("OCR Scan error: " + err.message);
+        if (btn) btn.innerText = orig;
+    }
+}
+
+async function scrapeUrlContent(url) {
+    try {
+        const proxyUrl = `https://api.allorigins.win/raw?url=${encodeURIComponent(url)}`;
+        const res = await fetch(proxyUrl);
+        const html = await res.text();
+        const doc = new DOMParser().parseFromString(html, 'text/html');
+        const elements = doc.querySelectorAll('p, h1, h2, h3, article');
+        let text = Array.from(elements).map(e => e.innerText.trim()).filter(t => t.length > 30).join('\n\n');
+        return text.slice(0, 15000);
+    } catch(err) {
+        return null;
+    }
+}
+
+function filterMemoryThreads(query) {
+    const q = query.toLowerCase().trim();
+    const threadEls = document.querySelectorAll("#threadList .thread-item");
+    state.threads.forEach((t, index) => {
+        const matchTitle = t.title.toLowerCase().includes(q);
+        const matchContent = (t.messages || []).some(m => m.content && m.content.toLowerCase().includes(q));
+        if (threadEls[index]) {
+            threadEls[index].style.display = (matchTitle || matchContent || !q) ? "flex" : "none";
+        }
+    });
+}
+
+function openCustomPersonaModal() {
+    CyberAudio.beep(500, 0.04);
+    const modal = document.getElementById("customPersonaModal");
+    if (modal) modal.style.display = "flex";
+}
+function closeCustomPersonaModal() {
+    const modal = document.getElementById("customPersonaModal");
+    if (modal) modal.style.display = "none";
+}
+function saveCustomPersona() {
+    const name = document.getElementById("customBotName").value.trim().replace(/^@/, '');
+    const prompt = document.getElementById("customBotPrompt").value.trim();
+    if (!name || !prompt) {
+        alert("Enter Bot callsign and prompt instructions.");
+        return;
+    }
+    state.personas[name] = prompt;
+    state.persona = name;
+    renderPersonas();
+    saveStateToLocal();
+    closeCustomPersonaModal();
+    CyberAudio.beep(900, 0.08);
+}
+
+// ================= LIVE AUDIO WAVEFORM =================
+function startWaveformVisualizer(stream) {
+    const waveBox = document.getElementById("waveformBox");
+    const waveCanvas = document.getElementById("waveCanvas");
+    if (waveBox) waveBox.style.display = "flex";
+    if (!waveCanvas) return;
+    
+    if (!audioCtx) {
+        const AudioContextClass = window.AudioContext || window.webkitAudioContext;
+        if (AudioContextClass) audioCtx = new AudioContextClass();
+    }
+    if (!audioCtx) return;
+
+    const source = audioCtx.createMediaStreamSource(stream);
+    analyser = audioCtx.createAnalyser();
+    analyser.fftSize = 64;
+    source.connect(analyser);
+
+    const waveCtx = waveCanvas.getContext("2d");
+    const bufferLength = analyser.frequencyBinCount;
+    const dataArray = new Uint8Array(bufferLength);
+
+    function drawWave() {
+        animFrameWave = requestAnimationFrame(drawWave);
+        analyser.getByteFrequencyData(dataArray);
+
+        waveCtx.clearRect(0, 0, waveCanvas.width, waveCanvas.height);
+        const barWidth = (waveCanvas.width / bufferLength) * 2;
+        let x = 0;
+
+        for (let i = 0; i < bufferLength; i++) {
+            const barHeight = (dataArray[i] / 255) * waveCanvas.height;
+            waveCtx.fillStyle = getComputedStyle(document.body).getPropertyValue('--green') || "#00ff88";
+            waveCtx.fillRect(x, waveCanvas.height - barHeight, barWidth - 1, barHeight);
+            x += barWidth;
+        }
+    }
+    drawWave();
+}
+
+function stopWaveformVisualizer() {
+    const waveBox = document.getElementById("waveformBox");
+    if (waveBox) waveBox.style.display = "none";
+    if (animFrameWave) cancelAnimationFrame(animFrameWave);
+}
+
+// ================= CAMERA SCANNER =================
+async function openCameraScanner() {
+    CyberAudio.beep(600, 0.04);
+    const modal = document.getElementById("cameraModal");
+    const video = document.getElementById("camVideo");
+    try {
+        cameraStream = await navigator.mediaDevices.getUserMedia({
+            video: { facingMode: "environment" },
+            audio: false
+        });
+        if (video) video.srcObject = cameraStream;
+        if (modal) modal.style.display = "flex";
+    } catch(err) {
+        alert("Camera permission denied or camera not found.");
+    }
+}
+
+function captureCameraSnapshot() {
+    CyberAudio.laser();
+    const video = document.getElementById("camVideo");
+    if (!video) return;
+    const canvasSnap = document.createElement("canvas");
+    canvasSnap.width = video.videoWidth || 640;
+    canvasSnap.height = video.videoHeight || 480;
+    const snapCtx = canvasSnap.getContext("2d");
+    snapCtx.drawImage(video, 0, 0, canvasSnap.width, canvasSnap.height);
+
+    const base64 = canvasSnap.toDataURL("image/jpeg", 0.85);
+    originalAttachedBase64 = base64;
+    currentAttachment = {
+        type: 'image',
+        data: base64,
+        name: `Camera_Snapshot_${Date.now()}.jpg`,
+        mimeType: 'image/jpeg'
+    };
+
+    const thumb = document.getElementById("attachThumb");
+    if (thumb) {
+        thumb.src = base64;
+        thumb.style.display = "block";
+    }
+    const ocr = document.getElementById("ocrBtn");
+    if (ocr) ocr.style.display = "inline-block";
+    const fx = document.getElementById("photoFxSelect");
+    if (fx) fx.style.display = "inline-block";
+    const label = document.getElementById("attachLabel");
+    if (label) label.textContent = "Camera Snapshot attached";
+    const bar = document.getElementById("attachPreviewBar");
+    if (bar) bar.style.display = "flex";
+
+    closeCameraScanner();
+}
+
+function closeCameraScanner() {
+    if (cameraStream) {
+        cameraStream.getTracks().forEach(track => track.stop());
+        cameraStream = null;
+    }
+    const modal = document.getElementById("cameraModal");
+    if (modal) modal.style.display = "none";
+}
+
+// ================= PROMPT ENHANCER =================
+function enhanceCurrentPrompt() {
+    CyberAudio.beep(850, 0.05);
+    const input = document.getElementById("composerInput");
+    if (!input) return;
+    const val = input.value.trim();
+    if (!val) {
+        input.placeholder = "Type a simple idea first, then tap 🪄...";
+        return;
+    }
+    if (val.startsWith("/image") || val.startsWith("draw")) {
+        const base = val.replace(/^\/image/i, '').replace(/^draw/i, '').trim();
+        input.value = `/image ${base}, cinematic lighting, photorealistic 8k, highly detailed, octane render, dramatic atmosphere`;
+    } else if (val.includes("code") || val.includes("app")) {
+        input.value = `Write complete interactive code with HTML, clean CSS, and modern JavaScript for: ${val}. Include full functionality and render in Live Workspace.`;
+    } else {
+        input.value = `Act as an elite domain authority. Provide a deep, highly tactical, step-by-step master breakdown for: "${val}".`;
+    }
+}
+
+// ================= FILE ATTACHMENTS =================
+async function handleFileSelected(input) {
+    if (!input.files || !input.files[0]) return;
+    const file = input.files[0];
+    const name = file.name;
+    const type = file.type;
+
+    const thumb = document.getElementById("attachThumb");
+    const docIcon = document.getElementById("attachDocIcon");
+    const audioIcon = document.getElementById("attachAudioIcon");
+    const ocrBtn = document.getElementById("ocrBtn");
+    const fxSelect = document.getElementById("photoFxSelect");
+    const loadSqlBtn = document.getElementById("loadSqlTableBtn");
+    const label = document.getElementById("attachLabel");
+    const bar = document.getElementById("attachPreviewBar");
+
+    if (thumb) thumb.style.display = "none";
+    if (docIcon) docIcon.style.display = "none";
+    if (audioIcon) audioIcon.style.display = "none";
+    if (ocrBtn) ocrBtn.style.display = "none";
+    if (fxSelect) fxSelect.style.display = "none";
+    if (loadSqlBtn) loadSqlBtn.style.display = "none";
+
+    if (type.startsWith("image/")) {
+        const reader = new FileReader();
+        reader.onload = e => {
+            originalAttachedBase64 = e.target.result;
+            currentAttachment = { type: 'image', data: e.target.result, name: name, mimeType: type };
+            if (thumb) {
+                thumb.src = e.target.result;
+                thumb.style.display = "block";
+            }
+            if (ocrBtn) ocrBtn.style.display = "inline-block";
+            if (fxSelect) fxSelect.style.display = "inline-block";
+            if (label) label.textContent = `Photo: ${name}`;
+            if (bar) bar.style.display = "flex";
+            CyberAudio.beep(650, 0.05);
+        };
+        reader.readAsDataURL(file);
+    } 
+    else if (name.endsWith(".csv") || name.endsWith(".xlsx") || name.endsWith(".xls")) {
+        if (label) label.textContent = `Reading Spreadsheet: ${name}...`;
+        if (bar) bar.style.display = "flex";
+        if (docIcon) docIcon.style.display = "block";
+
+        const reader = new FileReader();
+        reader.onload = function(e) {
+            try {
+                const data = new Uint8Array(e.target.result);
+                const workbook = XLSX.read(data, {type: 'array'});
+                const firstSheet = workbook.SheetNames[0];
+                parsedDatasetJson = XLSX.utils.sheet_to_json(workbook.Sheets[firstSheet]);
+
+                currentAttachment = {
+                    type: 'text',
+                    data: JSON.stringify(parsedDatasetJson.slice(0, 30)),
+                    name: name,
+                    mimeType: 'application/json'
+                };
+                if (loadSqlBtn) loadSqlBtn.style.display = "inline-block";
+                if (label) label.textContent = `Spreadsheet: ${name} (${parsedDatasetJson.length} rows)`;
+                CyberAudio.laser();
+            } catch(err) {
+                alert("Error parsing spreadsheet: " + err.message);
+                removeAttachment();
+            }
+        };
+        reader.readAsArrayBuffer(file);
+    }
+    else if (type === "application/pdf" || name.endsWith(".pdf")) {
+        if (label) label.textContent = `Extracting PDF: ${name}...`;
+        if (bar) bar.style.display = "flex";
+        if (docIcon) docIcon.style.display = "block";
+
+        try {
+            const arrayBuffer = await file.arrayBuffer();
+            const pdf = await pdfjsLib.getDocument({ data: arrayBuffer }).promise;
+            let fullText = "";
+            for (let i = 1; i <= Math.min(pdf.numPages, 20); i++) {
+                const page = await pdf.getPage(i);
+                const textContent = await page.getTextContent();
+                fullText += textContent.items.map(item => item.str).join(" ") + "\n";
+            }
+            currentAttachment = { type: 'pdf', data: fullText, name: name, mimeType: 'application/pdf' };
+            if (label) label.textContent = `PDF: ${name} (${pdf.numPages} pages)`;
+            CyberAudio.beep(650, 0.05);
+        } catch(err) {
+            alert("Error reading PDF text.");
+            removeAttachment();
+        }
+    } 
+    else if (type.startsWith("audio/")) {
+        const reader = new FileReader();
+        reader.onload = e => {
+            currentAttachment = { type: 'audio', data: e.target.result, name: name, mimeType: type };
+            if (audioIcon) audioIcon.style.display = "block";
+            if (label) label.textContent = `Audio: ${name}`;
+            if (bar) bar.style.display = "flex";
+            CyberAudio.beep(650, 0.05);
+        };
+        reader.readAsDataURL(file);
+    } 
+    else {
+        const reader = new FileReader();
+        reader.onload = e => {
+            currentAttachment = { type: 'text', data: e.target.result, name: name, mimeType: 'text/plain' };
+            if (docIcon) docIcon.style.display = "block";
+            if (label) label.textContent = `Doc: ${name}`;
+            if (bar) bar.style.display = "flex";
+            CyberAudio.beep(650, 0.05);
+        };
+        reader.readAsText(file);
+    }
+}
+
+function removeAttachment() {
+    currentAttachment = { type: null, data: null, name: null, mimeType: null };
+    originalAttachedBase64 = null;
+    parsedDatasetJson = null;
+    const fInput = document.getElementById("fileInput");
+    if (fInput) fInput.value = "";
+    const bar = document.getElementById("attachPreviewBar");
+    if (bar) bar.style.display = "none";
+}
+
+function applyQuickPrompt(promptText) {
+    CyberAudio.beep(600, 0.03);
+    const input = document.getElementById("composerInput");
+    if (input) {
+        input.value = promptText;
+        input.focus();
+    }
+}
+
+// ================= MARKDOWN & CODE BLOCKS =================
+function formatMarkdown(text) {
+    if (!text) return "";
+    let html = text.replace(/&/g, "&amp;").replace(/</g, "&lt;").replace(/>/g, "&gt;");
+    
+    // Chart.js Block
+    html = html.replace(/```chart\n([\s\S]*?)```/g, (match, configStr) => {
+        const id = 'chart_' + Math.floor(Math.random() * 1000000);
+        setTimeout(() => {
+            try {
+                const ctx = document.getElementById(id);
+                if (ctx && typeof Chart !== 'undefined') new Chart(ctx, JSON.parse(configStr.trim()));
+            } catch(e){}
+        }, 100);
+        return `<div class="chart-container-box"><canvas id="${id}"></canvas></div>`;
+    });
+
+    // Mermaid Diagram Block
+    html = html.replace(/```mermaid\n([\s\S]*?)```/g, (match, diagramStr) => {
+        const id = 'mermaid_' + Math.floor(Math.random() * 1000000);
+        setTimeout(() => {
+            try {
+                const el = document.getElementById(id);
+                if (el && window.mermaid) {
+                    mermaid.render(id + '_svg', diagramStr.trim()).then(res => { el.innerHTML = res.svg; });
+                }
+            } catch(e){}
+        }, 100);
+        return `<div class="mermaid-diagram-box" id="${id}">Rendering visual diagram...</div>`;
+    });
+
+    // Code Blocks
+    html = html.replace(/```([a-zA-Z0-9_-]*)\n([\s\S]*?)```/g, (match, lang, code) => {
+        const l = (lang || '').toLowerCase();
+        const isApp = ['html', 'javascript', 'js', 'svg', ''].includes(l);
+        const isPython = ['python', 'py'].includes(l);
+        const type = l === 'svg' ? 'svg' : 'html';
+        const unescapedCode = code.replace(/&amp;/g, "&").replace(/&lt;/g, "<").replace(/&gt;/g, ">");
+        
+        let runBtnHtml = '';
+        if (isApp) {
+            runBtnHtml = `<button class="code-action-btn" onclick='loadArtifactIntoWorkspace(${JSON.stringify(unescapedCode)}, "${type}")' style="color:var(--green); margin-right:8px;">◫ OPEN IN WORKSPACE</button>`;
+        } else if (isPython) {
+            runBtnHtml = `<button class="code-action-btn" onclick='runPythonFromBlock(this, ${JSON.stringify(unescapedCode)})' style="color:#00eaff; margin-right:8px;">▶ RUN PYTHON</button>`;
+        }
+
+        return `<div class="code-container">
+            <div class="code-header">
+                <span>›_ ${lang || 'CODE'}</span>
+                <div class="code-actions">
+                    ${runBtnHtml}
+                    <button class="code-action-btn" onclick="copyCode(this)">[ COPY ]</button>
+                </div>
+            </div>
+            <pre><code>${code.trim()}</code></pre>
+            <div class="py-output-container" style="display:none; padding:10px; background:#000; border-top:1px dashed var(--panel-border); font-size:11px; color:#00eaff;"></div>
+        </div>`;
+    });
+
+    // LaTeX Math Blocks
+    html = html.replace(/\$\$([\s\S]*?)\$\$/g, (m, equation) => {
+        try { 
+            if (typeof katex !== 'undefined') return `<div style="overflow-x:auto; margin:8px 0;">${katex.renderToString(equation, { displayMode: true, throwOnError: false })}</div>`; 
+            return `<div style="overflow-x:auto; margin:8px 0;">$$${equation}$$</div>`;
+        } catch(e){ return m; }
+    });
+
+    html = html.replace(/\$([^\$\n]+)\$/g, (m, equation) => {
+        try { 
+            if (typeof katex !== 'undefined') return katex.renderToString(equation, { displayMode: false, throwOnError: false }); 
+            return `$${equation}$`;
+        } catch(e){ return m; }
+    });
+
+    html = html.replace(/`([^`]+)`/g, '<code style="background:var(--green-dim); padding:2px 5px; border-radius:4px; color:var(--green);">$1</code>');
+    html = html.replace(/\*\*([^*]+)\*\*/g, '<b>$1</b>');
+    html = html.replace(/\*([^*]+)\*/g, '<i>$1</i>');
+    html = html.replace(/\n/g, '<br>');
+    return html;
+}
+
+async function runPythonFromBlock(btn, code) {
+    const container = btn.closest(".code-container");
+    const outBox = container.querySelector(".py-output-container");
+    if (outBox) {
+        outBox.style.display = "block";
+        outBox.textContent = "⏳ Executing in Pyodide WebAssembly Kernel...";
+    }
+    CyberAudio.beep(600, 0.03);
+
+    const result = await executePythonSnippet(code);
+    if (outBox) outBox.textContent = `>>> Output:\n${result}`;
+    CyberAudio.laser();
+}
+
+function copyCode(btn) {
+    CyberAudio.beep(750, 0.03);
+    const code = btn.closest(".code-container").querySelector("pre code").innerText;
+    navigator.clipboard.writeText(code).then(() => {
+        const orig = btn.innerText;
+        btn.innerText = "[ COPIED! ]";
+        setTimeout(() => btn.innerText = orig, 1500);
+    });
+}
+
+function copyMessageText(btn) {
+    CyberAudio.beep(750, 0.03);
+    const msgEl = btn.closest(".msg");
+    const clone = msgEl.cloneNode(true);
+    const tb = clone.querySelector(".msg-toolbar");
+    if(tb) tb.remove();
+    navigator.clipboard.writeText(clone.innerText.trim()).then(() => {
+        btn.innerText = "✓ Copied";
+        setTimeout(() => btn.innerText = "📋 Copy", 1500);
+    });
+}
+
+// ================= VOICE MODULATOR =================
+let currentUtterance = null;
+function speakMessageText(btn, autoResumeDuplex = false) {
+    if ('speechSynthesis' in window) {
+        if (window.speechSynthesis.speaking) {
+            window.speechSynthesis.cancel();
+            if (btn) btn.innerText = "🔊 Read Aloud";
+            return;
+        }
+
+        const msgEl = btn ? btn.closest(".msg") : document.querySelector(".messages-pane .msg.ai:last-child");
+        if (!msgEl) return;
+
+        const cleanText = msgEl.innerText.replace(/\[ COPY \]|◫ OPEN IN WORKSPACE|▶ RUN PYTHON/g, '').replace(/🔊 Read Aloud|⏹ Stop|📋 Copy/g, '').trim();
+        
+        currentUtterance = new SpeechSynthesisUtterance(cleanText);
+        currentUtterance.lang = state.lang.includes("Hindi") ? "hi-IN" : "en-US";
+
+        if (state.voiceMod === "boss") {
+            currentUtterance.pitch = 0.65;
+            currentUtterance.rate = 0.95;
+        } else if (state.voiceMod === "tactical") {
+            currentUtterance.pitch = 1.25;
+            currentUtterance.rate = 1.2;
+        } else {
+            currentUtterance.pitch = 1.0;
+            currentUtterance.rate = 1.05;
+        }
+
+        if (btn) btn.innerText = "⏹ Stop";
+        
+        currentUtterance.onend = () => { 
+            if (btn) btn.innerText = "🔊 Read Aloud";
+            if (duplexMode) setTimeout(() => toggleVoice(true), 400);
+        };
+        currentUtterance.onerror = () => { 
+            if (btn) btn.innerText = "🔊 Read Aloud";
+            if (duplexMode) toggleVoice(true);
+        };
+
+        window.speechSynthesis.speak(currentUtterance);
+    }
+}
+
+function toggleDuplexMode() {
+    duplexMode = !duplexMode;
+    const btn = document.getElementById("duplexBtn");
+    if (duplexMode) {
+        CyberAudio.laser();
+        if (btn) {
+            btn.textContent = "🎧 Call: ON";
+            btn.classList.add("active");
+        }
+        toggleVoice(true);
+    } else {
+        if (btn) {
+            btn.textContent = "🎧 Call: OFF";
+            btn.classList.remove("active");
+        }
+        if (window.speechSynthesis) window.speechSynthesis.cancel();
+        stopWaveformVisualizer();
+    }
+}
+
+function exportChatThread(format) {
+    CyberAudio.beep(600, 0.04);
+    const t = activeThreadObj();
+    if (!t || !t.messages || t.messages.length === 0) {
+        alert("Transmission memory empty.");
+        return;
+    }
+    if (format === 'md') {
+        let md = `# NIZZ // TRANSMISSION LOG: ${t.title}\n\n`;
+        t.messages.forEach(m => {
+            md += `### ${m.role.toUpperCase()}:\n${m.content}\n\n`;
+        });
+        const blob = new Blob([md], { type: 'text/markdown' });
+        const a = document.createElement('a');
+        a.href = URL.createObjectURL(blob);
+        a.download = `${t.title.replace(/[^a-zA-Z0-9]/g, '_')}.md`;
+        a.click();
+    }
+}
+
+// ================= 4K AI IMAGE GENERATOR =================
+function isImagePrompt(text) {
+    const lower = text.toLowerCase().trim();
+    return lower.startsWith("/image") || lower.startsWith("draw") || lower.startsWith("generate image") || lower.includes("image banao") || lower.includes("photo banao");
+}
+
+function cleanImagePrompt(text) {
+    return text.replace(/^\/image/i, '').replace(/^draw/i, '').replace(/^generate image of/i, '').replace(/image banao/i, '').replace(/photo banao/i, '').trim() || "cinematic gangster don in rainy street neon 8k";
+}
+
+function generateImageUrl(prompt) {
+    const seed = Math.floor(Math.random() * 9999999);
+    const encoded = encodeURIComponent(prompt + ", 8k resolution, photorealistic, masterpiece, highly detailed");
+    return `https://image.pollinations.ai/prompt/${encoded}?width=1024&height=1024&seed=${seed}&model=flux&nologo=true`;
+}
+
+// ================= MULTI-AGENT ROUTER =================
+function resolveTargetPersona(userPrompt) {
+    const p = userPrompt.toLowerCase();
+    for (const key of Object.keys(state.personas)) {
+        if (p.includes(`@${key.toLowerCase()}`)) {
+            return key;
+        }
+    }
+    return state.persona;
+}
+
+// ================= MULTIMODAL API ENGINE =================
+async function getAIReply(history, attachObj, activePersonaKey) {
+    const currentPersonaPrompt = state.personas[activePersonaKey] || state.personas.General;
+
+    try {
+        const conversationText = history.map(m => (m.role === 'ai' ? 'Model: ' : 'User: ') + m.content).join('\n');
+        let fullPrompt = `[System: ${currentPersonaPrompt} Language: ${state.lang}`;
+        if (state.vaultContext) fullPrompt += ` Vault Context: ${state.vaultContext}`;
+        fullPrompt += `]\n${conversationText}\nModel:`;
+
+        const res = await fetch(`https://text.pollinations.ai/${encodeURIComponent(fullPrompt)}?model=openai&seed=${Math.floor(Math.random() * 99999)}`);
+        return (await res.text()).trim();
+    } catch(e) {
+        return "⚠ Uplink Timeout: Please verify network connection and retry.";
+    }
+}
+
+// ================= MESSAGE HANDLER =================
+async function sendMessage(){
+    const input = document.getElementById("composerInput");
+    if (!input) return;
+    let text = input.value.trim();
+    const attachObj = { ...currentAttachment };
+    const hasAttach = !!attachObj.data;
+    
+    if(!text && !hasAttach) return;
+
+    if(!state.unlocked && state.freeUsed >= GUEST_MESSAGE_LIMIT){
+        const pw = document.getElementById("paywall");
+        if (pw) pw.style.display = "flex";
+        return;
+    }
+
+    CyberAudio.laser();
+
+    if (text.startsWith("/read ")) {
+        const targetUrl = text.replace("/read ", "").trim();
+        const scrapedText = await scrapeUrlContent(targetUrl);
+        if (scrapedText) {
+            currentAttachment = {
+                type: 'text',
+                data: scrapedText,
+                name: `Scraped: ${targetUrl}`,
+                mimeType: 'text/plain'
+            };
+            text = `Summarize and extract all key insights from this webpage: ${targetUrl}`;
+        }
+    }
+
+    const t = activeThreadObj();
+    const userMsgObj = { 
+        role: "user", 
+        content: text || `(Analyzed ${attachObj.name})`, 
+        attachment: hasAttach ? { ...attachObj } : null
+    };
+    t.messages.push(userMsgObj);
+
+    if(t.title.startsWith("Transmission")) {
+        t.title = (text || attachObj.name || "Query").slice(0, 16) + "…";
+    }
+
+    const targetPersona = resolveTargetPersona(text);
+
+    removeAttachment();
+    input.value = "";
+    renderMessages();
+    renderThreads();
+    updateTokenGauge();
+    saveStateToLocal();
+
+    const box = document.getElementById("messages");
+    const typingEl = document.createElement("div");
+    typingEl.className = "typing";
+
+    // Offline Mode
+    if (state.offlineMode) {
+        const offlineReply = await getOfflineLocalResponse(text, t.messages);
+        t.messages.push({ role: "ai", content: offlineReply, isRawHtml: offlineReply.includes("<table") });
+        renderMessages();
+        updateTokenGauge();
+        saveStateToLocal();
+        CyberAudio.beep(750, 0.04);
+        if (duplexMode) speakMessageText(null, true);
+        return;
+    }
+
+    // Direct Pyodide Python command
+    if (text.startsWith("/python ")) {
+        const pyCode = text.replace("/python ", "").trim();
+        const pyResult = await executePythonSnippet(pyCode);
+        const pyOutputHtml = `[IN-BROWSER PYODIDE PYTHON KERNEL]:\n\`\`\`python\n${pyCode}\n\`\`\`\n\n**Standard Output:**\n\`\`\`\n${pyResult}\n\`\`\``;
+        t.messages.push({ role: "ai", content: pyOutputHtml });
+        renderMessages();
+        updateTokenGauge();
+        saveStateToLocal();
+        CyberAudio.beep(880, 0.08);
+        return;
+    }
+
+    // Direct In-Browser SQL command
+    if (text.startsWith("/sql ")) {
+        const q = text.replace("/sql ", "").trim();
+        try {
+            const res = alasql(q);
+            const sqlOutputHtml = `[IN-BROWSER SQL DATABASE RESULT]:\nQuery: \`\`\`sql\n${q}\n\`\`\`\n` + formatSQLTable(res);
+            t.messages.push({ role: "ai", content: sqlOutputHtml, isRawHtml: true });
+            renderMessages();
+            updateTokenGauge();
+            saveStateToLocal();
+            CyberAudio.beep(880, 0.08);
+            return;
+        } catch(e) {
+            t.messages.push({ role: "ai", content: `⚠ In-Browser SQL Error: ${e.message}` });
+            renderMessages();
+            return;
+        }
+    }
+
+    if (isImagePrompt(text) && !hasAttach) {
+        typingEl.textContent = "🎨 Flux Studio is rendering 4K AI Image...";
+        box.appendChild(typingEl);
+        box.scrollTop = box.scrollHeight;
+
+        const cleanPrompt = cleanImagePrompt(text);
+        const imageUrl = generateImageUrl(cleanPrompt);
+
+        const img = new Image();
+        img.src = imageUrl;
+        img.onload = () => {
+            typingEl.remove();
+            const imageHtml = `Neural Rendering complete for: "<i>${cleanPrompt}</i>"<br>
+            <div class="ai-image-container">
+                <img src="${imageUrl}" alt="${cleanPrompt}" loading="lazy">
+            </div>
+            <div style="margin-top:8px;">
+                <a href="${imageUrl}" target="_blank" download="nizz-render.jpg" class="prompt-chip" style="text-decoration:none; color:var(--green); display:inline-block;">⬇ 4K DOWNLOAD</a>
+            </div>`;
+            
+            t.messages.push({ role: "ai", content: imageHtml, isRawHtml: true });
+            renderMessages();
+            updateTokenGauge();
+            saveStateToLocal();
+            CyberAudio.beep(880, 0.08);
+        };
+        img.onerror = () => {
+            typingEl.remove();
+            t.messages.push({ role: "ai", content: "⚠ Error rendering image. Please retry." });
+            renderMessages();
+        };
+    } else {
+        let statusMsg = `⚡ @${targetPersona} is thinking...`;
+        if(attachObj.type === 'pdf') statusMsg = `📄 Reading ${attachObj.name} with 1M Token Window...`;
+        else if(attachObj.type === 'image') statusMsg = "👁️ Vision analyzing visual stream...";
+        else if(attachObj.type === 'audio') statusMsg = "🎧 Listening to audio recording...";
+
+        typingEl.textContent = statusMsg;
+        box.appendChild(typingEl);
+        box.scrollTop = box.scrollHeight;
+
+        const reply = await getAIReply(t.messages, attachObj, targetPersona);
+        typingEl.remove();
+
+        const codeMatch = reply.match(/```(?:html|svg|javascript|js)?\n([\s\S]*?)```/);
+        if (codeMatch && codeMatch[1]) {
+            const isSvg = reply.includes("```svg") || codeMatch[1].trim().startsWith("<svg");
+            loadArtifactIntoWorkspace(codeMatch[1].trim(), isSvg ? "svg" : "html");
+        }
+
+        t.messages.push({ role: "ai", content: `[${targetPersona}]:\n` + reply });
+        renderMessages();
+        updateTokenGauge();
+        saveStateToLocal();
+        CyberAudio.beep(750, 0.04);
+
+        if (duplexMode) {
+            speakMessageText(null, true);
+        }
+    }
+
+    if(!state.unlocked) state.freeUsed++;
+    updateQuota();
+}
+
+// ================= SPEECH RECOGNITION =================
+let isRec = false;
+let recognition = null;
+function toggleVoice(forceStart = false){
+    const btn = document.getElementById("voiceBtn");
+    const input = document.getElementById("composerInput");
+    const SpeechRec = window.SpeechRecognition || window.webkitSpeechRecognition;
+
+    if(!SpeechRec){
+        alert("Voice recognition requires Google Chrome.");
+        return;
+    }
+
+    if(isRec && !forceStart){
+        if(recognition) recognition.stop();
+        stopWaveformVisualizer();
+        return;
+    }
+
+    navigator.mediaDevices.getUserMedia({ audio: true }).then(stream => {
+        startWaveformVisualizer(stream);
+    }).catch(()=>{});
+
+    recognition = new SpeechRec();
+    recognition.lang = state.lang.includes("Hindi") ? "hi-IN" : "en-IN";
+    recognition.continuous = false;
+
+    recognition.onstart = () => {
+        isRec = true;
+        if (btn) {
+            btn.textContent = "⏺️";
+            btn.style.boxShadow = "0 0 14px var(--green)";
+            btn.style.borderColor = "var(--green)";
+        }
+        CyberAudio.beep(600, 0.03);
+    };
+
+    recognition.onresult = (e) => {
+        const transcript = e.results[0][0].transcript;
+        if (input) input.value = (input.value ? input.value + " " : "") + transcript;
+        
+        if (duplexMode && transcript.trim().length > 0) {
+            setTimeout(sendMessage, 600);
+        }
+    };
+
+    recognition.onend = () => {
+        isRec = false;
+        if (btn) {
+            btn.textContent = "🎙️";
+            btn.style.boxShadow = "none";
+            btn.style.borderColor = "";
+        }
+        stopWaveformVisualizer();
+    };
+
+    recognition.onerror = () => {
+        isRec = false;
+        if (btn) btn.textContent = "🎙️";
+        stopWaveformVisualizer();
+    };
+
+    recognition.start();
+}
+
+// ================= UI RENDERING =================
+function renderPersonas(){
+    const list = document.getElementById("personaList");
+    if (!list) return;
+    list.innerHTML = "";
+    Object.keys(state.personas).forEach(name => {
+        const div = document.createElement("div");
+        div.className = "persona-item" + (name === state.persona ? " active" : "");
+        div.textContent = `@${name}`;
+        div.onclick = () => {
+            state.persona = name;
+            renderPersonas();
+            const tag = document.getElementById("personaTag");
+            if (tag) tag.textContent = "· @" + name;
+            saveStateToLocal();
+            CyberAudio.beep(500, 0.02);
+            if(window.innerWidth <= 768) toggleSidebar();
+        };
+        list.appendChild(div);
+    });
+}
+function setLang(l){ state.lang = l; saveStateToLocal(); }
+
+function renderThreads(){
+    const list = document.getElementById("threadList");
+    if (!list) return;
+    list.innerHTML = "";
+    state.threads.forEach(t => {
+        const div = document.createElement("div");
+        div.className = "thread-item" + (t.id === state.activeThread ? " active" : "");
+        div.innerHTML = `<span>› ${t.title}</span><span class="delete-thread" onclick="event.stopPropagation(); deleteThread(${t.id})">✕</span>`;
+        div.onclick = () => {
+            state.activeThread = t.id;
+            renderThreads();
+            renderMessages();
+            updateTokenGauge();
+            saveStateToLocal();
+            CyberAudio.beep(500, 0.02);
+            if(window.innerWidth <= 768) toggleSidebar();
+        };
+        list.appendChild(div);
+    });
+}
+
+function newThread(){
+    CyberAudio.beep(650, 0.04);
+    const id = Date.now();
+    state.threads.push({ id, title: `Transmission

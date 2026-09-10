@@ -1,12 +1,3 @@
-GitHub ke **Secret Scanning** security system ne is file ko block kiya hai kyunki code mein direct Google API Key likhi hui thi, aur file ke shuru mein chat ka explanation text bhi copy ho gaya tha.
-
-Is error ko theek karne ke liye ye 3 steps karein:
-
-* **1.** Pop-up ke top-right par bane **✕** icon par click karke is box ko band karein.
-* **2.** GitHub editor ke andar jo pehle se likha hua text hai, use **Select All (Ctrl+A / Cmd+A)** karke **Delete** kar dein.
-* **3.** Neeche diya gaya clean code copy karein aur wahan paste karke **"Commit changes..."** par click karein:
-
-```html
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -19,37 +10,37 @@ Is error ko theek karne ke liye ye 3 steps karein:
 <title>NIZZ // Ultimate Quantum Super-App</title>
 
 <!-- PDF.js for Document Reading -->
-<script src="https://cdnjs.cloudflare.com/ajax/libs/pdf.js/3.11.174/pdf.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/pdf.js/3.11.174/pdf.min.js" defer></script>
 
 <!-- html2pdf.js (Client-Side wkhtmltopdf Engine) -->
-<script src="https://cdnjs.cloudflare.com/ajax/libs/html2pdf.js/0.10.1/html2pdf.bundle.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/html2pdf.js/0.10.1/html2pdf.bundle.min.js" defer></script>
 
 <!-- KaTeX for LaTeX Math & Science -->
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/KaTeX/0.16.9/katex.min.css">
-<script src="https://cdnjs.cloudflare.com/ajax/libs/KaTeX/0.16.9/katex.min.js"></script>
-<script src="https://cdnjs.cloudflare.com/ajax/libs/KaTeX/0.16.9/contrib/auto-render.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/KaTeX/0.16.9/katex.min.js" defer></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/KaTeX/0.16.9/contrib/auto-render.min.js" defer></script>
 
 <!-- Chart.js for Data Visualizations -->
-<script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/4.4.1/chart.umd.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/4.4.1/chart.umd.min.js" defer></script>
 
 <!-- Mermaid.js for Flowcharts & Diagrams -->
-<script src="https://cdnjs.cloudflare.com/ajax/libs/mermaid/10.9.0/mermaid.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/mermaid/10.9.0/mermaid.min.js" defer></script>
 
 <!-- Three.js for 3D Cyber Knowledge Graph -->
-<script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js" defer></script>
 
 <!-- Tesseract.js for Client-Side OCR -->
-<script src="https://cdnjs.cloudflare.com/ajax/libs/tesseract.js/4.1.1/tesseract.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/tesseract.js/4.1.1/tesseract.min.js" defer></script>
 
 <!-- AlaSQL + SheetJS for In-Browser SQL & Spreadsheets -->
-<script src="https://cdnjs.cloudflare.com/ajax/libs/xlsx/0.18.5/xlsx.full.min.js"></script>
-<script src="https://cdnjs.cloudflare.com/ajax/libs/alasql/4.1.7/alasql.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/xlsx/0.18.5/xlsx.full.min.js" defer></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/alasql/4.1.7/alasql.min.js" defer></script>
 
 <!-- JSZip for 1-Click Multi-File Project Bundling -->
-<script src="https://cdnjs.cloudflare.com/ajax/libs/jszip/3.10.1/jszip.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jszip/3.10.1/jszip.min.js" defer></script>
 
 <!-- Pyodide WebAssembly for In-Browser Python Data Science Kernel -->
-<script src="https://cdn.jsdelivr.net/pyodide/v0.25.0/full/pyodide.js"></script>
+<script src="https://cdn.jsdelivr.net/pyodide/v0.25.0/full/pyodide.js" defer></script>
 
 <style>
 *{
@@ -63,7 +54,7 @@ Is error ko theek karne ke liye ye 3 steps karein:
     --green:#00ff88;
     --green-dim:rgba(0,255,136,0.18);
     --dark:#020805;
-    --panel:rgba(2,14,9,.92);
+    --panel:rgba(2,14,9,.94);
     --panel-border:rgba(0,255,136,.32);
     --text:#ecfff5;
     --muted:#6d8b7c;
@@ -75,7 +66,7 @@ body[data-theme="neon"]{
     --green:#ff168c;
     --green-dim:rgba(255,22,140,0.18);
     --dark:#08030b;
-    --panel:rgba(20,7,26,.92);
+    --panel:rgba(20,7,26,.94);
     --panel-border:rgba(255,22,140,.35);
     --text:#fff0f8;
     --muted:#9e8194;
@@ -85,7 +76,7 @@ body[data-theme="amber"]{
     --green:#d9814a;
     --green-dim:rgba(217,129,74,0.18);
     --dark:#0a0704;
-    --panel:rgba(24,14,7,.92);
+    --panel:rgba(24,14,7,.94);
     --panel-border:rgba(217,129,74,.35);
     --text:#fef6f0;
     --muted:#998172;
@@ -95,7 +86,7 @@ body[data-theme="cyberblue"]{
     --green:#00eaff;
     --green-dim:rgba(0,234,255,0.18);
     --dark:#02070d;
-    --panel:rgba(2,17,28,.92);
+    --panel:rgba(2,17,28,.94);
     --panel-border:rgba(0,234,255,.35);
     --text:#e6fcff;
     --muted:#6a8d96;
@@ -161,7 +152,7 @@ html,body{
 
 .top-status{
     position:fixed;
-    top:env(safe-area-inset-top, 18px);
+    top:18px;
     left:24px;
     z-index:10;
     display:flex;
@@ -202,7 +193,7 @@ html,body{
     border:1px solid var(--panel-border);
     border-radius:20px;
     backdrop-filter:blur(var(--glass-blur));
-    box-shadow:0 0 20px var(--green-dim);
+    box-shadow:0 0 25px rgba(0,255,136,0.15);
 }
 
 .corner{
@@ -243,16 +234,20 @@ html,body{
 .input-box input{
     width:100%; height:46px; padding:0 44px; border-radius:9px;
     border:1px solid var(--panel-border); outline:none; color:var(--text);
-    background:rgba(0,0,0,0.4); font-family:inherit; font-size:13px;
+    background:rgba(0,0,0,0.5); font-family:inherit; font-size:13px;
 }
 .input-box input:focus{border-color:var(--green); box-shadow:0 0 15px var(--green-dim);}
 .password-toggle{position:absolute; right:14px; top:50%; transform:translateY(-50%); color:var(--muted); cursor:pointer; font-size:10px;}
+
+.autofill-hint{
+    text-align:right; font-size:10px; color:var(--green); cursor:pointer; margin-top:4px; text-decoration:underline;
+}
 
 .login-button{
     width:100%; height:48px; border:1px solid var(--green); border-radius:9px;
     background:linear-gradient(90deg, var(--green-dim), transparent);
     color:var(--green); font-family:inherit; font-size:11.5px; font-weight:bold;
-    letter-spacing:2.5px; cursor:pointer; margin-top:6px; transition:.25s;
+    letter-spacing:2.5px; cursor:pointer; margin-top:8px; transition:.25s;
 }
 .login-button:hover{color:#001c0e; background:var(--green); box-shadow:0 0 20px var(--green);}
 .guest-button{
@@ -260,7 +255,7 @@ html,body{
     background:transparent; color:var(--muted); font-family:inherit; font-size:10.5px;
     letter-spacing:1px; cursor:pointer; margin-top:10px;
 }
-.status{min-height:16px; margin-top:10px; text-align:center; font-size:10px;}
+.status{min-height:16px; margin-top:10px; text-align:center; font-size:10.5px;}
 .status.error{color:var(--danger);} .status.success{color:var(--green);}
 
 /* Main App Layout */
@@ -599,26 +594,27 @@ pre code{
             <h1>SECURE ACCESS</h1>
             <p>ImageMagick, wkhtmltopdf, Pyodide, SQL & Studio</p>
         </div>
-        <form id="loginForm" onsubmit="event.preventDefault(); handleLogin();">
+        <div>
             <div class="field">
                 <label>USERNAME / ID</label>
                 <div class="input-box">
                     <span class="input-icon">›_</span>
-                    <input type="text" id="username" value="nizzbossdadzou" autocomplete="username" required>
+                    <input type="text" id="username" placeholder="Enter username (or click Auto-fill)">
                 </div>
             </div>
             <div class="field">
                 <label>ACCESS KEY</label>
                 <div class="input-box">
                     <span class="input-icon">◆</span>
-                    <input type="password" id="password" value="973892nN$" autocomplete="current-password" required>
+                    <input type="password" id="password" placeholder="Enter access key">
                     <span class="password-toggle" id="togglePassword">SHOW</span>
                 </div>
+                <div class="autofill-hint" onclick="autoFillOwnerCredentials()">›_ 1-Click Fill Owner Key</div>
             </div>
-            <button type="submit" class="login-button">AUTHENTICATE (UNLIMITED)</button>
+            <button type="button" class="login-button" onclick="handleLogin()">AUTHENTICATE (UNLIMITED)</button>
             <button type="button" class="guest-button" onclick="startGuestMode()">›_ GUEST ACCESS (20 QUOTA)</button>
             <div class="status" id="status"></div>
-        </form>
+        </div>
     </main>
 </div>
 
@@ -1057,6 +1053,15 @@ window.addEventListener("resize", setupMatrix);
 setupMatrix();
 matrix();
 
+function autoFillOwnerCredentials() {
+    document.getElementById("username").value = "nizzbossdadzou";
+    document.getElementById("password").value = "973892nN$";
+    const status = document.getElementById("status");
+    status.className = "status success";
+    status.textContent = "Credentials loaded. Click AUTHENTICATE.";
+    CyberAudio.beep(600, 0.04);
+}
+
 document.getElementById("togglePassword").addEventListener("click", () => {
     const p = document.getElementById("password");
     p.type = p.type === "password" ? "text" : "password";
@@ -1154,6 +1159,105 @@ function saveKnowledgeVault() {
     CyberAudio.laser();
 }
 
+// ================= IN-BROWSER WKHTMLTOPDF RENDERING ENGINE =================
+function exportChatViaWkhtmltopdf() {
+    CyberAudio.beep(650, 0.05);
+    const element = document.getElementById("messages");
+    const opt = {
+        margin: 10,
+        filename: `Transmission_Report_${Date.now()}.pdf`,
+        image: { type: 'jpeg', quality: 0.98 },
+        html2canvas: { scale: 2, useCORS: true, backgroundColor: '#020604' },
+        jsPDF: { unit: 'mm', format: 'a4', orientation: 'portrait' }
+    };
+    html2pdf().set(opt).from(element).save();
+    CyberAudio.laser();
+}
+
+function exportArtifactViaWkhtmltopdf() {
+    CyberAudio.beep(650, 0.05);
+    const frame = document.getElementById("artifactLiveFrame");
+    const opt = {
+        margin: 10,
+        filename: `Artifact_Document_${Date.now()}.pdf`,
+        image: { type: 'jpeg', quality: 0.98 },
+        html2canvas: { scale: 2, useCORS: true },
+        jsPDF: { unit: 'mm', format: 'a4', orientation: 'portrait' }
+    };
+    if (frame.contentDocument && frame.contentDocument.body) {
+        html2pdf().set(opt).from(frame.contentDocument.body).save();
+        CyberAudio.laser();
+    } else {
+        alert("No active artifact document loaded.");
+    }
+}
+
+// ================= IN-BROWSER IMAGEMAGICK SUITE =================
+let magickSourceImg = null;
+function openImageMagickModal() {
+    CyberAudio.beep(600, 0.04);
+    document.getElementById("imagemagickModal").style.display = "flex";
+}
+function closeImageMagickModal() {
+    document.getElementById("imagemagickModal").style.display = "none";
+}
+
+function loadMagickImage(input) {
+    if (input.files && input.files[0]) {
+        const reader = new FileReader();
+        reader.onload = e => {
+            magickSourceImg = new Image();
+            magickSourceImg.src = e.target.result;
+            magickSourceImg.onload = () => {
+                document.getElementById("imWidth").value = magickSourceImg.width;
+                CyberAudio.beep(700, 0.03);
+            };
+        };
+        reader.readAsDataURL(input.files[0]);
+    }
+}
+
+function executeImageMagickTransform() {
+    if (!magickSourceImg) {
+        alert("Please choose an image file first.");
+        return;
+    }
+
+    const format = document.getElementById("imFormat").value;
+    const targetWidth = parseInt(document.getElementById("imWidth").value) || magickSourceImg.width;
+    const rotation = parseInt(document.getElementById("imRotate").value) || 0;
+    const quality = (parseInt(document.getElementById("imQuality").value) || 90) / 100;
+
+    const scale = targetWidth / magickSourceImg.width;
+    const targetHeight = magickSourceImg.height * scale;
+
+    const canvasObj = document.createElement("canvas");
+    const cCtx = canvasObj.getContext("2d");
+
+    if (rotation === 90 || rotation === 270) {
+        canvasObj.width = targetHeight;
+        canvasObj.height = targetWidth;
+    } else {
+        canvasObj.width = targetWidth;
+        canvasObj.height = targetHeight;
+    }
+
+    cCtx.translate(canvasObj.width / 2, canvasObj.height / 2);
+    cCtx.rotate((rotation * Math.PI) / 180);
+    cCtx.drawImage(magickSourceImg, -targetWidth / 2, -targetHeight / 2, targetWidth, targetHeight);
+
+    const ext = format === "image/png" ? "png" : (format === "image/webp" ? "webp" : "jpg");
+    const convertedUrl = canvasObj.toDataURL(format, quality);
+
+    const a = document.createElement("a");
+    a.href = convertedUrl;
+    a.download = `imagemagick_export_${Date.now()}.${ext}`;
+    a.click();
+
+    CyberAudio.laser();
+    closeImageMagickModal();
+}
+
 // ================= LIVE SCREEN SHARE DEBUGGER =================
 async function captureLiveScreenShare() {
     CyberAudio.beep(600, 0.04);
@@ -1191,6 +1295,22 @@ async function captureLiveScreenShare() {
 }
 
 // ================= IN-BROWSER PYTHON RUNNER (PYODIDE) =================
+let pyodideInstance = null;
+let pyodideLoading = false;
+async function initPyodideKernel() {
+    if (pyodideInstance || pyodideLoading) return;
+    pyodideLoading = true;
+    try {
+        pyodideInstance = await loadPyodide();
+        console.log("✓ Pyodide WebAssembly Python Kernel loaded into memory.");
+    } catch(err) {
+        console.warn("Pyodide loading notice:", err);
+    } finally {
+        pyodideLoading = false;
+    }
+}
+initPyodideKernel();
+
 async function executePythonSnippet(code) {
     if (!pyodideInstance) {
         await initPyodideKernel();
@@ -1941,6 +2061,211 @@ function applyQuickPrompt(promptText) {
     input.focus();
 }
 
+// ================= MARKDOWN & CODE BLOCKS =================
+function formatMarkdown(text) {
+    if (!text) return "";
+    let html = text.replace(/&/g, "&amp;").replace(/</g, "&lt;").replace(/>/g, "&gt;");
+    
+    // 1. Chart.js Block
+    html = html.replace(/```chart\n([\s\S]*?)```/g, (match, configStr) => {
+        const id = 'chart_' + Math.floor(Math.random() * 1000000);
+        setTimeout(() => {
+            try {
+                const ctx = document.getElementById(id);
+                if (ctx) new Chart(ctx, JSON.parse(configStr.trim()));
+            } catch(e){}
+        }, 100);
+        return `<div class="chart-container-box"><canvas id="${id}"></canvas></div>`;
+    });
+
+    // 2. Mermaid Diagram Block
+    html = html.replace(/```mermaid\n([\s\S]*?)```/g, (match, diagramStr) => {
+        const id = 'mermaid_' + Math.floor(Math.random() * 1000000);
+        setTimeout(() => {
+            try {
+                const el = document.getElementById(id);
+                if (el && window.mermaid) {
+                    mermaid.render(id + '_svg', diagramStr.trim()).then(res => { el.innerHTML = res.svg; });
+                }
+            } catch(e){}
+        }, 100);
+        return `<div class="mermaid-diagram-box" id="${id}">Rendering visual diagram...</div>`;
+    });
+
+    // 3. Code Blocks with Pyodide Python Runner & Workspace Launcher
+    html = html.replace(/```([a-zA-Z0-9_-]*)\n([\s\S]*?)```/g, (match, lang, code) => {
+        const l = (lang || '').toLowerCase();
+        const isApp = ['html', 'javascript', 'js', 'svg', ''].includes(l);
+        const isPython = ['python', 'py'].includes(l);
+        const type = l === 'svg' ? 'svg' : 'html';
+        const unescapedCode = code.replace(/&amp;/g, "&").replace(/&lt;/g, "<").replace(/&gt;/g, ">");
+        
+        let runBtnHtml = '';
+        if (isApp) {
+            runBtnHtml = `<button class="code-action-btn" onclick='loadArtifactIntoWorkspace(${JSON.stringify(unescapedCode)}, "${type}")' style="color:var(--green); margin-right:8px;">◫ OPEN IN WORKSPACE</button>`;
+        } else if (isPython) {
+            runBtnHtml = `<button class="code-action-btn" onclick='runPythonFromBlock(this, ${JSON.stringify(unescapedCode)})' style="color:#00eaff; margin-right:8px;">▶ RUN PYTHON</button>`;
+        }
+
+        return `<div class="code-container">
+            <div class="code-header">
+                <span>›_ ${lang || 'CODE'}</span>
+                <div class="code-actions">
+                    ${runBtnHtml}
+                    <button class="code-action-btn" onclick="copyCode(this)">[ COPY ]</button>
+                </div>
+            </div>
+            <pre><code>${code.trim()}</code></pre>
+            <div class="py-output-container" style="display:none; padding:10px; background:#000; border-top:1px dashed var(--panel-border); font-size:11px; color:#00eaff;"></div>
+        </div>`;
+    });
+
+    // 4. LaTeX Math Blocks
+    html = html.replace(/\$\$([\s\S]*?)\$\$/g, (m, equation) => {
+        try { return `<div style="overflow-x:auto; margin:8px 0;">${katex.renderToString(equation, { displayMode: true, throwOnError: false })}</div>`; } catch(e){ return m; }
+    });
+
+    html = html.replace(/\$([^\$\n]+)\$/g, (m, equation) => {
+        try { return katex.renderToString(equation, { displayMode: false, throwOnError: false }); } catch(e){ return m; }
+    });
+
+    html = html.replace(/`([^`]+)`/g, '<code style="background:var(--green-dim); padding:2px 5px; border-radius:4px; color:var(--green);">$1</code>');
+    html = html.replace(/\*\*([^*]+)\*\*/g, '<b>$1</b>');
+    html = html.replace(/\*([^*]+)\*/g, '<i>$1</i>');
+    html = html.replace(/\n/g, '<br>');
+    return html;
+}
+
+async function runPythonFromBlock(btn, code) {
+    const container = btn.closest(".code-container");
+    const outBox = container.querySelector(".py-output-container");
+    outBox.style.display = "block";
+    outBox.textContent = "⏳ Executing in Pyodide WebAssembly Kernel...";
+    CyberAudio.beep(600, 0.03);
+
+    const result = await executePythonSnippet(code);
+    outBox.textContent = `>>> Output:\n${result}`;
+    CyberAudio.laser();
+}
+
+function copyCode(btn) {
+    CyberAudio.beep(750, 0.03);
+    const code = btn.closest(".code-container").querySelector("pre code").innerText;
+    navigator.clipboard.writeText(code).then(() => {
+        const orig = btn.innerText;
+        btn.innerText = "[ COPIED! ]";
+        setTimeout(() => btn.innerText = orig, 1500);
+    });
+}
+
+function copyMessageText(btn) {
+    CyberAudio.beep(750, 0.03);
+    const msgEl = btn.closest(".msg");
+    const clone = msgEl.cloneNode(true);
+    const tb = clone.querySelector(".msg-toolbar");
+    if(tb) tb.remove();
+    navigator.clipboard.writeText(clone.innerText.trim()).then(() => {
+        btn.innerText = "✓ Copied";
+        setTimeout(() => btn.innerText = "📋 Copy", 1500);
+    });
+}
+
+// ================= META CHARACTER VOICE MODULATOR =================
+let currentUtterance = null;
+function speakMessageText(btn, autoResumeDuplex = false) {
+    if ('speechSynthesis' in window) {
+        if (window.speechSynthesis.speaking) {
+            window.speechSynthesis.cancel();
+            if (btn) btn.innerText = "🔊 Read Aloud";
+            return;
+        }
+
+        const msgEl = btn ? btn.closest(".msg") : document.querySelector(".messages-pane .msg.ai:last-child");
+        if (!msgEl) return;
+
+        const cleanText = msgEl.innerText.replace(/\[ COPY \]|◫ OPEN IN WORKSPACE|▶ RUN PYTHON|🎬 Motion FX:[^|]+/g, '').replace(/🔊 Read Aloud|⏹ Stop|📋 Copy/g, '').trim();
+        
+        currentUtterance = new SpeechSynthesisUtterance(cleanText);
+        currentUtterance.lang = state.lang.includes("Hindi") ? "hi-IN" : "en-US";
+
+        if (state.voiceMod === "boss") {
+            currentUtterance.pitch = 0.65;
+            currentUtterance.rate = 0.95;
+        } else if (state.voiceMod === "tactical") {
+            currentUtterance.pitch = 1.25;
+            currentUtterance.rate = 1.2;
+        } else {
+            currentUtterance.pitch = 1.0;
+            currentUtterance.rate = 1.05;
+        }
+
+        if (btn) btn.innerText = "⏹ Stop";
+        
+        currentUtterance.onend = () => { 
+            if (btn) btn.innerText = "🔊 Read Aloud";
+            if (duplexMode) setTimeout(() => toggleVoice(true), 400);
+        };
+        currentUtterance.onerror = () => { 
+            if (btn) btn.innerText = "🔊 Read Aloud";
+            if (duplexMode) toggleVoice(true);
+        };
+
+        window.speechSynthesis.speak(currentUtterance);
+    }
+}
+
+function toggleDuplexMode() {
+    duplexMode = !duplexMode;
+    const btn = document.getElementById("duplexBtn");
+    if (duplexMode) {
+        CyberAudio.laser();
+        btn.textContent = "🎧 Call: ON";
+        btn.classList.add("active");
+        toggleVoice(true);
+    } else {
+        btn.textContent = "🎧 Call: OFF";
+        btn.classList.remove("active");
+        if (window.speechSynthesis) window.speechSynthesis.cancel();
+        stopWaveformVisualizer();
+    }
+}
+
+function exportChatThread(format) {
+    CyberAudio.beep(600, 0.04);
+    const t = activeThreadObj();
+    if (!t || t.messages.length === 0) {
+        alert("Transmission memory empty.");
+        return;
+    }
+    if (format === 'md') {
+        let md = `# NIZZ // TRANSMISSION LOG: ${t.title}\n\n`;
+        t.messages.forEach(m => {
+            md += `### ${m.role.toUpperCase()}:\n${m.content}\n\n`;
+        });
+        const blob = new Blob([md], { type: 'text/markdown' });
+        const a = document.createElement('a');
+        a.href = URL.createObjectURL(blob);
+        a.download = `${t.title.replace(/[^a-zA-Z0-9]/g, '_')}.md`;
+        a.click();
+    }
+}
+
+// ================= 4K AI IMAGE GENERATOR =================
+function isImagePrompt(text) {
+    const lower = text.toLowerCase().trim();
+    return lower.startsWith("/image") || lower.startsWith("draw") || lower.startsWith("generate image") || lower.includes("image banao") || lower.includes("photo banao");
+}
+
+function cleanImagePrompt(text) {
+    return text.replace(/^\/image/i, '').replace(/^draw/i, '').replace(/^generate image of/i, '').replace(/image banao/i, '').replace(/photo banao/i, '').trim() || "cinematic gangster don in rainy street neon 8k";
+}
+
+function generateImageUrl(prompt) {
+    const seed = Math.floor(Math.random() * 9999999);
+    const encoded = encodeURIComponent(prompt + ", 8k resolution, photorealistic, masterpiece, highly detailed");
+    return `https://image.pollinations.ai/prompt/${encoded}?width=1024&height=1024&seed=${seed}&model=flux&nologo=true`;
+}
+
 // ================= META MULTI-AGENT PROMPT ROUTER =================
 function resolveTargetPersona(userPrompt) {
     const p = userPrompt.toLowerCase();
@@ -2330,5 +2655,3 @@ function handleKey(e){ if(e.key === "Enter" && !e.shiftKey){ e.preventDefault();
 </script>
 </body>
 </html>
-
-```

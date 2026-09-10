@@ -1,10 +1,14 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-<meta name="theme-color" content="#020604">
-<title>NIZZ // WITHOUT LIMITS [Quantum Super-App]</title>
+.login-panel {
+  position: relative;
+  /* Leaves a 16px gap on the left and right sides on small mobile screens */
+  width: min(440px, calc(100% - 32px)); 
+  padding: 38px 32px 30px;
+  background: var(--panel); /* Ensure this has some transparency, like an rgba() */
+  border: 1px solid var(--panel-border);
+  border-radius: 20px;
+  backdrop-filter: blur(var(--glass-blur));
+  box-shadow: 0 0 30px rgba(0,0,0,0.8), 0 0 15px var(--green-dim);
+}
 
 <!-- External Frameworks -->
 <script src="https://cdnjs.cloudflare.com/ajax/libs/pdf.js/3.11.174/pdf.min.js"></script>

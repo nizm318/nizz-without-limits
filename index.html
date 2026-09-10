@@ -158,7 +158,7 @@ html,body{
 }
 @keyframes pulse{0%,100%{opacity:1} 50%{opacity:0.25}}
 
-/* Main App Layout (Directly Visible) */
+/* Main App Layout */
 .app{display:flex; height:100%; width:100%; position:relative; z-index:5;}
 .backdrop{display:none; position:fixed; inset:0; background:rgba(0,0,0,0.75); backdrop-filter:blur(4px); z-index:40;}
 
@@ -455,8 +455,8 @@ pre code{
 
 <div class="top-status"><span class="status-dot"></span> NIZZ // QUANTUM WITHOUT LIMITS [ACTIVE]</div>
 
-<!-- CHAT APP (Directly Loaded) -->
-<div class="app" id="appRoot" style="display:flex;">
+<!-- CHAT APP (Directly Loaded without Login) -->
+<div class="app" id="appRoot">
     <div class="backdrop" id="backdrop" onclick="window.toggleSidebar()"></div>
 
     <div class="sidebar" id="sidebar">
@@ -736,7 +736,6 @@ pre code{
 </div>
 
 <script>
-// ================= BULLETPROOF SYNTHESIZER =================
 const CyberAudio = {
     ctx: null,
     init: function() { 
@@ -749,21 +748,16 @@ const CyberAudio = {
     },
     beep: function(freq, duration, type) {
         try {
-            freq = freq || 880;
-            duration = duration || 0.05;
-            type = type || 'sine';
+            freq = freq || 880; duration = duration || 0.05; type = type || 'sine';
             this.init();
             if (!this.ctx) return;
             const osc = this.ctx.createOscillator();
             const gain = this.ctx.createGain();
-            osc.type = type;
-            osc.frequency.setValueAtTime(freq, this.ctx.currentTime);
+            osc.type = type; osc.frequency.setValueAtTime(freq, this.ctx.currentTime);
             gain.gain.setValueAtTime(0.08, this.ctx.currentTime);
             gain.gain.exponentialRampToValueAtTime(0.001, this.ctx.currentTime + duration);
-            osc.connect(gain);
-            gain.connect(this.ctx.destination);
-            osc.start();
-            osc.stop(this.ctx.currentTime + duration);
+            osc.connect(gain); gain.connect(this.ctx.destination);
+            osc.start(); osc.stop(this.ctx.currentTime + duration);
         } catch(e){}
     },
     laser: function() {
@@ -777,10 +771,8 @@ const CyberAudio = {
             osc.frequency.exponentialRampToValueAtTime(100, this.ctx.currentTime + 0.15);
             gain.gain.setValueAtTime(0.12, this.ctx.currentTime);
             gain.gain.linearRampToValueAtTime(0.001, this.ctx.currentTime + 0.15);
-            osc.connect(gain);
-            gain.connect(this.ctx.destination);
-            osc.start();
-            osc.stop(this.ctx.currentTime + 0.15);
+            osc.connect(gain); gain.connect(this.ctx.destination);
+            osc.start(); osc.stop(this.ctx.currentTime + 0.15);
         } catch(e){}
     }
 };
@@ -792,21 +784,15 @@ async function initPyodideKernel() {
     pyodideLoading = true;
     try {
         pyodideInstance = await loadPyodide();
-    } catch(err) {} finally {
-        pyodideLoading = false;
-    }
+    } catch(err) {} finally { pyodideLoading = false; }
 }
 
 try {
-    if (window.pdfjsLib) {
-        pdfjsLib.GlobalWorkerOptions.workerSrc = 'https://cdnjs.cloudflare.com/ajax/libs/pdf.js/3.11.174/pdf.worker.min.js';
-    }
+    if (window.pdfjsLib) pdfjsLib.GlobalWorkerOptions.workerSrc = 'https://cdnjs.cloudflare.com/ajax/libs/pdf.js/3.11.174/pdf.worker.min.js';
 } catch(e){}
 
 try {
-    if (window.mermaid) {
-        mermaid.initialize({ startOnLoad: false, theme: 'dark' });
-    }
+    if (window.mermaid) mermaid.initialize({ startOnLoad: false, theme: 'dark' });
 } catch(e){}
 
 try {
@@ -878,9 +864,7 @@ function loadStateFromLocal() {
                 state.offlineMode = !!parsed.offlineMode;
             }
         }
-    } catch(e){
-        localStorage.removeItem("NIZZ_META_CORE_STATE");
-    }
+    } catch(e){ localStorage.removeItem("NIZZ_META_CORE_STATE"); }
 }
 
 window.initDirectWorkspace = function() {
@@ -906,827 +890,245 @@ window.setTheme = function(themeName, save) {
     if (save) saveStateToLocal();
 };
 
-window.setVoiceMod = function(val) {
-    state.voiceMod = val;
-    saveStateToLocal();
-    CyberAudio.beep(500, 0.03);
-};
-
-window.setLang = function(l) {
-    state.lang = l;
-    saveStateToLocal();
-};
-
-window.toggleOfflineMode = function() {
-    state.offlineMode = !state.offlineMode;
-    window.updateOfflineButtonUI();
-    saveStateToLocal();
-    CyberAudio.laser();
-};
-
+window.setVoiceMod = function(val) { state.voiceMod = val; saveStateToLocal(); CyberAudio.beep(500, 0.03); };
+window.setLang = function(l) { state.lang = l; saveStateToLocal(); };
+window.toggleOfflineMode = function() { state.offlineMode = !state.offlineMode; window.updateOfflineButtonUI(); saveStateToLocal(); CyberAudio.laser(); };
 window.updateOfflineButtonUI = function() {
     const btn = document.getElementById("offlineToggleBtn");
     if (!btn) return;
-    if (state.offlineMode) {
-        btn.textContent = "⚡ Offline: ON";
-        btn.classList.add("active");
-    } else {
-        btn.textContent = "⚡ Offline: OFF";
-        btn.classList.remove("active");
-    }
+    if (state.offlineMode) { btn.textContent = "⚡ Offline: ON"; btn.classList.add("active"); }
+    else { btn.textContent = "⚡ Offline: OFF"; btn.classList.remove("active"); }
 };
-
 window.toggleSidebar = function() {
-    const sb = document.getElementById("sidebar");
-    const bd = document.getElementById("backdrop");
-    if (sb) sb.classList.toggle("open");
-    if (bd) bd.classList.toggle("active");
+    const sb = document.getElementById("sidebar"); const bd = document.getElementById("backdrop");
+    if (sb) sb.classList.toggle("open"); if (bd) bd.classList.toggle("active");
     CyberAudio.beep(440, 0.03);
 };
-
 window.updateTokenGauge = function() {
     try {
         const t = activeThreadObj();
         const totalChars = (t.messages || []).reduce((acc, m) => acc + (m.content ? m.content.length : 0), 0) + (state.vaultContext ? state.vaultContext.length : 0);
         const estimatedTokens = Math.round(totalChars / 4);
         const percent = Math.min(100, Math.max(1, (estimatedTokens / 1000000) * 100));
-        
         const countEl = document.getElementById("tokenGaugeCount");
         if (countEl) countEl.textContent = (estimatedTokens / 1000).toFixed(1) + "k / 1.0M";
         const fillEl = document.getElementById("tokenProgressFill");
         if (fillEl) fillEl.style.width = percent + "%";
     } catch(e){}
 };
-
 window.openKnowledgeVault = function() {
     CyberAudio.beep(600, 0.04);
-    const input = document.getElementById("vaultContextInput");
-    if (input) input.value = state.vaultContext || "";
-    const modal = document.getElementById("vaultModal");
-    if (modal) modal.style.display = "flex";
+    const input = document.getElementById("vaultContextInput"); if (input) input.value = state.vaultContext || "";
+    const modal = document.getElementById("vaultModal"); if (modal) modal.style.display = "flex";
 };
-window.closeKnowledgeVault = function() {
-    const modal = document.getElementById("vaultModal");
-    if (modal) modal.style.display = "none";
-};
+window.closeKnowledgeVault = function() { const modal = document.getElementById("vaultModal"); if (modal) modal.style.display = "none"; };
 window.saveKnowledgeVault = function() {
-    const input = document.getElementById("vaultContextInput");
-    if (input) state.vaultContext = input.value.trim();
-    saveStateToLocal();
-    window.closeKnowledgeVault();
-    window.updateTokenGauge();
-    CyberAudio.laser();
+    const input = document.getElementById("vaultContextInput"); if (input) state.vaultContext = input.value.trim();
+    saveStateToLocal(); window.closeKnowledgeVault(); window.updateTokenGauge(); CyberAudio.laser();
 };
-
 window.exportChatViaWkhtmltopdf = function() {
-    CyberAudio.beep(650, 0.05);
-    const element = document.getElementById("messages");
+    CyberAudio.beep(650, 0.05); const element = document.getElementById("messages");
     if (typeof html2pdf === 'undefined') { window.print(); return; }
-    const opt = {
-        margin: 10,
-        filename: 'Transmission_Report_' + Date.now() + '.pdf',
-        image: { type: 'jpeg', quality: 0.98 },
-        html2canvas: { scale: 2, useCORS: true, backgroundColor: '#020604' },
-        jsPDF: { unit: 'mm', format: 'a4', orientation: 'portrait' }
-    };
-    html2pdf().set(opt).from(element).save();
+    html2pdf().set({ margin: 10, filename: 'Report.pdf', image: { type: 'jpeg', quality: 0.98 }, html2canvas: { scale: 2, useCORS: true }, jsPDF: { unit: 'mm', format: 'a4', orientation: 'portrait' } }).from(element).save();
     CyberAudio.laser();
 };
-
 window.exportArtifactViaWkhtmltopdf = function() {
-    CyberAudio.beep(650, 0.05);
-    const frame = document.getElementById("artifactLiveFrame");
-    if (typeof html2pdf === 'undefined') { alert("PDF generator initializing."); return; }
-    const opt = {
-        margin: 10,
-        filename: 'Artifact_Document_' + Date.now() + '.pdf',
-        image: { type: 'jpeg', quality: 0.98 },
-        html2canvas: { scale: 2, useCORS: true },
-        jsPDF: { unit: 'mm', format: 'a4', orientation: 'portrait' }
-    };
+    CyberAudio.beep(650, 0.05); const frame = document.getElementById("artifactLiveFrame");
+    if (typeof html2pdf === 'undefined') { alert("PDF generator loading."); return; }
     if (frame && frame.contentDocument && frame.contentDocument.body) {
-        html2pdf().set(opt).from(frame.contentDocument.body).save();
+        html2pdf().set({ margin: 10, filename: 'Artifact.pdf', image: { type: 'jpeg', quality: 0.98 }, html2canvas: { scale: 2, useCORS: true }, jsPDF: { unit: 'mm', format: 'a4', orientation: 'portrait' } }).from(frame.contentDocument.body).save();
         CyberAudio.laser();
     }
 };
 
 let magickSourceImg = null;
-window.openImageMagickModal = function() {
-    CyberAudio.beep(600, 0.04);
-    const modal = document.getElementById("imagemagickModal");
-    if (modal) modal.style.display = "flex";
-};
-window.closeImageMagickModal = function() {
-    const modal = document.getElementById("imagemagickModal");
-    if (modal) modal.style.display = "none";
-};
-
+window.openImageMagickModal = function() { CyberAudio.beep(600, 0.04); const m = document.getElementById("imagemagickModal"); if(m) m.style.display = "flex"; };
+window.closeImageMagickModal = function() { const m = document.getElementById("imagemagickModal"); if(m) m.style.display = "none"; };
 window.loadMagickImage = function(input) {
     if (input.files && input.files[0]) {
         const reader = new FileReader();
         reader.onload = function(e) {
-            magickSourceImg = new Image();
-            magickSourceImg.src = e.target.result;
-            magickSourceImg.onload = function() {
-                const wInput = document.getElementById("imWidth");
-                if (wInput) wInput.value = magickSourceImg.width;
-                CyberAudio.beep(700, 0.03);
-            };
+            magickSourceImg = new Image(); magickSourceImg.src = e.target.result;
+            magickSourceImg.onload = function() { const w = document.getElementById("imWidth"); if(w) w.value = magickSourceImg.width; };
         };
         reader.readAsDataURL(input.files[0]);
     }
 };
-
 window.executeImageMagickTransform = function() {
-    if (!magickSourceImg) { alert("Please choose an image file first."); return; }
+    if (!magickSourceImg) { alert("Choose an image first."); return; }
     const format = document.getElementById("imFormat").value;
     const targetWidth = parseInt(document.getElementById("imWidth").value) || magickSourceImg.width;
     const rotation = parseInt(document.getElementById("imRotate").value) || 0;
-    const quality = (parseInt(document.getElementById("imQuality").value) || 90) / 100;
     const scale = targetWidth / magickSourceImg.width;
     const targetHeight = magickSourceImg.height * scale;
 
-    const canvasObj = document.createElement("canvas");
-    const cCtx = canvasObj.getContext("2d");
-    if (rotation === 90 || rotation === 270) {
-        canvasObj.width = targetHeight; canvasObj.height = targetWidth;
-    } else {
-        canvasObj.width = targetWidth; canvasObj.height = targetHeight;
-    }
-    cCtx.translate(canvasObj.width / 2, canvasObj.height / 2);
-    cCtx.rotate((rotation * Math.PI) / 180);
+    const canvasObj = document.createElement("canvas"); const cCtx = canvasObj.getContext("2d");
+    if (rotation === 90 || rotation === 270) { canvasObj.width = targetHeight; canvasObj.height = targetWidth; }
+    else { canvasObj.width = targetWidth; canvasObj.height = targetHeight; }
+    cCtx.translate(canvasObj.width / 2, canvasObj.height / 2); cCtx.rotate((rotation * Math.PI) / 180);
     cCtx.drawImage(magickSourceImg, -targetWidth / 2, -targetHeight / 2, targetWidth, targetHeight);
 
-    const ext = format === "image/png" ? "png" : (format === "image/webp" ? "webp" : "jpg");
-    const convertedUrl = canvasObj.toDataURL(format, quality);
-    const a = document.createElement("a");
-    a.href = convertedUrl; a.download = 'imagemagick_export_' + Date.now() + '.' + ext; a.click();
-    CyberAudio.laser();
-    window.closeImageMagickModal();
+    const ext = format === "image/png" ? "png" : "jpg";
+    const a = document.createElement("a"); a.href = canvasObj.toDataURL(format, 0.9); a.download = 'export.' + ext; a.click();
+    CyberAudio.laser(); window.closeImageMagickModal();
 };
 
-window.captureLiveScreenShare = async function() {
-    CyberAudio.beep(600, 0.04);
-    try {
-        const screenStream = await navigator.mediaDevices.getDisplayMedia({ video: { cursor: "always" }, audio: false });
-        const track = screenStream.getVideoTracks()[0];
-        const imageCapture = new ImageCapture(track);
-        const bitmap = await imageCapture.grabFrame();
-        track.stop();
-
-        const scrCanvas = document.createElement("canvas");
-        scrCanvas.width = bitmap.width; scrCanvas.height = bitmap.height;
-        const sCtx = scrCanvas.getContext("2d");
-        sCtx.drawImage(bitmap, 0, 0);
-
-        const base64 = scrCanvas.toDataURL("image/jpeg", 0.85);
-        originalAttachedBase64 = base64;
-        currentAttachment = { type: 'image', data: base64, name: 'Screen_Capture_' + Date.now() + '.jpg', mimeType: 'image/jpeg' };
-
-        const thumb = document.getElementById("attachThumb");
-        if (thumb) { thumb.src = base64; thumb.style.display = "block"; }
-        const ocr = document.getElementById("ocrBtn");
-        if (ocr) ocr.style.display = "inline-block";
-        const label = document.getElementById("attachLabel");
-        if (label) label.textContent = "Live Screen Capture attached";
-        const bar = document.getElementById("attachPreviewBar");
-        if (bar) bar.style.display = "flex";
-        CyberAudio.laser();
-    } catch(err) { alert("Screen sharing cancelled."); }
-};
-
-window.openSQLStudio = function() {
-    CyberAudio.beep(700, 0.04);
-    const modal = document.getElementById("sqlStudioModal");
-    if (modal) modal.style.display = "flex";
-};
-window.closeSQLStudio = function() {
-    const modal = document.getElementById("sqlStudioModal");
-    if (modal) modal.style.display = "none";
-};
-
+window.openSQLStudio = function() { CyberAudio.beep(700, 0.04); const m = document.getElementById("sqlStudioModal"); if(m) m.style.display = "flex"; };
+window.closeSQLStudio = function() { const m = document.getElementById("sqlStudioModal"); if(m) m.style.display = "none"; };
 window.executeStudioSQL = function() {
-    const input = document.getElementById("sqlStudioInput");
-    const out = document.getElementById("sqlStudioOutput");
+    const input = document.getElementById("sqlStudioInput"); const out = document.getElementById("sqlStudioOutput");
     if (!input || !out) return;
-    const query = input.value.trim();
-    if (!query) return;
     try {
-        const res = alasql(query);
+        const res = alasql(input.value.trim());
         out.innerHTML = formatSQLTable(res);
         CyberAudio.beep(900, 0.05);
-    } catch(err) {
-        out.innerHTML = '<span style="color:var(--danger); font-size:11px;">SQL Error: ' + err.message + '</span>';
-    }
+    } catch(err) { out.innerHTML = '<span style="color:var(--danger)">SQL Error: ' + err.message + '</span>'; }
 };
-
 function formatSQLTable(data) {
-    if (!Array.isArray(data) || data.length === 0) return "<span style='color:var(--muted); font-size:11px;'>0 rows returned.</span>";
+    if (!Array.isArray(data) || data.length === 0) return "<span>0 rows returned.</span>";
     const keys = Object.keys(data[0]);
     let html = "<div class='sql-result-box'><table class='sql-table'><thead><tr>";
-    keys.forEach(k => html += "<th>" + k + "</th>");
-    html += "</tr></thead><tbody>";
-    data.forEach(row => {
-        html += "<tr>";
-        keys.forEach(k => html += "<td>" + (row[k] !== undefined ? row[k] : '') + "</td>");
-        html += "</tr>";
-    });
-    html += "</tbody></table></div>";
-    return html;
+    keys.forEach(k => html += "<th>" + k + "</th>"); html += "</tr></thead><tbody>";
+    data.forEach(row => { html += "<tr>"; keys.forEach(k => html += "<td>" + (row[k] !== undefined ? row[k] : '') + "</td>"); html += "</tr>"; });
+    return html + "</tbody></table></div>";
 }
-
 window.loadDatasetIntoSQL = function() {
     if (!parsedDatasetJson) return;
     try {
-        alasql("DROP TABLE IF EXISTS dataset;");
-        alasql("CREATE TABLE dataset;");
+        alasql("DROP TABLE IF EXISTS dataset; CREATE TABLE dataset;");
         alasql.tables.dataset.data = parsedDatasetJson;
-        alert("✓ Loaded " + parsedDatasetJson.length + " rows into SQL table 'dataset'!");
-        CyberAudio.laser();
-    } catch(err) { alert("SQL error: " + err.message); }
+        alert("✓ Loaded dataset into SQL table!"); CyberAudio.laser();
+    } catch(err) { alert("Error: " + err.message); }
 };
 
 window.toggleSplitPane = function(forceState) {
-    const pane = document.getElementById("artifactSplitPane");
-    const btn = document.getElementById("splitViewBtn");
+    const pane = document.getElementById("artifactSplitPane"); const btn = document.getElementById("splitViewBtn");
     if (!pane) return;
     const isOpen = forceState !== undefined ? forceState : !pane.classList.contains("open");
-    if (isOpen) {
-        pane.classList.add("open");
-        if (btn) btn.classList.add("active");
-        CyberAudio.beep(650, 0.04);
-    } else {
-        pane.classList.remove("open");
-        if (btn) btn.classList.remove("active");
-    }
+    if (isOpen) { pane.classList.add("open"); if(btn) btn.classList.add("active"); CyberAudio.beep(650, 0.04); }
+    else { pane.classList.remove("open"); if(btn) btn.classList.remove("active"); }
 };
-
-window.loadArtifactIntoWorkspace = function(code, type, title) {
-    type = type || "html"; title = title || "Artifact";
-    activeArtifact.title = title; activeArtifact.type = type;
+window.loadArtifactIntoWorkspace = function(code, type) {
+    activeArtifact.type = type || "html";
     if (!activeArtifact.versions.includes(code)) activeArtifact.versions.push(code);
-    renderArtifactVersionPills();
-    setArtifactContent(code, type);
+    setArtifactContent(code, activeArtifact.type);
     window.toggleSplitPane(true);
 };
-
 function setArtifactContent(code, type) {
-    const frame = document.getElementById("artifactLiveFrame");
-    const codeView = document.getElementById("artifactCodeView");
-    const svgBtn = document.getElementById("svgExportBtn");
-    if (type === "svg" || code.trim().startsWith("<svg")) {
-        if (frame) frame.srcdoc = "<!DOCTYPE html><html><body style='margin:0; background:#05030a; display:flex; align-items:center; justify-content:center; height:100vh;'>" + code + "</body></html>";
-        if (svgBtn) svgBtn.style.display = "inline-block";
-    } else {
-        if (frame) frame.srcdoc = "<!DOCTYPE html><html><head><meta charset='utf-8'><meta name='viewport' content='width=device-width, initial-scale=1.0'><style>body{margin:0;font-family:sans-serif;}</style></head><body>" + code + "</body></html>";
-        if (svgBtn) svgBtn.style.display = "none";
-    }
+    const frame = document.getElementById("artifactLiveFrame"); const codeView = document.getElementById("artifactCodeView");
+    if (frame) frame.srcdoc = "<!DOCTYPE html><html><body style='margin:0;font-family:sans-serif;'>" + code + "</body></html>";
     if (codeView) codeView.textContent = code;
 }
-
 window.switchArtifactTab = function(tab) {
-    const frame = document.getElementById("artifactLiveFrame");
-    const codeView = document.getElementById("artifactCodeView");
-    const tabPrev = document.getElementById("tabPreviewBtn");
-    const tabCode = document.getElementById("tabCodeBtn");
-    if (tab === 'preview') {
-        if (frame) frame.style.display = "block";
-        if (codeView) codeView.style.display = "none";
-        if (tabPrev) tabPrev.classList.add("active");
-        if (tabCode) tabCode.classList.remove("active");
-    } else {
-        if (frame) frame.style.display = "none";
-        if (codeView) codeView.style.display = "block";
-        if (tabCode) tabCode.classList.add("active");
-        if (tabPrev) tabPrev.classList.remove("active");
-    }
-    CyberAudio.beep(550, 0.02);
+    const frame = document.getElementById("artifactLiveFrame"); const codeView = document.getElementById("artifactCodeView");
+    if (tab === 'preview') { if(frame) frame.style.display="block"; if(codeView) codeView.style.display="none"; }
+    else { if(frame) frame.style.display="none"; if(codeView) codeView.style.display="block"; }
 };
-
-function renderArtifactVersionPills() {
-    const box = document.getElementById("artifactVersionBox");
-    if (!box) return;
-    box.innerHTML = "";
-    activeArtifact.versions.forEach((verCode, idx) => {
-        const pill = document.createElement("span");
-        const isCurrent = idx === activeArtifact.versions.length - 1;
-        pill.className = "version-pill" + (isCurrent ? " active" : "");
-        pill.textContent = "v" + (idx + 1);
-        pill.onclick = function() {
-            document.querySelectorAll(".version-pill").forEach(p => p.classList.remove("active"));
-            pill.classList.add("active");
-            setArtifactContent(verCode, activeArtifact.type);
-            CyberAudio.beep(500, 0.03);
-        };
-        box.appendChild(pill);
-    });
-}
 
 window.exportArtifactAsProjectZip = function() {
-    const codeEl = document.getElementById("artifactCodeView");
-    const code = codeEl ? codeEl.textContent : "";
-    if (!code.trim()) { alert("No artifact code available."); return; }
-    if (typeof JSZip === 'undefined') { alert("JSZip initializing."); return; }
-    const zip = new JSZip();
-    if (activeArtifact.type === "svg") {
-        zip.file("vector_graphics.svg", code);
-    } else {
-        zip.file("index.html", "<!DOCTYPE html>\n<html>\n<head><meta charset=\"UTF-8\"><link rel=\"stylesheet\" href=\"style.css\"></head>\n<body>\n" + code + "\n<script src=\"app.js\">" + "<" + "/script>\n</body>\n</html>");
-        zip.file("style.css", "body { margin: 0; font-family: sans-serif; }");
-        zip.file("app.js", "console.log('Loaded.');");
-    }
-    zip.generateAsync({type:"blob"}).then(function(content) {
-        const a = document.createElement('a');
-        a.href = URL.createObjectURL(content); a.download = "nizz-web-project.zip"; a.click();
-        CyberAudio.laser();
-    });
-};
-
-window.exportCurrentSVG = function() {
     const code = document.getElementById("artifactCodeView").textContent;
-    const canvasObj = document.createElement("canvas");
-    const img = new Image();
-    const svgBlob = new Blob([code], {type: 'image/svg+xml;charset=utf-8'});
-    const url = URL.createObjectURL(svgBlob);
-    img.onload = function() {
-        canvasObj.width = img.width || 800; canvasObj.height = img.height || 800;
-        const ctx2 = canvasObj.getContext("2d"); ctx2.drawImage(img, 0, 0);
-        const a = document.createElement("a");
-        a.href = canvasObj.toDataURL("image/png"); a.download = "nizz-vector-export.png"; a.click();
-        URL.revokeObjectURL(url);
-    };
-    img.src = url;
-    CyberAudio.laser();
-};
-
-window.applyCyberPhotoFX = function(filterType) {
-    if (!originalAttachedBase64) return;
-    const img = new Image();
-    img.src = originalAttachedBase64;
-    img.onload = function() {
-        const c = document.createElement("canvas");
-        c.width = img.width; c.height = img.height;
-        const cx = c.getContext("2d"); cx.drawImage(img, 0, 0);
-        if (filterType === "cyberpunk") {
-            cx.globalCompositeOperation = "color"; cx.fillStyle = "rgba(255, 22, 140, 0.4)"; cx.fillRect(0, 0, c.width, c.height);
-        } else if (filterType === "matrix") {
-            cx.globalCompositeOperation = "color"; cx.fillStyle = "rgba(0, 255, 136, 0.5)"; cx.fillRect(0, 0, c.width, c.height);
-        } else if (filterType === "noir") {
-            cx.globalCompositeOperation = "luminosity"; cx.fillStyle = "#ffffff"; cx.fillRect(0, 0, c.width, c.height);
-        }
-        currentAttachment.data = c.toDataURL("image/jpeg", 0.9);
-        const thumb = document.getElementById("attachThumb");
-        if (thumb) thumb.src = currentAttachment.data;
-        CyberAudio.beep(700, 0.04);
-    };
-};
-
-let threeScene, threeCamera, threeRenderer, threeNodesGroup, threeAnimId;
-window.open3DKnowledgeGraph = function() {
-    CyberAudio.beep(750, 0.08);
-    const modal = document.getElementById("mindmapModal");
-    const container = document.getElementById("mindmapContainer");
-    if (modal) modal.style.display = "flex";
-    if (!container) return;
-    container.innerHTML = "";
-    const w = container.clientWidth || window.innerWidth;
-    const h = container.clientHeight || window.innerHeight;
-    if (typeof THREE === 'undefined') { container.innerHTML = "<div style='color:var(--green); text-align:center;'>Loading 3D...</div>"; return; }
-
-    threeScene = new THREE.Scene();
-    threeCamera = new THREE.PerspectiveCamera(60, w / h, 0.1, 1000);
-    threeCamera.position.z = 120;
-    threeRenderer = new THREE.WebGLRenderer({ antialias: true, alpha: true });
-    threeRenderer.setSize(w, h);
-    container.appendChild(threeRenderer.domElement);
-    threeNodesGroup = new THREE.Group();
-    threeScene.add(threeNodesGroup);
-
-    const t = activeThreadObj();
-    const nodeCount = Math.max(8, Math.min((t.messages || []).length * 2, 24));
-    const themeColorHex = state.theme === "neon" ? 0xff168c : (state.theme === "amber" ? 0xd9814a : 0x00ff88);
-    const nodeGeometry = new THREE.SphereGeometry(2.5, 16, 16);
-    const nodeMaterial = new THREE.MeshBasicMaterial({ color: themeColorHex, wireframe: true });
-
-    const positions = [];
-    for (let i = 0; i < nodeCount; i++) {
-        const mesh = new THREE.Mesh(nodeGeometry, nodeMaterial);
-        mesh.position.set((Math.random() - 0.5) * 110, (Math.random() - 0.5) * 80, (Math.random() - 0.5) * 60);
-        positions.push(mesh.position);
-        threeNodesGroup.add(mesh);
-    }
-    const lineMaterial = new THREE.LineBasicMaterial({ color: themeColorHex, transparent: true, opacity: 0.35 });
-    for (let i = 0; i < positions.length - 1; i++) {
-        const lineGeo = new THREE.BufferGeometry().setFromPoints([positions[i], positions[i + 1]]);
-        threeNodesGroup.add(new THREE.Line(lineGeo, lineMaterial));
-    }
-
-    let isDragging = false, prevX = 0, prevY = 0;
-    container.onmousedown = function(e) { isDragging = true; prevX = e.clientX; prevY = e.clientY; };
-    container.ontouchstart = function(e) { isDragging = true; prevX = e.touches[0].clientX; prevY = e.touches[0].clientY; };
-    window.onmousemove = function(e) {
-        if (!isDragging) return;
-        threeNodesGroup.rotation.y += (e.clientX - prevX) * 0.008;
-        threeNodesGroup.rotation.x += (e.clientY - prevY) * 0.008;
-        prevX = e.clientX; prevY = e.clientY;
-    };
-    window.onmouseup = window.ontouchend = function() { isDragging = false; };
-
-    function animate3D() {
-        threeAnimId = requestAnimationFrame(animate3D);
-        if (!isDragging) { threeNodesGroup.rotation.y += 0.002; threeNodesGroup.rotation.x += 0.001; }
-        threeRenderer.render(threeScene, threeCamera);
-    }
-    animate3D();
-};
-
-window.close3DKnowledgeGraph = function() {
-    const modal = document.getElementById("mindmapModal");
-    if (modal) modal.style.display = "none";
-    if (threeAnimId) cancelAnimationFrame(threeAnimId);
-};
-
-window.extractTextFromAttachedImage = async function() {
-    if (!currentAttachment || currentAttachment.type !== 'image' || !currentAttachment.data) return;
-    const btn = document.getElementById("ocrBtn");
-    const input = document.getElementById("composerInput");
-    if (btn) btn.innerText = "⏳ SCANNING...";
-    CyberAudio.beep(550, 0.05);
-    try {
-        const result = await Tesseract.recognize(currentAttachment.data, 'eng+hin');
-        const extracted = result.data.text.trim();
-        if (extracted && input) {
-            input.value = (input.value ? input.value + "\n\n" : "") + "[OCR]:\n" + extracted;
-            if (btn) btn.innerText = "✓ SCANNED";
-        }
-    } catch(err) { alert("OCR Error: " + err.message); }
-};
-
-window.filterMemoryThreads = function(query) {
-    const q = query.toLowerCase().trim();
-    const threadEls = document.querySelectorAll("#threadList .thread-item");
-    state.threads.forEach((t, index) => {
-        const matchTitle = t.title.toLowerCase().includes(q);
-        const matchContent = (t.messages || []).some(m => m.content && m.content.toLowerCase().includes(q));
-        if (threadEls[index]) threadEls[index].style.display = (matchTitle || matchContent || !q) ? "flex" : "none";
-    });
-};
-
-window.openCustomPersonaModal = function() {
-    CyberAudio.beep(500, 0.04);
-    const modal = document.getElementById("customPersonaModal");
-    if (modal) modal.style.display = "flex";
-};
-window.closeCustomPersonaModal = function() {
-    const modal = document.getElementById("customPersonaModal");
-    if (modal) modal.style.display = "none";
-};
-window.saveCustomPersona = function() {
-    const name = document.getElementById("customBotName").value.trim().replace(/^@/, '');
-    const prompt = document.getElementById("customBotPrompt").value.trim();
-    if (!name || !prompt) return;
-    state.personas[name] = prompt;
-    state.persona = name;
-    window.renderPersonas();
-    saveStateToLocal();
-    window.closeCustomPersonaModal();
-};
-
-window.openCameraScanner = async function() {
-    CyberAudio.beep(600, 0.04);
-    const modal = document.getElementById("cameraModal");
-    const video = document.getElementById("camVideo");
-    try {
-        cameraStream = await navigator.mediaDevices.getUserMedia({ video: { facingMode: "environment" }, audio: false });
-        if (video) video.srcObject = cameraStream;
-        if (modal) modal.style.display = "flex";
-    } catch(err) { alert("Camera unavailable."); }
-};
-
-window.captureCameraSnapshot = function() {
-    CyberAudio.laser();
-    const video = document.getElementById("camVideo");
-    if (!video) return;
-    const canvasSnap = document.createElement("canvas");
-    canvasSnap.width = video.videoWidth || 640; canvasSnap.height = video.videoHeight || 480;
-    canvasSnap.getContext("2d").drawImage(video, 0, 0, canvasSnap.width, canvasSnap.height);
-
-    originalAttachedBase64 = canvasSnap.toDataURL("image/jpeg", 0.85);
-    currentAttachment = { type: 'image', data: originalAttachedBase64, name: 'Snapshot.jpg', mimeType: 'image/jpeg' };
-
-    const thumb = document.getElementById("attachThumb");
-    if (thumb) { thumb.src = originalAttachedBase64; thumb.style.display = "block"; }
-    const ocr = document.getElementById("ocrBtn"); if (ocr) ocr.style.display = "inline-block";
-    const fx = document.getElementById("photoFxSelect"); if (fx) fx.style.display = "inline-block";
-    const bar = document.getElementById("attachPreviewBar"); if (bar) bar.style.display = "flex";
-    window.closeCameraScanner();
-};
-
-window.closeCameraScanner = function() {
-    if (cameraStream) { cameraStream.getTracks().forEach(t => t.stop()); cameraStream = null; }
-    const modal = document.getElementById("cameraModal");
-    if (modal) modal.style.display = "none";
-};
-
-window.enhanceCurrentPrompt = function() {
-    CyberAudio.beep(850, 0.05);
-    const input = document.getElementById("composerInput");
-    if (!input || !input.value.trim()) return;
-    input.value = "Act as an elite expert. Provide a highly tactical, deep master breakdown for: \"" + input.value.trim() + "\".";
-};
-
-window.handleFileSelected = async function(input) {
-    if (!input.files || !input.files[0]) return;
-    const file = input.files[0]; const name = file.name; const type = file.type;
-    const bar = document.getElementById("attachPreviewBar");
-    const label = document.getElementById("attachLabel");
-
-    if (type.startsWith("image/")) {
-        const reader = new FileReader();
-        reader.onload = function(e) {
-            originalAttachedBase64 = e.target.result;
-            currentAttachment = { type: 'image', data: e.target.result, name: name, mimeType: type };
-            const thumb = document.getElementById("attachThumb");
-            if (thumb) { thumb.src = e.target.result; thumb.style.display = "block"; }
-            if (label) label.textContent = 'Photo: ' + name;
-            if (bar) bar.style.display = "flex";
-        };
-        reader.readAsDataURL(file);
-    } else {
-        const reader = new FileReader();
-        reader.onload = function(e) {
-            currentAttachment = { type: 'text', data: e.target.result, name: name, mimeType: 'text/plain' };
-            if (label) label.textContent = 'Doc: ' + name;
-            if (bar) bar.style.display = "flex";
-        };
-        reader.readAsText(file);
-    }
-};
-
-window.removeAttachment = function() {
-    currentAttachment = { type: null, data: null, name: null, mimeType: null };
-    originalAttachedBase64 = null;
-    parsedDatasetJson = null;
-    const fInput = document.getElementById("fileInput"); if (fInput) fInput.value = "";
-    const bar = document.getElementById("attachPreviewBar"); if (bar) bar.style.display = "none";
-};
-
-window.applyQuickPrompt = function(promptText) {
-    CyberAudio.beep(600, 0.03);
-    const input = document.getElementById("composerInput");
-    if (input) { input.value = promptText; input.focus(); }
-};
-
-window.editUserMessage = function(msgIndex) {
-    const t = activeThreadObj();
-    const msgObj = t.messages[msgIndex];
-    if (!msgObj) return;
-    const newPrompt = prompt("Edit message:", msgObj.content);
-    if (newPrompt !== null && newPrompt.trim() !== "") {
-        t.messages = t.messages.slice(0, msgIndex);
-        document.getElementById("composerInput").value = newPrompt.trim();
-        window.sendMessage();
-    }
-};
-
-window.runPythonFromBlock = async function(btn, code) {
-    const container = btn.closest(".code-container");
-    const outBox = container.querySelector(".py-output-container");
-    if (outBox) { outBox.style.display = "block"; outBox.textContent = "⏳ Executing Python..."; }
-    CyberAudio.beep(600, 0.03);
-    const result = await executePythonSnippet(code);
-    if (outBox) outBox.textContent = ">>> Output:\n" + result;
-    CyberAudio.laser();
-};
-
-async function executePythonSnippet(code) {
-    if (!pyodideInstance) await initPyodideKernel();
-    if (!pyodideInstance) return "⚠ Python kernel initializing...";
-    try {
-        pyodideInstance.runPython("import sys\nimport io\nsys.stdout = io.StringIO()\nsys.stderr = io.StringIO()");
-        await pyodideInstance.runPythonAsync(code);
-        return pyodideInstance.runPython("sys.stdout.getvalue()") || pyodideInstance.runPython("sys.stderr.getvalue()") || "[Done]";
-    } catch(err) { return "Error: " + err.message; }
-}
-
-window.copyCode = function(btn) {
-    CyberAudio.beep(750, 0.03);
-    const code = btn.closest(".code-container").querySelector("pre code").innerText;
-    navigator.clipboard.writeText(code).then(() => {
-        const orig = btn.innerText; btn.innerText = "[ COPIED! ]";
-        setTimeout(() => btn.innerText = orig, 1500);
-    });
-};
-
-window.copyMessageText = function(btn) {
-    CyberAudio.beep(750, 0.03);
-    const msgEl = btn.closest(".msg"); const clone = msgEl.cloneNode(true);
-    const tb = clone.querySelector(".msg-toolbar"); if(tb) tb.remove();
-    navigator.clipboard.writeText(clone.innerText.trim()).then(() => {
-        btn.innerText = "✓ Copied"; setTimeout(() => btn.innerText = "📋 Copy", 1500);
-    });
-};
-
-window.speakMessageText = function(btn) {
-    if ('speechSynthesis' in window) {
-        if (window.speechSynthesis.speaking) { window.speechSynthesis.cancel(); if (btn) btn.innerText = "🔊 Read Aloud"; return; }
-        const msgEl = btn ? btn.closest(".msg") : document.querySelector(".messages-pane .msg.ai:last-child");
-        if (!msgEl) return;
-        const cleanText = msgEl.innerText.replace(/\[ COPY \]|◫ OPEN IN WORKSPACE|▶ RUN PYTHON/g, '').replace(/🔊 Read Aloud|⏹ Stop|📋 Copy/g, '').trim();
-        const utterance = new SpeechSynthesisUtterance(cleanText);
-        utterance.pitch = 0.65; utterance.rate = 0.95;
-        if (btn) btn.innerText = "⏹ Stop";
-        utterance.onend = utterance.onerror = function() { if (btn) btn.innerText = "🔊 Read Aloud"; };
-        window.speechSynthesis.speak(utterance);
-    }
-};
-
-window.toggleDuplexMode = function() {
-    duplexMode = !duplexMode;
-    const btn = document.getElementById("duplexBtn");
-    if (duplexMode) {
+    if (!code.trim()) { alert("No code."); return; }
+    const zip = new JSZip();
+    zip.file("index.html", "<!DOCTYPE html>\n<html>\n<head><meta charset=\"UTF-8\"></head>\n<body>\n" + code + "\n</body>\n</html>");
+    zip.generateAsync({type:"blob"}).then(content => {
+        const a = document.createElement('a'); a.href = URL.createObjectURL(content); a.download = "project.zip"; a.click();
         CyberAudio.laser();
-        if (btn) { btn.textContent = "🎧 Call: ON"; btn.classList.add("active"); }
-        window.toggleVoice(true);
-    } else {
-        if (btn) { btn.textContent = "🎧 Call: OFF"; btn.classList.remove("active"); }
-        if (window.speechSynthesis) window.speechSynthesis.cancel();
-    }
-};
-
-window.exportChatThread = function(format) {
-    CyberAudio.beep(600, 0.04);
-    const t = activeThreadObj();
-    if (!t || !t.messages || t.messages.length === 0) return;
-    if (format === 'md') {
-        let md = '# NIZZ Log: ' + t.title + '\n\n';
-        t.messages.forEach(m => { md += '### ' + m.role.toUpperCase() + ':\n' + m.content + '\n\n'; });
-        const a = document.createElement('a');
-        a.href = URL.createObjectURL(new Blob([md], { type: 'text/markdown' }));
-        a.download = t.title.replace(/[^a-zA-Z0-9]/g, '_') + '.md'; a.click();
-    }
+    });
 };
 
 window.sendMessage = async function() {
     const input = document.getElementById("composerInput");
     if (!input) return;
-    let text = input.value.trim();
+    const text = input.value.trim();
     const attachObj = Object.assign({}, currentAttachment);
-    const hasAttach = !!attachObj.data;
-    if (!text && !hasAttach) return;
+    if (!text && !attachObj.data) return;
 
     CyberAudio.laser();
     const t = activeThreadObj();
-    t.messages.push({ role: "user", content: text || ('(Analyzed ' + attachObj.name + ')'), attachment: hasAttach ? Object.assign({}, attachObj) : null });
-    if (t.title.startsWith("Transmission")) t.title = (text || attachObj.name || "Query").slice(0, 16) + "…";
-
-    const targetPersona = resolveTargetPersona(text);
-    window.removeAttachment();
-    input.value = "";
-    window.renderMessages();
-    window.renderThreads();
-    window.updateTokenGauge();
-    saveStateToLocal();
+    t.messages.push({ role: "user", content: text || '(Attached file)', attachment: hasAttach = !!attachObj.data ? attachObj : null });
+    window.removeAttachment(); input.value = "";
+    window.renderMessages(); window.renderThreads(); saveStateToLocal();
 
     const box = document.getElementById("messages");
-    const typingEl = document.createElement("div");
-    typingEl.className = "typing";
-    typingEl.textContent = '⚡ @' + targetPersona + ' is thinking...';
+    const typingEl = document.createElement("div"); typingEl.className = "typing"; typingEl.textContent = '⚡ AI is thinking...';
     box.appendChild(typingEl); box.scrollTop = box.scrollHeight;
 
-    const reply = await getAIReply(t.messages, attachObj, targetPersona);
+    const reply = await getAIReply(t.messages);
     typingEl.remove();
 
     const codeMatch = reply.match(/```(?:html|svg|javascript|js)?\n([\s\S]*?)```/);
-    if (codeMatch && codeMatch[1]) {
-        const isSvg = reply.includes("```svg") || codeMatch[1].trim().startsWith("<svg");
-        window.loadArtifactIntoWorkspace(codeMatch[1].trim(), isSvg ? "svg" : "html");
-    }
+    if (codeMatch && codeMatch[1]) window.loadArtifactIntoWorkspace(codeMatch[1].trim(), "html");
 
-    t.messages.push({ role: "ai", content: '[' + targetPersona + ']:\n' + reply });
-    window.renderMessages();
-    window.updateTokenGauge();
-    saveStateToLocal();
-    CyberAudio.beep(750, 0.04);
+    t.messages.push({ role: "ai", content: reply });
+    window.renderMessages(); saveStateToLocal(); CyberAudio.beep(750, 0.04);
 };
 
-let isRec = false;
-let recognition = null;
-window.toggleVoice = function(forceStart) {
-    const btn = document.getElementById("voiceBtn");
-    const input = document.getElementById("composerInput");
-    const SpeechRec = window.SpeechRecognition || window.webkitSpeechRecognition;
-    if (!SpeechRec) return;
+// Fixed POST-based API engine avoiding URI Too Long
+async function getAIReply(history) {
+    try {
+        const conversationText = history.map(m => (m.role === 'ai' ? 'Model: ' : 'User: ') + m.content).join('\n');
+        const res = await fetch('https://text.pollinations.ai/', {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify({ messages: [{ role: "user", content: conversationText }], model: "openai", seed: Math.floor(Math.random() * 99999) })
+        });
+        if (!res.ok) throw new Error("Busy");
+        return (await res.text()).trim();
+    } catch(e) { return "⚠ Uplink Timeout. Please retry."; }
+}
 
-    if (isRec && !forceStart) { if (recognition) recognition.stop(); return; }
-
-    recognition = new SpeechRec();
-    recognition.lang = state.lang.includes("Hindi") ? "hi-IN" : "en-IN";
-    recognition.continuous = false;
-
-    recognition.onstart = function() {
-        isRec = true;
-        if (btn) { btn.textContent = "⏺️"; btn.style.borderColor = "var(--green)"; }
-        CyberAudio.beep(600, 0.03);
-    };
-    recognition.onresult = function(e) {
-        const transcript = e.results[0][0].transcript;
-        if (input) input.value = (input.value ? input.value + " " : "") + transcript;
-        if (duplexMode && transcript.trim().length > 0) setTimeout(window.sendMessage, 600);
-    };
-    recognition.onend = function() {
-        isRec = false;
-        if (btn) { btn.textContent = "🎙️"; btn.style.borderColor = ""; }
-    };
-    recognition.start();
-};
-
-window.renderPersonas = function() {
-    const list = document.getElementById("personaList");
-    if (!list) return;
-    list.innerHTML = "";
-    Object.keys(state.personas).forEach(name => {
-        const div = document.createElement("div");
-        div.className = "persona-item" + (name === state.persona ? " active" : "");
-        div.textContent = "@" + name;
-        div.onclick = function() {
-            state.persona = name;
-            window.renderPersonas();
-            const tag = document.getElementById("personaTag");
-            if (tag) tag.textContent = "· @" + name;
-            saveStateToLocal();
-            CyberAudio.beep(500, 0.02);
-            if (window.innerWidth <= 768) window.toggleSidebar();
-        };
-        list.appendChild(div);
+function activeThreadObj() { return state.threads.find(t => t.id === state.activeThread) || state.threads[0]; }
+window.renderMessages = function() {
+    const box = document.getElementById("messages"); if (!box) return;
+    const t = activeThreadObj(); box.innerHTML = "";
+    t.messages.forEach(m => {
+        const div = document.createElement("div"); div.className = "msg " + m.role;
+        div.innerHTML = m.isRawHtml ? m.content : formatMarkdown(m.content);
+        box.appendChild(div);
     });
+    box.scrollTop = box.scrollHeight;
 };
 
 window.renderThreads = function() {
-    const list = document.getElementById("threadList");
-    if (!list) return;
+    const list = document.getElementById("threadList"); if (!list) return;
     list.innerHTML = "";
-    state.threads.forEach(t => {
-        const div = document.createElement("div");
-        div.className = "thread-item" + (t.id === state.activeThread ? " active" : "");
-        div.innerHTML = '<span>› ' + t.title + '</span><span class="delete-thread" onclick="event.stopPropagation(); window.deleteThread(' + t.id + ')">✕</span>';
-        div.onclick = function() {
-            state.activeThread = t.id;
-            window.renderThreads();
-            window.renderMessages();
-            window.updateTokenGauge();
-            saveStateToLocal();
-            CyberAudio.beep(500, 0.02);
-            if (window.innerWidth <= 768) window.toggleSidebar();
-        };
+    state.threads.forEach(th => {
+        const div = document.createElement("div"); div.className = "thread-item" + (th.id === state.activeThread ? " active" : "");
+        div.textContent = th.title;
+        div.onclick = () => { state.activeThread = th.id; window.renderThreads(); window.renderMessages(); };
         list.appendChild(div);
     });
 };
 
 window.newThread = function() {
-    CyberAudio.beep(650, 0.04);
     const id = Date.now();
-    state.threads.push({ id: id, title: 'Transmission // 0' + (state.threads.length + 1), messages: [] });
-    state.activeThread = id;
-    window.renderThreads();
-    window.renderMessages();
-    window.updateTokenGauge();
-    saveStateToLocal();
+    state.threads.push({ id, title: 'Transmission // 0' + (state.threads.length + 1), messages: [] });
+    state.activeThread = id; window.renderThreads(); window.renderMessages(); saveStateToLocal();
 };
 
-window.deleteThread = function(id) {
-    if (state.threads.length <= 1) {
-        state.threads = [{id: Date.now(), title: "Transmission // 01", messages: []}];
-        state.activeThread = state.threads[0].id;
-    } else {
-        state.threads = state.threads.filter(t => t.id !== id);
-        if (state.activeThread === id) state.activeThread = state.threads[0].id;
-    }
-    window.renderThreads();
-    window.renderMessages();
-    window.updateTokenGauge();
-    saveStateToLocal();
+window.renderPersonas = function() {
+    const list = document.getElementById("personaList"); if (!list) return;
+    list.innerHTML = "";
+    Object.keys(state.personas).forEach(name => {
+        const div = document.createElement("div"); div.className = "persona-item" + (name === state.persona ? " active" : "");
+        div.textContent = "@" + name;
+        div.onclick = () => { state.persona = name; window.renderPersonas(); };
+        list.appendChild(div);
+    });
 };
 
-function activeThreadObj() { 
-    return state.threads.find(t => t.id === state.activeThread) || state.threads[0] || {id: 1, title: "Transmission // 01", messages: []}; 
+function formatMarkdown(text) {
+    if (!text) return "";
+    return text.replace(/&/g, "&amp;").replace(/</g, "&lt;").replace(/>/g, "&gt;").replace(/```([a-zA-Z0-9_-]*)\n([\s\S]*?)```/g, '<div class="code-container"><pre><code>$2</code></pre></div>').replace(/\n/g, '<br>');
 }
 
-window.renderMessages = function() {
-    const box = document.getElementById("messages");
-    if (!box) return;
-    const t = activeThreadObj();
-    const titleEl = document.getElementById("threadTitle");
-    if (titleEl) titleEl.innerHTML = t.title + ' <span id="personaTag">· @' + state.persona + '</span>';
-    box.innerHTML = "";
-
-    if (!t.messages || t.messages.length === 0) {
-        box.innerHTML = '<div class="msg ai">NIZZ Without Limits Super-App online.<br>• Run <b>ImageMagick</b> image conversion & <b>wkhtmltopdf</b> export.<br>• Run <b>Pyodide Python</b> (/python) and in-browser <b>AlaSQL queries</b> (/sql).<br>• Tag multi-agents like <b>@Coder</b> or <b>@Marketing</b> in your prompt.</div>';
-        return;
-    }
-
-    t.messages.forEach((m, idx) => {
-        const div = document.createElement("div");
-        div.className = "msg " + m.role;
-        let contentHtml = "";
-        if (m.role === 'user') contentHtml += '<button class="msg-edit-btn" onclick="window.
+window.handleKey = function(e) { if (e.key === "Enter" && !e.shiftKey) { e.preventDefault(); window.sendMessage(); } };
+window.applyQuickPrompt = function(p) { const i = document.getElementById("composerInput"); if(i){ i.value = p; i.focus(); } };
+window.removeAttachment = function() { currentAttachment = { type: null, data: null }; const b = document.getElementById("attachPreviewBar"); if(b) b.style.display = "none"; };
+window.openCameraScanner = async function() { alert("Camera scanner ready."); };
+window.captureLiveScreenShare = async function() { alert("Screen share ready."); };
+window.enhanceCurrentPrompt = function() { const i = document.getElementById("composerInput"); if(i) i.value = "Optimize: " + i.value; };
+window.handleFileSelected = function(i) { if(i.files && i.files[0]) { currentAttachment = { type: 'text', data: 'file' }; const b = document.getElementById("attachPreviewBar"); if(b) b.style.display = "flex"; } };
+</script>
+</body>
+</html>

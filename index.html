@@ -4,42 +4,21 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
 <meta name="theme-color" content="#020604">
-<meta name="apple-mobile-web-app-capable" content="yes">
-<meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
-<meta name="mobile-web-app-capable" content="yes">
-<title>NIZZ // Ultimate Quantum Super-App</title>
+<title>NIZZ // WITHOUT LIMITS [Quantum Super-App]</title>
 
-<!-- PDF.js for Document Reading -->
+<!-- External Frameworks -->
 <script src="https://cdnjs.cloudflare.com/ajax/libs/pdf.js/3.11.174/pdf.min.js"></script>
-
-<!-- html2pdf.js (Client-Side wkhtmltopdf Engine) -->
 <script src="https://cdnjs.cloudflare.com/ajax/libs/html2pdf.js/0.10.1/html2pdf.bundle.min.js"></script>
-
-<!-- KaTeX for LaTeX Math & Science -->
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/KaTeX/0.16.9/katex.min.css">
 <script src="https://cdnjs.cloudflare.com/ajax/libs/KaTeX/0.16.9/katex.min.js"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/KaTeX/0.16.9/contrib/auto-render.min.js"></script>
-
-<!-- Chart.js for Data Visualizations -->
 <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/4.4.1/chart.umd.min.js"></script>
-
-<!-- Mermaid.js for Flowcharts & Diagrams -->
 <script src="https://cdnjs.cloudflare.com/ajax/libs/mermaid/10.9.0/mermaid.min.js"></script>
-
-<!-- Three.js for 3D Cyber Knowledge Graph -->
 <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
-
-<!-- Tesseract.js for Client-Side OCR -->
 <script src="https://cdnjs.cloudflare.com/ajax/libs/tesseract.js/4.1.1/tesseract.min.js"></script>
-
-<!-- AlaSQL + SheetJS for In-Browser SQL & Spreadsheets -->
 <script src="https://cdnjs.cloudflare.com/ajax/libs/xlsx/0.18.5/xlsx.full.min.js"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/alasql/4.1.7/alasql.min.js"></script>
-
-<!-- JSZip for 1-Click Multi-File Project Bundling -->
 <script src="https://cdnjs.cloudflare.com/ajax/libs/jszip/3.10.1/jszip.min.js"></script>
-
-<!-- Pyodide WebAssembly for In-Browser Python Data Science Kernel -->
 <script src="https://cdn.jsdelivr.net/pyodide/v0.25.0/full/pyodide.js"></script>
 
 <style>
@@ -172,91 +151,6 @@ html,body{
     animation:pulse 1.8s infinite;
 }
 @keyframes pulse{0%,100%{opacity:1} 50%{opacity:.25}}
-
-/* Auth Screen */
-#authScreen{
-    position:fixed;
-    inset:0;
-    z-index:100;
-    display:flex;
-    justify-content:center;
-    align-items:center;
-    padding:20px;
-    background:radial-gradient(circle at 50% 50%, var(--green-dim), transparent 45%), var(--dark);
-}
-
-.login-panel{
-    position:relative;
-    width:min(430px,100%);
-    padding:38px 32px 30px;
-    background:var(--panel);
-    border:1px solid var(--panel-border);
-    border-radius:20px;
-    backdrop-filter:blur(var(--glass-blur));
-    box-shadow:0 0 25px rgba(0,255,136,0.15);
-}
-
-.corner{
-    position:absolute;
-    width:18px;
-    height:18px;
-    border-color:var(--green);
-    border-style:solid;
-    opacity:.75;
-}
-.corner.tl{top:-1px; left:-1px; border-width:2px 0 0 2px;}
-.corner.tr{top:-1px; right:-1px; border-width:2px 2px 0 0;}
-.corner.bl{bottom:-1px; left:-1px; border-width:0 0 2px 2px;}
-.corner.br{bottom:-1px; right:-1px; border-width:0 2px 2px 0;}
-
-.logo{
-    width:62px;
-    height:62px;
-    margin:0 auto 16px;
-    display:flex;
-    justify-content:center;
-    align-items:center;
-    border:1px solid var(--panel-border);
-    border-radius:14px;
-    background:var(--green-dim);
-    box-shadow:0 0 15px var(--green-dim);
-}
-.logo span{font-size:26px; font-weight:bold; color:var(--green); text-shadow:0 0 8px var(--green);}
-.header{text-align:center; margin-bottom:18px;}
-.header .tag{color:var(--green); font-size:9px; letter-spacing:3px; margin-bottom:6px;}
-.header h1{font-size:24px; letter-spacing:4px; font-weight:bold; text-shadow:0 0 8px var(--green-dim);}
-.header p{color:var(--muted); font-size:11px; margin-top:4px;}
-
-.field{margin-bottom:16px;}
-.field label{display:block; margin-bottom:6px; color:var(--muted); font-size:10px; letter-spacing:2px;}
-.input-box{position:relative;}
-.input-icon{position:absolute; left:14px; top:50%; transform:translateY(-50%); color:var(--green); font-size:13px;}
-.input-box input{
-    width:100%; height:46px; padding:0 44px; border-radius:9px;
-    border:1px solid var(--panel-border); outline:none; color:var(--text);
-    background:rgba(0,0,0,0.5); font-family:inherit; font-size:13px;
-}
-.input-box input:focus{border-color:var(--green); box-shadow:0 0 15px var(--green-dim);}
-.password-toggle{position:absolute; right:14px; top:50%; transform:translateY(-50%); color:var(--muted); cursor:pointer; font-size:10px;}
-
-.autofill-hint{
-    text-align:right; font-size:10px; color:var(--green); cursor:pointer; margin-top:4px; text-decoration:underline;
-}
-
-.login-button{
-    width:100%; height:48px; border:1px solid var(--green); border-radius:9px;
-    background:linear-gradient(90deg, var(--green-dim), transparent);
-    color:var(--green); font-family:inherit; font-size:11.5px; font-weight:bold;
-    letter-spacing:2.5px; cursor:pointer; margin-top:8px; transition:.25s;
-}
-.login-button:hover{color:#001c0e; background:var(--green); box-shadow:0 0 20px var(--green);}
-.guest-button{
-    width:100%; height:38px; border:1px dashed var(--panel-border); border-radius:9px;
-    background:transparent; color:var(--muted); font-family:inherit; font-size:10.5px;
-    letter-spacing:1px; cursor:pointer; margin-top:10px;
-}
-.status{min-height:16px; margin-top:10px; text-align:center; font-size:10.5px;}
-.status.error{color:var(--danger);} .status.success{color:var(--green);}
 
 /* Main App Layout */
 .app{display:flex; height:100%; width:100%; position:relative; z-index:5;}
@@ -542,23 +436,6 @@ pre code{
     background:var(--panel); border:1px solid var(--danger); color:var(--danger);
     padding:8px 14px; border-radius:8px; font-family:inherit; cursor:pointer; font-weight:bold;
 }
-
-/* Paywall */
-#paywall{position:fixed; inset:0; background:rgba(0,0,0,0.88); display:none; align-items:center; justify-content:center; z-index:200; padding:16px;}
-.paywall-card{width:min(330px, 100%); background:var(--panel); border:1px solid var(--green); border-radius:16px; padding:22px; text-align:center;}
-.paywall-card h3{color:var(--green); margin-bottom:8px; font-size:15px;}
-.paywall-card p{color:var(--muted); font-size:12px; margin-bottom:14px;}
-.close-modal{margin-top:10px; font-size:10.5px; color:var(--muted); cursor:pointer;}
-
-@media(max-width: 900px){
-    .artifact-split-pane{position:absolute; inset:0; width:100%; z-index:50;}
-}
-@media(max-width: 768px){
-    .menu-btn{display:block;}
-    .sidebar{position:fixed; left:0; top:0; bottom:0; transform:translateX(-100%); width:280px;}
-    .sidebar.open{transform:translateX(0); box-shadow:4px 0 25px rgba(0,0,0,0.9);}
-    .backdrop.active{display:block;}
-}
 </style>
 </head>
 
@@ -570,10 +447,9 @@ pre code{
 <div class="glow a"></div>
 <div class="glow b"></div>
 
-<div class="top-status"><span class="status-dot"></span> GEMINI 1.5 // IMAGEMAGICK + WKHTMLTOPDF + PYTHON + SQL ONLINE</div>
+<div class="top-status"><span class="status-dot"></span> NIZZ // QUANTUM WITHOUT LIMITS [ACTIVE]</div>
 
-<!-- CHAT APP (Direct Access Without Login) -->
-<div class="app" id="appRoot" style="display:flex;">
+<div class="app" id="appRoot">
     <div class="backdrop" id="backdrop" onclick="toggleSidebar()"></div>
 
     <div class="sidebar" id="sidebar">
@@ -603,9 +479,9 @@ pre code{
 
         <div class="sb-label">Meta Voice Modulator</div>
         <select id="voiceModSelect" onchange="setVoiceMod(this.value)">
-            <option value="boss">🎙️ Deep Mafia Boss (Low & Resonant)</option>
-            <option value="tactical">⚡ Tactical Agent (Fast & Sharp)</option>
-            <option value="cyber">🤖 Cyber AI (Standard Neutral)</option>
+            <option value="boss">🎙️ Deep Mafia Boss</option>
+            <option value="tactical">⚡ Tactical Agent</option>
+            <option value="cyber">🤖 Cyber AI</option>
         </select>
 
         <div class="sb-label">HUD Theme</div>
@@ -661,9 +537,9 @@ pre code{
                 <button class="split-toggle-btn" id="splitViewBtn" onclick="toggleSplitPane()">◫ Workspace</button>
                 <button class="mindmap-toggle-btn" onclick="open3DKnowledgeGraph()">🌐 3D Map</button>
                 <button class="duplex-toggle-btn" id="duplexBtn" onclick="toggleDuplexMode()">🎧 Call: OFF</button>
-                <button class="export-btn" title="wkhtmltopdf High-Fidelity PDF Engine" onclick="exportChatViaWkhtmltopdf()">⤓ wkhtmltopdf</button>
+                <button class="export-btn" title="wkhtmltopdf PDF Engine" onclick="exportChatViaWkhtmltopdf()">⤓ wkhtmltopdf</button>
                 <button class="export-btn" onclick="exportChatThread('md')">⤓ MD</button>
-                <div class="quota-pill unlocked" id="quotaPill">Unlimited ✓</div>
+                <div class="quota-pill" id="quotaPill">Unlimited ✓</div>
             </div>
         </div>
 
@@ -678,9 +554,8 @@ pre code{
                     </div>
                     <div class="version-pills-box" id="artifactVersionBox"></div>
                     <div style="display:flex; gap:6px;">
-                        <button class="action-chip-btn" title="Render HTML Artifact as PDF" onclick="exportArtifactViaWkhtmltopdf()">⤓ PDF (wkhtmltopdf)</button>
-                        <button class="action-chip-btn" id="zipExportBtn" onclick="exportArtifactAsProjectZip()">📦 ZIP Project</button>
-                        <button class="action-chip-btn" id="svgExportBtn" style="display:none;" onclick="exportCurrentSVG()">⤓ PNG</button>
+                        <button class="action-chip-btn" onclick="exportArtifactViaWkhtmltopdf()">⤓ PDF</button>
+                        <button class="action-chip-btn" onclick="exportArtifactAsProjectZip()">📦 ZIP</button>
                         <button class="action-chip-btn" onclick="toggleSplitPane()">✕ Close</button>
                     </div>
                 </div>
@@ -691,1306 +566,251 @@ pre code{
             </div>
         </div>
 
-        <!-- Quick Action Prompt Chips -->
         <div class="prompt-chips-bar">
             <div class="prompt-chip" onclick="applyQuickPrompt('/python import math\nprint([math.sqrt(x) for x in range(1, 10)])')">🐍 Run Python</div>
             <div class="prompt-chip" onclick="applyQuickPrompt('/sql SELECT * FROM dataset ORDER BY revenue DESC LIMIT 5;')">💾 Run SQL</div>
             <div class="prompt-chip" onclick="applyQuickPrompt('@Coder build an interactive full-screen cyber space game in HTML/JS')">🤖 @Coder App</div>
-            <div class="prompt-chip" onclick="applyQuickPrompt('@Marketing create a 30-day viral lead generation roadmap with Chart.js projections')">📈 @Marketing Strategy</div>
-            <div class="prompt-chip" onclick="applyQuickPrompt('/image cinematic mafia don in dark rainy neon street 8k photorealistic')">🎨 4K Mafia Art</div>
-            <div class="prompt-chip" onclick="applyQuickPrompt('Derive relativistic quantum equations with LaTeX syntax:')">📐 LaTeX Math</div>
+            <div class="prompt-chip" onclick="applyQuickPrompt('@Marketing create a 30-day viral lead generation roadmap')">📈 @Marketing Strategy</div>
+            <div class="prompt-chip" onclick="applyQuickPrompt('/image cinematic mafia don in dark rainy neon street 8k')">🎨 4K Mafia Art</div>
         </div>
 
         <div class="composer-area">
-            <div class="waveform-box" id="waveformBox">
-                <canvas id="waveCanvas"></canvas>
-            </div>
+            <div class="waveform-box" id="waveformBox"><canvas id="waveCanvas"></canvas></div>
 
-            <!-- Attachment Bar -->
             <div class="attach-preview-bar" id="attachPreviewBar">
                 <img id="attachThumb" class="attach-thumb" src="" style="display:none;" alt="attachment">
-                <span id="attachDocIcon" class="attach-doc-icon" style="display:none;">📄</span>
-                <span id="attachAudioIcon" class="attach-doc-icon" style="display:none;">🎵</span>
                 <span id="attachLabel" style="font-size:11px; color:var(--green);">File attached</span>
-                
-                <select class="photo-fx-select" id="photoFxSelect" style="display:none;" onchange="applyCyberPhotoFX(this.value)">
-                    <option value="none">🎨 Filter: Original</option>
-                    <option value="cyberpunk">🌸 Cyberpunk Neon</option>
-                    <option value="matrix">🟢 Matrix Scanline</option>
-                    <option value="noir">🕶️ Dark Mafia Noir</option>
-                </select>
-
-                <button class="ocr-extract-btn" id="ocrBtn" style="display:none;" onclick="extractTextFromAttachedImage()">🔍 OCR TEXT</button>
-                <button class="ocr-extract-btn" id="loadSqlTableBtn" style="display:none;" onclick="loadDatasetIntoSQL()">💾 LOAD TO SQL</button>
                 <button class="remove-attach-btn" onclick="removeAttachment()">✕</button>
             </div>
 
             <div class="composer">
                 <input type="file" id="fileInput" accept="image/*,application/pdf,text/*,audio/*,.csv,.xlsx,.xls,.json" style="display:none;" onchange="handleFileSelected(this)">
-                
-                <div class="icon-btn" title="Upload Photos, PDF, Audio, CSV or Excel" onclick="document.getElementById('fileInput').click()">📎</div>
-                <div class="icon-btn" title="Live Camera Snapshot Scanner" onclick="openCameraScanner()">📷</div>
-                <div class="icon-btn" title="Live Screen Share Debugger (Vision)" onclick="captureLiveScreenShare()">🖥️</div>
-                <div class="icon-btn" id="wandBtn" title="Magic Prompt Enhancer" onclick="enhanceCurrentPrompt()">🪄</div>
-                <div class="icon-btn" id="voiceBtn" title="Voice Input" onclick="toggleVoice()">🎙️</div>
-                <textarea id="composerInput" placeholder="Ask Gemini, /python code, /sql query, attach screen/files or /image..." rows="1" onkeydown="handleKey(event)"></textarea>
+                <div class="icon-btn" onclick="document.getElementById('fileInput').click()">📎</div>
+                <div class="icon-btn" onclick="openCameraScanner()">📷</div>
+                <div class="icon-btn" onclick="captureLiveScreenShare()">🖥️</div>
+                <div class="icon-btn" onclick="enhanceCurrentPrompt()">🪄</div>
+                <div class="icon-btn" id="voiceBtn" onclick="toggleVoice()">🎙️</div>
+                <textarea id="composerInput" placeholder="Ask NIZZ AI, /python, /sql, or /image..." rows="1" onkeydown="handleKey(event)"></textarea>
                 <div class="icon-btn send-btn" onclick="sendMessage()">➤</div>
             </div>
         </div>
     </div>
 </div>
 
-<!-- IN-BROWSER IMAGEMAGICK SUITE MODAL -->
+<!-- MODALS -->
 <div id="imagemagickModal">
     <div class="modal-card-box">
-        <h3 style="color:var(--green); margin-bottom:8px; font-size:14px;">🖼️ IN-BROWSER IMAGEMAGICK SUITE</h3>
-        <p style="font-size:11px; color:var(--muted); margin-bottom:12px;">Convert image formats, resize, compress, rotate and watermark locally without backend.</p>
-        
+        <h3 style="color:var(--green); margin-bottom:8px; font-size:14px;">🖼️ IMAGEMAGICK SUITE</h3>
         <input type="file" id="imFileInput" accept="image/*" onchange="loadMagickImage(this)" style="margin-bottom:12px; font-size:11px; color:var(--text);">
-        
         <div style="display:grid; grid-template-columns:1fr 1fr; gap:8px; margin-bottom:12px;">
-            <div>
-                <label style="font-size:10px; color:var(--muted);">TARGET FORMAT</label>
-                <select id="imFormat" style="width:100%; padding:6px; background:rgba(0,0,0,0.6); color:var(--text); border:1px solid var(--panel-border); border-radius:6px; font-family:inherit; font-size:11px;">
-                    <option value="image/png">PNG (.png)</option>
-                    <option value="image/jpeg">JPEG (.jpg)</option>
-                    <option value="image/webp">WEBP (.webp)</option>
-                </select>
-            </div>
-            <div>
-                <label style="font-size:10px; color:var(--muted);">RESIZE WIDTH (PX)</label>
-                <input type="number" id="imWidth" placeholder="e.g. 1024" style="width:100%; padding:6px; background:rgba(0,0,0,0.6); color:var(--text); border:1px solid var(--panel-border); border-radius:6px; font-family:inherit; font-size:11px;">
-            </div>
+            <select id="imFormat" style="padding:6px; background:#000; color:#fff; border:1px solid var(--panel-border); font-size:11px;"><option value="image/png">PNG</option><option value="image/jpeg">JPEG</option></select>
+            <input type="number" id="imWidth" placeholder="Width px" style="padding:6px; background:#000; color:#fff; border:1px solid var(--panel-border); font-size:11px;">
         </div>
-
-        <div style="display:grid; grid-template-columns:1fr 1fr; gap:8px; margin-bottom:12px;">
-            <div>
-                <label style="font-size:10px; color:var(--muted);">ROTATION</label>
-                <select id="imRotate" style="width:100%; padding:6px; background:rgba(0,0,0,0.6); color:var(--text); border:1px solid var(--panel-border); border-radius:6px; font-family:inherit; font-size:11px;">
-                    <option value="0">0° No Rotation</option>
-                    <option value="90">90° Clockwise</option>
-                    <option value="180">180° Flip</option>
-                    <option value="270">270° Counter</option>
-                </select>
-            </div>
-            <div>
-                <label style="font-size:10px; color:var(--muted);">QUALITY (1-100)</label>
-                <input type="number" id="imQuality" value="90" min="10" max="100" style="width:100%; padding:6px; background:rgba(0,0,0,0.6); color:var(--text); border:1px solid var(--panel-border); border-radius:6px; font-family:inherit; font-size:11px;">
-            </div>
-        </div>
-
         <div class="cam-actions">
-            <button class="cam-btn" onclick="executeImageMagickTransform()">⚡ CONVERT & DOWNLOAD</button>
+            <button class="cam-btn" onclick="executeImageMagickTransform()">CONVERT</button>
             <button class="cam-btn cam-cancel" onclick="closeImageMagickModal()">CLOSE</button>
         </div>
     </div>
 </div>
 
-<!-- IN-BROWSER SQL DATA STUDIO MODAL -->
 <div id="sqlStudioModal">
     <div class="modal-card-box">
-        <h3 style="color:var(--green); margin-bottom:8px; font-size:14px;">💾 IN-BROWSER SQL DATABASE & STUDIO</h3>
-        <p style="font-size:11px; color:var(--muted); margin-bottom:10px;">Run real SQL queries on client-side memory tables without any server.</p>
-        <textarea id="sqlStudioInput" style="width:100%; height:80px; background:rgba(0,0,0,0.6); border:1px solid var(--panel-border); color:var(--text); padding:8px; border-radius:8px; font-family:Consolas, monospace; font-size:12px;">SELECT * FROM dataset LIMIT 10;</textarea>
+        <h3 style="color:var(--green); margin-bottom:8px; font-size:14px;">💾 SQL DATA STUDIO</h3>
+        <textarea id="sqlStudioInput" style="width:100%; height:80px; background:#000; border:1px solid var(--panel-border); color:#fff; padding:8px; font-size:12px;">SELECT * FROM dataset;</textarea>
         <div class="cam-actions" style="margin-top:10px;">
-            <button class="cam-btn" onclick="executeStudioSQL()">⚡ EXECUTE QUERY</button>
+            <button class="cam-btn" onclick="executeStudioSQL()">EXECUTE</button>
             <button class="cam-btn cam-cancel" onclick="closeSQLStudio()">CLOSE</button>
         </div>
-        <div id="sqlStudioOutput" style="margin-top:14px; max-height:220px; overflow:auto;"></div>
+        <div id="sqlStudioOutput" style="margin-top:14px; max-height:180px; overflow:auto;"></div>
     </div>
 </div>
 
-<!-- KNOWLEDGE VAULT MODAL -->
 <div id="vaultModal">
     <div class="modal-card-box">
-        <h3 style="color:var(--green); margin-bottom:10px; font-size:14px;">📚 CLAUDE & META KNOWLEDGE VAULT</h3>
-        <p style="font-size:11px; color:var(--muted); margin-bottom:12px;">Persistent project rules, business data, and reference memory saved here.</p>
-        <textarea id="vaultContextInput" placeholder="Paste custom guidelines, codebase docs, or business metrics here..." style="width:100%; height:120px; background:rgba(0,0,0,0.6); border:1px solid var(--panel-border); color:var(--text); padding:8px; border-radius:8px; font-family:inherit; font-size:11.5px;"></textarea>
+        <h3 style="color:var(--green); margin-bottom:10px; font-size:14px;">📚 KNOWLEDGE VAULT</h3>
+        <textarea id="vaultContextInput" placeholder="System guidelines..." style="width:100%; height:100px; background:#000; border:1px solid var(--panel-border); color:#fff; padding:8px; font-size:11.5px;"></textarea>
         <div class="cam-actions">
-            <button class="cam-btn" onclick="saveKnowledgeVault()">SAVE TO VAULT</button>
+            <button class="cam-btn" onclick="saveKnowledgeVault()">SAVE</button>
             <button class="cam-btn cam-cancel" onclick="closeKnowledgeVault()">CLOSE</button>
         </div>
     </div>
 </div>
 
-<!-- 3D KNOWLEDGE GRAPH MODAL -->
 <div id="mindmapModal">
-    <div class="mindmap-hud">›_ THREE.JS 3D KNOWLEDGE GRAPH // DRAG TO ROTATE</div>
-    <button class="mindmap-close" onclick="close3DKnowledgeGraph()">✕ EXIT 3D SPACE</button>
+    <button class="mindmap-close" onclick="close3DKnowledgeGraph()">✕ EXIT</button>
     <div id="mindmapContainer" style="width:100%; height:100%; position:relative;"></div>
 </div>
 
-<!-- CUSTOM BOT MODAL -->
-<div id="customPersonaModal">
-    <div class="modal-card-box">
-        <h3 style="color:var(--green); margin-bottom:12px; font-size:14px;">›_ BUILD CUSTOM BOT</h3>
-        <div class="field">
-            <label>BOT CALLSIGN / NAME (e.g. Strategist, Hacker, Coach)</label>
-            <div class="input-box">
-                <input type="text" id="customBotName" placeholder="e.g. Strategist">
-            </div>
-        </div>
-        <div class="field">
-            <label>SYSTEM INSTRUCTIONS</label>
-            <div class="input-box">
-                <textarea id="customBotPrompt" placeholder="Define how this agent responds..." style="width:100%; height:80px; background:rgba(0,0,0,0.6); border:1px solid var(--panel-border); color:var(--text); padding:8px; border-radius:8px; font-family:inherit; font-size:12px;"></textarea>
-            </div>
-        </div>
-        <div class="cam-actions">
-            <button class="cam-btn" onclick="saveCustomPersona()">INITIALIZE BOT</button>
-            <button class="cam-btn cam-cancel" onclick="closeCustomPersonaModal()">CANCEL</button>
-        </div>
-    </div>
-</div>
-
-<!-- LIVE CAMERA SCANNER MODAL -->
 <div id="cameraModal">
     <video id="camVideo" autoplay playsinline></video>
     <div class="cam-actions">
-        <button class="cam-btn" onclick="captureCameraSnapshot()">📸 CAPTURE SNAPSHOT</button>
+        <button class="cam-btn" onclick="captureCameraSnapshot()">CAPTURE</button>
         <button class="cam-btn cam-cancel" onclick="closeCameraScanner()">CANCEL</button>
     </div>
 </div>
 
-<!-- PAYWALL -->
-<div id="paywall">
-    <div class="paywall-card">
-        <h3>QUOTA LIMIT REACHED</h3>
-        <p>Aapka 20-message guest access complete ho chuka hai. Unlimited access ke liye login karein.</p>
-        <button class="login-button" onclick="logout(); document.getElementById('paywall').style.display='none';">SIGN IN AS OWNER</button>
-        <div class="close-modal" onclick="document.getElementById('paywall').style.display='none'">[ DISMISS ]</div>
-    </div>
-</div>
-
 <script>
-// ================= AUDIO SYNTHESIZER =================
 const CyberAudio = {
     ctx: null,
-    init() { 
-        if (!this.ctx) {
-            const AudioContextClass = window.AudioContext || window.webkitAudioContext;
-            if (AudioContextClass) this.ctx = new AudioContextClass();
-        } 
+    init() { if (!this.ctx) this.ctx = new (window.AudioContext || window.webkitAudioContext)(); },
+    beep(freq=880, dur=0.05) {
+        try { this.init(); const o = this.ctx.createOscillator(), g = this.ctx.createGain(); o.frequency.value = freq; g.gain.setValueAtTime(0.05, this.ctx.currentTime); g.gain.exponentialRampToValueAtTime(0.001, this.ctx.currentTime + dur); o.connect(g); g.connect(this.ctx.destination); o.start(); o.stop(this.ctx.currentTime + dur); } catch(e){}
     },
-    beep(freq = 880, duration = 0.05, type = 'sine') {
-        try {
-            this.init();
-            if (!this.ctx) return;
-            const osc = this.ctx.createOscillator();
-            const gain = this.ctx.createGain();
-            osc.type = type;
-            osc.frequency.setValueAtTime(freq, this.ctx.currentTime);
-            gain.gain.setValueAtTime(0.08, this.ctx.currentTime);
-            gain.gain.exponentialRampToValueAtTime(0.001, this.ctx.currentTime + duration);
-            osc.connect(gain);
-            gain.connect(this.ctx.destination);
-            osc.start();
-            osc.stop(this.ctx.currentTime + duration);
-        } catch(e){}
-    },
-    laser() {
-        try {
-            this.init();
-            if (!this.ctx) return;
-            const osc = this.ctx.createOscillator();
-            const gain = this.ctx.createGain();
-            osc.type = 'sawtooth';
-            osc.frequency.setValueAtTime(900, this.ctx.currentTime);
-            osc.frequency.exponentialRampToValueAtTime(100, this.ctx.currentTime + 0.15);
-            gain.gain.setValueAtTime(0.12, this.ctx.currentTime);
-            gain.gain.linearRampToValueAtTime(0.001, this.ctx.currentTime + 0.15);
-            osc.connect(gain);
-            gain.connect(this.ctx.destination);
-            osc.start();
-            osc.stop(this.ctx.currentTime + 0.15);
-        } catch(e){}
-    }
+    laser() { this.beep(900, 0.1); }
 };
 
-// ================= PYODIDE WASM INITIALIZER =================
 let pyodideInstance = null;
-let pyodideLoading = false;
 async function initPyodideKernel() {
-    if (pyodideInstance || pyodideLoading || typeof loadPyodide === 'undefined') return;
-    pyodideLoading = true;
-    try {
-        pyodideInstance = await loadPyodide();
-        console.log("✓ Pyodide WebAssembly Python Kernel loaded into memory.");
-    } catch(err) {
-        console.warn("Pyodide loading notice:", err);
-    } finally {
-        pyodideLoading = false;
-    }
+    if (pyodideInstance || typeof loadPyodide === 'undefined') return;
+    try { pyodideInstance = await loadPyodide(); } catch(e){}
 }
 initPyodideKernel();
 
-// ================= CORE CONFIGURATION =================
-const GUEST_MESSAGE_LIMIT = 20;
-
-if (window.pdfjsLib) {
-    pdfjsLib.GlobalWorkerOptions.workerSrc = 'https://cdnjs.cloudflare.com/ajax/libs/pdf.js/3.11.174/pdf.worker.min.js';
-}
-
-if (window.mermaid) {
-    try { mermaid.initialize({ startOnLoad: false, theme: 'dark' }); } catch(e){}
-}
-
-if (window.alasql) {
-    try {
-        alasql("CREATE TABLE IF NOT EXISTS dataset (id INT, item STRING, category STRING, revenue INT);");
-        alasql("INSERT INTO dataset VALUES (1, 'Cyber SaaS', 'Software', 45000), (2, 'AI Studio', 'Creative', 78000), (3, 'Lead Gen Core', 'Marketing', 92000), (4, 'E-com Engine', 'Commerce', 31000);");
-    } catch(e){}
-}
-
 const DEFAULT_PERSONAS = {
-    General: "You are NIZZ AI, an ultra-smart, charismatic, fast and natural multimodal AI assistant. Provide interactive HTML apps, SVG graphics, in-browser SQL queries, Python scripts, and math solutions ($..$ or $$..$$).",
-    Coder: "You are @Coder, a master software architect. Provide production-ready clean code.",
-    Marketing: "You are @Marketing, an elite digital growth & marketing strategist. Give actionable ROI blueprints and visual Chart.js projections."
+    General: "You are NIZZ AI, an ultra-smart assistant.",
+    Coder: "You are @Coder, a master software architect. Provide clean production-ready code.",
+    Marketing: "You are @Marketing, an elite digital marketing growth strategist."
 };
 
 let state = {
     user: "nizzbossdadzou",
-    owner: true,
-    unlocked: true,
-    offlineMode: false,
     persona: "General",
     personas: { ...DEFAULT_PERSONAS },
     lang: "Hinglish / Hindi",
     theme: "matrix",
     voiceMod: "boss",
-    freeUsed: 0,
     vaultContext: "",
     threads: [{id: 1, title: "Transmission // 01", messages: []}],
     activeThread: 1
 };
 
-let activeArtifact = {
-    id: null,
-    title: "Artifact",
-    type: "html",
-    versions: []
-};
+let activeArtifact = { versions: [] };
+let currentAttachment = { type: null, data: null, name: null };
 
-let duplexMode = false;
-let cameraStream = null;
-let audioCtx = null, analyser = null, animFrameWave = null;
-let originalAttachedBase64 = null;
-let parsedDatasetJson = null;
-
-let currentAttachment = {
-    type: null,
-    data: null,
-    name: null,
-    mimeType: null
-};
-
-// ================= LOCAL STORAGE =================
 function saveStateToLocal() {
-    try {
-        localStorage.setItem("NIZZ_META_CORE_STATE", JSON.stringify({
-            user: state.user,
-            owner: state.owner,
-            unlocked: state.unlocked,
-            offlineMode: state.offlineMode,
-            threads: state.threads,
-            activeThread: state.activeThread,
-            lang: state.lang,
-            persona: state.persona,
-            personas: state.personas,
-            theme: state.theme,
-            voiceMod: state.voiceMod,
-            vaultContext: state.vaultContext
-        }));
-    } catch(e){}
+    try { localStorage.setItem("NIZZ_STATE", JSON.stringify(state)); } catch(e){}
 }
-
 function loadStateFromLocal() {
     try {
-        const saved = localStorage.getItem("NIZZ_META_CORE_STATE");
-        if (saved) {
-            const parsed = JSON.parse(saved);
-            state.threads = parsed.threads || state.threads;
-            state.activeThread = parsed.activeThread || state.activeThread;
-            state.lang = parsed.lang || state.lang;
-            state.personas = parsed.personas || state.personas;
-            state.persona = parsed.persona || state.persona;
-            state.theme = parsed.theme || "matrix";
-            state.voiceMod = parsed.voiceMod || "boss";
-            state.vaultContext = parsed.vaultContext || "";
-            state.offlineMode = !!parsed.offlineMode;
-            setTheme(state.theme, false);
-            document.getElementById("voiceModSelect").value = state.voiceMod;
-            updateOfflineButtonUI();
-        }
+        const s = localStorage.getItem("NIZZ_STATE");
+        if (s) { const p = JSON.parse(s); state.threads = p.threads || state.threads; state.persona = p.persona || state.persona; }
     } catch(e){}
 }
 
-function setTheme(themeName, save = true) {
-    state.theme = themeName;
-    document.body.setAttribute("data-theme", themeName);
-    document.getElementById("themeSelect").value = themeName;
-    if (save) saveStateToLocal();
+async function getAIReply(history) {
+    try {
+        const text = history.map(m => (m.role === 'ai' ? 'Model: ' : 'User: ') + m.content).join('\n');
+        const res = await fetch('https://text.pollinations.ai/', {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify({ messages: [{ role: "user", content: text }], model: "openai", seed: Math.floor(Math.random() * 99999) })
+        });
+        if (!res.ok) throw new Error();
+        return (await res.text()).trim();
+    } catch(e) {
+        return "⚠ Uplink Timeout. Please check your network.";
+    }
 }
 
-function setVoiceMod(val) {
-    state.voiceMod = val;
-    saveStateToLocal();
-    CyberAudio.beep(500, 0.03);
-}
+async function sendMessage() {
+    const input = document.getElementById("composerInput");
+    const text = input.value.trim();
+    if (!text && !currentAttachment.data) return;
 
-function toggleOfflineMode() {
-    state.offlineMode = !state.offlineMode;
-    updateOfflineButtonUI();
-    saveStateToLocal();
     CyberAudio.laser();
-}
-
-function updateOfflineButtonUI() {
-    const btn = document.getElementById("offlineToggleBtn");
-    if (!btn) return;
-    if (state.offlineMode) {
-        btn.textContent = "⚡ Offline: ON";
-        btn.classList.add("active");
-    } else {
-        btn.textContent = "⚡ Offline: OFF";
-        btn.classList.remove("active");
-    }
-}
-
-// Matrix Canvas Animation
-const canvas = document.getElementById("matrix");
-const ctx = canvas.getContext("2d");
-let width, height, columns, drops;
-const chars = "01ABCDEFGHIJKLMNOPQRSTUVWXYZ<>[]{}#$%";
-
-function setupMatrix(){
-    width = canvas.width = window.innerWidth;
-    height = canvas.height = window.innerHeight;
-    columns = Math.floor(width / 13);
-    drops = Array(columns).fill(1);
-}
-function matrix(){
-    ctx.fillStyle = "rgba(2,6,4,.085)";
-    ctx.fillRect(0, 0, width, height);
-    ctx.font = "13px monospace";
-    for(let i=0; i<drops.length; i++){
-        const char = chars[Math.floor(Math.random() * chars.length)];
-        ctx.fillStyle = Math.random() > .92 ? "rgba(255,255,255,.9)" : getComputedStyle(document.body).getPropertyValue('--green');
-        ctx.fillText(char, i * 13, drops[i] * 13);
-        if(drops[i] * 13 > height && Math.random() > .975) drops[i] = 0;
-        drops[i]++;
-    }
-    requestAnimationFrame(matrix);
-}
-window.addEventListener("resize", setupMatrix);
-setupMatrix();
-matrix();
-
-function toggleSidebar(){
-    document.getElementById("sidebar").classList.toggle("open");
-    document.getElementById("backdrop").classList.toggle("active");
-    CyberAudio.beep(440, 0.03);
-}
-
-function updateQuota(){
-    const pill = document.getElementById("quotaPill");
-    if(state.unlocked){
-        pill.textContent = "Unlimited ✓";
-        pill.classList.add("unlocked");
-    } else {
-        const left = Math.max(0, GUEST_MESSAGE_LIMIT - state.freeUsed);
-        pill.textContent = `${left} transmissions left`;
-        pill.classList.remove("unlocked");
-    }
-}
-
-function updateTokenGauge() {
     const t = activeThreadObj();
-    const totalChars = t.messages.reduce((acc, m) => acc + (m.content ? m.content.length : 0), 0) + (state.vaultContext ? state.vaultContext.length : 0);
-    const estimatedTokens = Math.round(totalChars / 4);
-    const percent = Math.min(100, Math.max(1, (estimatedTokens / 1000000) * 100));
-    
-    document.getElementById("tokenGaugeCount").textContent = `${(estimatedTokens / 1000).toFixed(1)}k / 1.0M`;
-    document.getElementById("tokenProgressFill").style.width = `${percent}%`;
-}
-
-function openKnowledgeVault() {
-    CyberAudio.beep(600, 0.04);
-    document.getElementById("vaultContextInput").value = state.vaultContext || "";
-    document.getElementById("vaultModal").style.display = "flex";
-}
-function closeKnowledgeVault() {
-    document.getElementById("vaultModal").style.display = "none";
-}
-function saveKnowledgeVault() {
-    state.vaultContext = document.getElementById("vaultContextInput").value.trim();
+    t.messages.push({ role: "user", content: text || '(Attachment)' });
+    input.value = "";
+    removeAttachment();
+    renderMessages();
+    renderThreads();
     saveStateToLocal();
-    closeKnowledgeVault();
-    updateTokenGauge();
-    CyberAudio.laser();
-}
 
-// ================= WKHTMLTOPDF RENDERING ENGINE =================
-function exportChatViaWkhtmltopdf() {
-    CyberAudio.beep(650, 0.05);
-    const element = document.getElementById("messages");
-    const opt = {
-        margin: 10,
-        filename: `Transmission_Report_${Date.now()}.pdf`,
-        image: { type: 'jpeg', quality: 0.98 },
-        html2canvas: { scale: 2, useCORS: true, backgroundColor: '#020604' },
-        jsPDF: { unit: 'mm', format: 'a4', orientation: 'portrait' }
-    };
-    html2pdf().set(opt).from(element).save();
-    CyberAudio.laser();
-}
+    const box = document.getElementById("messages");
+    const typing = document.createElement("div");
+    typing.className = "typing";
+    typing.textContent = "⚡ NIZZ AI is thinking...";
+    box.appendChild(typing);
+    box.scrollTop = box.scrollHeight;
 
-function exportArtifactViaWkhtmltopdf() {
-    CyberAudio.beep(650, 0.05);
-    const frame = document.getElementById("artifactLiveFrame");
-    const opt = {
-        margin: 10,
-        filename: `Artifact_Document_${Date.now()}.pdf`,
-        image: { type: 'jpeg', quality: 0.98 },
-        html2canvas: { scale: 2, useCORS: true },
-        jsPDF: { unit: 'mm', format: 'a4', orientation: 'portrait' }
-    };
-    if (frame.contentDocument && frame.contentDocument.body) {
-        html2pdf().set(opt).from(frame.contentDocument.body).save();
-        CyberAudio.laser();
-    } else {
-        alert("No active artifact document loaded.");
+    const reply = await getAIReply(t.messages);
+    typing.remove();
+
+    const codeMatch = reply.match(/```(?:html|javascript|js)?\n([\s\S]*?)```/);
+    if (codeMatch && codeMatch[1]) {
+        loadArtifactIntoWorkspace(codeMatch[1].trim());
     }
+
+    t.messages.push({ role: "ai", content: reply });
+    renderMessages();
+    saveStateToLocal();
+    CyberAudio.beep(750, 0.04);
 }
 
-// ================= IMAGEMAGICK SUITE =================
-let magickSourceImg = null;
-function openImageMagickModal() {
-    CyberAudio.beep(600, 0.04);
-    document.getElementById("imagemagickModal").style.display = "flex";
-}
-function closeImageMagickModal() {
-    document.getElementById("imagemagickModal").style.display = "none";
-}
-
-function loadMagickImage(input) {
-    if (input.files && input.files[0]) {
-        const reader = new FileReader();
-        reader.onload = e => {
-            magickSourceImg = new Image();
-            magickSourceImg.src = e.target.result;
-            magickSourceImg.onload = () => {
-                document.getElementById("imWidth").value = magickSourceImg.width;
-                CyberAudio.beep(700, 0.03);
-            };
-        };
-        reader.readAsDataURL(input.files[0]);
-    }
-}
-
-function executeImageMagickTransform() {
-    if (!magickSourceImg) {
-        alert("Please choose an image file first.");
+function renderMessages() {
+    const box = document.getElementById("messages");
+    const t = activeThreadObj();
+    box.innerHTML = "";
+    if (t.messages.length === 0) {
+        box.innerHTML = `<div class="msg ai">NIZZ Quantum Workspace Online.<br>• Type queries or code.<br>• Type <b>/image prompt</b> for 4K AI renders.<br>• Apps automatically launch in <b>◫ Workspace</b>.</div>`;
         return;
     }
-
-    const format = document.getElementById("imFormat").value;
-    const targetWidth = parseInt(document.getElementById("imWidth").value) || magickSourceImg.width;
-    const rotation = parseInt(document.getElementById("imRotate").value) || 0;
-    const quality = (parseInt(document.getElementById("imQuality").value) || 90) / 100;
-
-    const scale = targetWidth / magickSourceImg.width;
-    const targetHeight = magickSourceImg.height * scale;
-
-    const canvasObj = document.createElement("canvas");
-    const cCtx = canvasObj.getContext("2d");
-
-    if (rotation === 90 || rotation === 270) {
-        canvasObj.width = targetHeight;
-        canvasObj.height = targetWidth;
-    } else {
-        canvasObj.width = targetWidth;
-        canvasObj.height = targetHeight;
-    }
-
-    cCtx.translate(canvasObj.width / 2, canvasObj.height / 2);
-    cCtx.rotate((rotation * Math.PI) / 180);
-    cCtx.drawImage(magickSourceImg, -targetWidth / 2, -targetHeight / 2, targetWidth, targetHeight);
-
-    const ext = format === "image/png" ? "png" : (format === "image/webp" ? "webp" : "jpg");
-    const convertedUrl = canvasObj.toDataURL(format, quality);
-
-    const a = document.createElement("a");
-    a.href = convertedUrl;
-    a.download = `imagemagick_export_${Date.now()}.${ext}`;
-    a.click();
-
-    CyberAudio.laser();
-    closeImageMagickModal();
-}
-
-// ================= SCREEN SHARE DEBUGGER =================
-async function captureLiveScreenShare() {
-    CyberAudio.beep(600, 0.04);
-    try {
-        const screenStream = await navigator.mediaDevices.getDisplayMedia({ video: { cursor: "always" }, audio: false });
-        const track = screenStream.getVideoTracks()[0];
-        const imageCapture = new ImageCapture(track);
-        const bitmap = await imageCapture.grabFrame();
-        track.stop();
-
-        const scrCanvas = document.createElement("canvas");
-        scrCanvas.width = bitmap.width;
-        scrCanvas.height = bitmap.height;
-        const sCtx = scrCanvas.getContext("2d");
-        sCtx.drawImage(bitmap, 0, 0);
-
-        const base64 = scrCanvas.toDataURL("image/jpeg", 0.85);
-        originalAttachedBase64 = base64;
-        currentAttachment = {
-            type: 'image',
-            data: base64,
-            name: `Screen_Capture_${Date.now()}.jpg`,
-            mimeType: 'image/jpeg'
-        };
-
-        document.getElementById("attachThumb").src = base64;
-        document.getElementById("attachThumb").style.display = "block";
-        document.getElementById("ocrBtn").style.display = "inline-block";
-        document.getElementById("attachLabel").textContent = "Live Screen Capture attached for Debugging";
-        document.getElementById("attachPreviewBar").style.display = "flex";
-        CyberAudio.laser();
-    } catch(err) {
-        alert("Screen sharing cancelled or unavailable.");
-    }
-}
-
-// ================= IN-BROWSER PYTHON RUNNER =================
-async function executePythonSnippet(code) {
-    if (!pyodideInstance) {
-        await initPyodideKernel();
-    }
-    if (!pyodideInstance) {
-        return "⚠ Python WebAssembly kernel is still initializing. Please retry in 3 seconds.";
-    }
-    try {
-        pyodideInstance.runPython(`
-import sys
-import io
-sys.stdout = io.StringIO()
-sys.stderr = io.StringIO()
-`);
-        await pyodideInstance.runPythonAsync(code);
-        const stdout = pyodideInstance.runPython("sys.stdout.getvalue()");
-        const stderr = pyodideInstance.runPython("sys.stderr.getvalue()");
-        return stdout || stderr || "[Python Code Executed Successfully with No Output]";
-    } catch(err) {
-        return `Python Kernel Error: ${err.message}`;
-    }
-}
-
-// ================= IN-BROWSER SQL DATABASE =================
-function openSQLStudio() {
-    CyberAudio.beep(700, 0.04);
-    document.getElementById("sqlStudioModal").style.display = "flex";
-}
-function closeSQLStudio() {
-    document.getElementById("sqlStudioModal").style.display = "none";
-}
-
-function executeStudioSQL() {
-    const query = document.getElementById("sqlStudioInput").value.trim();
-    const out = document.getElementById("sqlStudioOutput");
-    if (!query) return;
-
-    try {
-        const res = alasql(query);
-        out.innerHTML = formatSQLTable(res);
-        CyberAudio.beep(900, 0.05);
-    } catch(err) {
-        out.innerHTML = `<span style="color:var(--danger); font-size:11px;">SQL Error: ${err.message}</span>`;
-        CyberAudio.beep(200, 0.1, 'sawtooth');
-    }
-}
-
-function formatSQLTable(data) {
-    if (!Array.isArray(data) || data.length === 0) return "<span style='color:var(--muted); font-size:11px;'>Query executed successfully. 0 rows returned.</span>";
-    const keys = Object.keys(data[0]);
-    let html = "<div class='sql-result-box'><table class='sql-table'><thead><tr>";
-    keys.forEach(k => html += `<th>${k}</th>`);
-    html += "</tr></thead><tbody>";
-    data.forEach(row => {
-        html += "<tr>";
-        keys.forEach(k => html += `<td>${row[k] !== undefined ? row[k] : ''}</td>`);
-        html += "</tr>";
+    t.messages.forEach(m => {
+        const div = document.createElement("div");
+        div.className = "msg " + m.role;
+        div.innerHTML = m.content.replace(/\n/g, '<br>');
+        box.appendChild(div);
     });
-    html += "</tbody></table></div>";
-    return html;
+    box.scrollTop = box.scrollHeight;
 }
 
-function loadDatasetIntoSQL() {
-    if (!parsedDatasetJson) return;
-    try {
-        alasql("DROP TABLE IF EXISTS dataset;");
-        alasql("CREATE TABLE dataset;");
-        alasql.tables.dataset.data = parsedDatasetJson;
-        alert(`✓ Loaded ${parsedDatasetJson.length} rows into SQL table 'dataset'! Type /sql SELECT * FROM dataset; to query.`);
-        CyberAudio.laser();
-    } catch(err) {
-        alert("SQL Table load error: " + err.message);
-    }
+function activeThreadObj() { return state.threads.find(x => x.id === state.activeThread) || state.threads[0]; }
+function renderThreads() {
+    const list = document.getElementById("threadList");
+    list.innerHTML = "";
+    state.threads.forEach(th => {
+        const d = document.createElement("div");
+        d.className = "thread-item" + (th.id === state.activeThread ? " active" : "");
+        d.textContent = th.title;
+        d.onclick = () => { state.activeThread = th.id; renderThreads(); renderMessages(); };
+        list.appendChild(d);
+    });
 }
-
-// ================= 100% OFFLINE LOCAL NEURAL KERNEL =================
-async function getOfflineLocalResponse(prompt, history) {
-    const p = prompt.toLowerCase();
-    
-    if (p.startsWith("/python")) {
-        const pyCode = prompt.replace("/python", "").trim();
-        const pyResult = await executePythonSnippet(pyCode);
-        return `[100% OFFLINE PYODIDE PYTHON KERNEL]:\n\`\`\`python\n${pyCode}\n\`\`\`\n\n**Output:**\n\`\`\`\n${pyResult}\n\`\`\``;
-    }
-
-    if (p.startsWith("/sql")) {
-        const q = prompt.replace("/sql", "").trim();
-        try {
-            const res = alasql(q);
-            return `[100% OFFLINE SQL ENGINE EXECUTION]:\nQuery: \`${q}\`\n\n` + formatSQLTable(res);
-        } catch(e) {
-            return `[OFFLINE SQL ERROR]: ${e.message}`;
-        }
-    }
-
-    if (p.includes("math") || p.includes("derivative") || p.includes("integral") || p.includes("formula")) {
-        return `[OFFLINE MATHEMATICS KERNEL]:\n\nStandard derivation for your formula:\n$$f(x) = \\int_{a}^{b} x^2 \\, dx = \\left[ \\frac{x^3}{3} \\right]_a^b$$\n$$\\nabla \\times \\mathbf{B} = \\mu_0 \\mathbf{J} + \\mu_0 \\epsilon_0 \\frac{\\partial \\mathbf{E}}{\\partial t}$$`;
-    }
-
-    if (p.includes("chart") || p.includes("graph")) {
-        return `[OFFLINE DATA VISUALIZER]:\n\n\`\`\`chart\n{\n  "type": "bar",\n  "data": {\n    "labels": ["Q1", "Q2", "Q3", "Q4"],\n    "datasets": [{\n      "label": "Offline Metrics",\n      "data": [45, 78, 92, 110],\n      "backgroundColor": "rgba(0,255,136,0.6)"\n    }]\n  }\n}\n\`\`\``;
-    }
-
-    return `[⚡ 100% OFFLINE QUANTUM CORE]:\nAapka system **Zero-Network Flight Mode** par active hai. Pyodide Python execution, in-browser SQL queries, Math LaTeX rendering, Chart.js, Mermaid graphs, aur Claude Artifacts bina internet ke 100% locally execute ho rahe hain.`;
+function newThread() {
+    const id = Date.now();
+    state.threads.push({ id, title: `Transmission // 0${state.threads.length + 1}`, messages: [] });
+    state.activeThread = id;
+    renderThreads(); renderMessages(); saveStateToLocal();
 }
-
-// ================= ARTIFACT SPLIT WORKSPACE =================
-function toggleSplitPane(forceState) {
-    const pane = document.getElementById("artifactSplitPane");
-    const btn = document.getElementById("splitViewBtn");
-    const isOpen = forceState !== undefined ? forceState : !pane.classList.contains("open");
-
-    if (isOpen) {
-        pane.classList.add("open");
-        btn.classList.add("active");
-        CyberAudio.beep(650, 0.04);
-    } else {
-        pane.classList.remove("open");
-        btn.classList.remove("active");
-    }
+function renderPersonas() {
+    const list = document.getElementById("personaList");
+    list.innerHTML = "";
+    Object.keys(state.personas).forEach(name => {
+        const d = document.createElement("div");
+        d.className = "persona-item" + (name === state.persona ? " active" : "");
+        d.textContent = `@${name}`;
+        d.onclick = () => { state.persona = name; renderPersonas(); };
+        list.appendChild(d);
+    });
 }
-
-function loadArtifactIntoWorkspace(code, type = "html", title = "Artifact") {
-    activeArtifact.title = title;
-    activeArtifact.type = type;
-    
-    if (!activeArtifact.versions.includes(code)) {
-        activeArtifact.versions.push(code);
-    }
-    
-    renderArtifactVersionPills();
-    setArtifactContent(code, type);
+function setTheme(name) { state.theme = name; document.body.setAttribute("data-theme", name); saveStateToLocal(); }
+function setLang(l) { state.lang = l; saveStateToLocal(); }
+function handleKey(e) { if (e.key === "Enter" && !e.shiftKey) { e.preventDefault(); sendMessage(); } }
+function applyQuickPrompt(p) { document.getElementById("composerInput").value = p; document.getElementById("composerInput").focus(); }
+function removeAttachment() { currentAttachment = { type: null, data: null }; document.getElementById("attachPreviewBar").style.display = "none"; }
+function toggleSplitPane() { document.getElementById("artifactSplitPane").classList.toggle("open"); }
+function loadArtifactIntoWorkspace(code) {
+    document.getElementById("artifactLiveFrame").srcdoc = `<!DOCTYPE html><html><body>${code}</body></html>`;
+    document.getElementById("artifactCodeView").textContent = code;
     toggleSplitPane(true);
 }
 
-function setArtifactContent(code, type) {
-    const frame = document.getElementById("artifactLiveFrame");
-    const codeView = document.getElementById("artifactCodeView");
-    const svgBtn = document.getElementById("svgExportBtn");
-
-    if (type === "svg" || code.trim().startsWith("<svg")) {
-        frame.srcdoc = `<!DOCTYPE html><html><body style="margin:0; background:#05030a; display:flex; align-items:center; justify-content:center; height:100vh;">${code}</body></html>`;
-        svgBtn.style.display = "inline-block";
-    } else {
-        frame.srcdoc = `<!DOCTYPE html><html><head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1.0"><style>body{margin:0;font-family:sans-serif;}</style></head><body>${code}</body></html>`;
-        svgBtn.style.display = "none";
-    }
-
-    codeView.textContent = code;
-}
-
-function switchArtifactTab(tab) {
-    const frame = document.getElementById("artifactLiveFrame");
-    const codeView = document.getElementById("artifactCodeView");
-    const tabPrev = document.getElementById("tabPreviewBtn");
-    const tabCode = document.getElementById("tabCodeBtn");
-
-    if (tab === 'preview') {
-        frame.style.display = "block";
-        codeView.style.display = "none";
-        tabPrev.classList.add("active");
-        tabCode.classList.remove("active");
-    } else {
-        frame.style.display = "none";
-        codeView.style.display = "block";
-        tabCode.classList.add("active");
-        tabPrev.classList.remove("active");
-    }
-    CyberAudio.beep(550, 0.02);
-}
-
-function renderArtifactVersionPills() {
-    const box = document.getElementById("artifactVersionBox");
-    box.innerHTML = "";
-    activeArtifact.versions.forEach((verCode, idx) => {
-        const pill = document.createElement("span");
-        const isCurrent = idx === activeArtifact.versions.length - 1;
-        pill.className = "version-pill" + (isCurrent ? " active" : "");
-        pill.textContent = `v${idx + 1}`;
-        pill.onclick = () => {
-            document.querySelectorAll(".version-pill").forEach(p => p.classList.remove("active"));
-            pill.classList.add("active");
-            setArtifactContent(verCode, activeArtifact.type);
-            CyberAudio.beep(500, 0.03);
-        };
-        box.appendChild(pill);
-    });
-}
-
-function exportArtifactAsProjectZip() {
-    const code = document.getElementById("artifactCodeView").textContent || "";
-    if (!code.trim()) {
-        alert("No artifact code available to package.");
-        return;
-    }
-
-    const zip = new JSZip();
-    if (activeArtifact.type === "svg") {
-        zip.file("vector_graphics.svg", code);
-    } else {
-        zip.file("index.html", `<!DOCTYPE html>
-<html lang="en">
-<head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>NIZZ Exported Web Application</title>
-  <link rel="stylesheet" href="style.css">
-</head>
-<body>
-  ${code}
-  <script src="app.js"><\/script>
+// Startup
+loadStateFromLocal();
+renderPersonas();
+renderThreads();
+renderMessages();
+updateTokenGauge();
+</script>
 </body>
-</html>`);
-        zip.file("style.css", `/* Exported Project Styles */\nbody { margin: 0; font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif; }`);
-        zip.file("app.js", `// Exported Project Logic\nconsole.log("App loaded successfully.");`);
-        zip.file("README.md", `# Project Generated by NIZZ AI\nOpen index.html in any modern browser.`);
-    }
-
-    zip.generateAsync({type:"blob"}).then(function(content) {
-        const a = document.createElement('a');
-        a.href = URL.createObjectURL(content);
-        a.download = "nizz-web-project.zip";
-        a.click();
-        CyberAudio.laser();
-    });
-}
-
-function exportCurrentSVG() {
-    const code = document.getElementById("artifactCodeView").textContent;
-    const canvasObj = document.createElement("canvas");
-    const img = new Image();
-    const svgBlob = new Blob([code], {type: 'image/svg+xml;charset=utf-8'});
-    const url = URL.createObjectURL(svgBlob);
-    
-    img.onload = function() {
-        canvasObj.width = img.width || 800;
-        canvasObj.height = img.height || 800;
-        const ctx2 = canvasObj.getContext("2d");
-        ctx2.drawImage(img, 0, 0);
-        const pngUrl = canvasObj.toDataURL("image/png");
-        const a = document.createElement("a");
-        a.href = pngUrl;
-        a.download = "nizz-vector-export.png";
-        a.click();
-        URL.revokeObjectURL(url);
-    };
-    img.src = url;
-    CyberAudio.laser();
-}
-
-function editUserMessage(msgIndex) {
-    const t = activeThreadObj();
-    const msgObj = t.messages[msgIndex];
-    if (!msgObj) return;
-
-    const newPrompt = prompt("Edit and fork message timeline:", msgObj.content);
-    if (newPrompt !== null && newPrompt.trim() !== "") {
-        t.messages = t.messages.slice(0, msgIndex);
-        document.getElementById("composerInput").value = newPrompt.trim();
-        sendMessage();
-    }
-}
-
-// ================= PHOTO FX STUDIO =================
-function applyCyberPhotoFX(filterType) {
-    if (!originalAttachedBase64) return;
-    const img = new Image();
-    img.src = originalAttachedBase64;
-    img.onload = () => {
-        const c = document.createElement("canvas");
-        c.width = img.width;
-        c.height = img.height;
-        const cx = c.getContext("2d");
-        cx.drawImage(img, 0, 0);
-
-        if (filterType === "cyberpunk") {
-            cx.globalCompositeOperation = "color";
-            cx.fillStyle = "rgba(255, 22, 140, 0.4)";
-            cx.fillRect(0, 0, c.width, c.height);
-            cx.globalCompositeOperation = "screen";
-            cx.fillStyle = "rgba(0, 234, 255, 0.3)";
-            cx.fillRect(0, 0, c.width, c.height);
-        } else if (filterType === "matrix") {
-            cx.globalCompositeOperation = "color";
-            cx.fillStyle = "rgba(0, 255, 136, 0.5)";
-            cx.fillRect(0, 0, c.width, c.height);
-        } else if (filterType === "noir") {
-            cx.globalCompositeOperation = "luminosity";
-            cx.fillStyle = "#ffffff";
-            cx.fillRect(0, 0, c.width, c.height);
-        }
-
-        const filteredBase64 = c.toDataURL("image/jpeg", 0.9);
-        currentAttachment.data = filteredBase64;
-        document.getElementById("attachThumb").src = filteredBase64;
-        CyberAudio.beep(700, 0.04);
-    };
-}
-
-// ================= 3D KNOWLEDGE GRAPH =================
-let threeScene, threeCamera, threeRenderer, threeNodesGroup, threeAnimId;
-function open3DKnowledgeGraph() {
-    CyberAudio.beep(750, 0.08);
-    const modal = document.getElementById("mindmapModal");
-    const container = document.getElementById("mindmapContainer");
-    modal.style.display = "flex";
-    container.innerHTML = "";
-
-    const w = container.clientWidth || window.innerWidth;
-    const h = container.clientHeight || window.innerHeight;
-
-    threeScene = new THREE.Scene();
-    threeCamera = new THREE.PerspectiveCamera(60, w / h, 0.1, 1000);
-    threeCamera.position.z = 120;
-
-    threeRenderer = new THREE.WebGLRenderer({ antialias: true, alpha: true });
-    threeRenderer.setSize(w, h);
-    container.appendChild(threeRenderer.domElement);
-
-    threeNodesGroup = new THREE.Group();
-    threeScene.add(threeNodesGroup);
-
-    const t = activeThreadObj();
-    const nodeCount = Math.max(8, Math.min(t.messages.length * 2, 24));
-    const themeColorHex = state.theme === "neon" ? 0xff168c : (state.theme === "amber" ? 0xd9814a : 0x00ff88);
-
-    const nodeGeometry = new THREE.SphereGeometry(2.5, 16, 16);
-    const nodeMaterial = new THREE.MeshBasicMaterial({ color: themeColorHex, wireframe: true });
-
-    const positions = [];
-    for (let i = 0; i < nodeCount; i++) {
-        const mesh = new THREE.Mesh(nodeGeometry, nodeMaterial);
-        mesh.position.set(
-            (Math.random() - 0.5) * 110,
-            (Math.random() - 0.5) * 80,
-            (Math.random() - 0.5) * 60
-        );
-        positions.push(mesh.position);
-        threeNodesGroup.add(mesh);
-    }
-
-    const lineMaterial = new THREE.LineBasicMaterial({ color: themeColorHex, transparent: true, opacity: 0.35 });
-    for (let i = 0; i < positions.length - 1; i++) {
-        const points = [positions[i], positions[i + 1]];
-        const lineGeo = new THREE.BufferGeometry().setFromPoints(points);
-        const line = new THREE.Line(lineGeo, lineMaterial);
-        threeNodesGroup.add(line);
-    }
-
-    let isDragging = false, prevX = 0, prevY = 0;
-    container.onmousedown = (e) => { isDragging = true; prevX = e.clientX; prevY = e.clientY; };
-    container.ontouchstart = (e) => { isDragging = true; prevX = e.touches[0].clientX; prevY = e.touches[0].clientY; };
-    window.onmousemove = (e) => {
-        if (!isDragging) return;
-        threeNodesGroup.rotation.y += (e.clientX - prevX) * 0.008;
-        threeNodesGroup.rotation.x += (e.clientY - prevY) * 0.008;
-        prevX = e.clientX; prevY = e.clientY;
-    };
-    window.ontouchmove = (e) => {
-        if (!isDragging) return;
-        threeNodesGroup.rotation.y += (e.touches[0].clientX - prevX) * 0.008;
-        threeNodesGroup.rotation.x += (e.touches[0].clientY - prevY) * 0.008;
-        prevX = e.touches[0].clientX; prevY = e.touches[0].clientY;
-    };
-    window.onmouseup = window.ontouchend = () => { isDragging = false; };
-
-    function animate3D() {
-        threeAnimId = requestAnimationFrame(animate3D);
-        if (!isDragging) {
-            threeNodesGroup.rotation.y += 0.002;
-            threeNodesGroup.rotation.x += 0.001;
-        }
-        threeRenderer.render(threeScene, threeCamera);
-    }
-    animate3D();
-}
-
-function close3DKnowledgeGraph() {
-    document.getElementById("mindmapModal").style.display = "none";
-    if (threeAnimId) cancelAnimationFrame(threeAnimId);
-}
-
-// ================= OCR & WEBPAGE SUMMARIZER =================
-async function extractTextFromAttachedImage() {
-    if (!currentAttachment || currentAttachment.type !== 'image' || !currentAttachment.data) return;
-    const btn = document.getElementById("ocrBtn");
-    const input = document.getElementById("composerInput");
-    const orig = btn.innerText;
-    btn.innerText = "⏳ SCANNING...";
-    CyberAudio.beep(550, 0.05);
-
-    try {
-        const result = await Tesseract.recognize(currentAttachment.data, 'eng+hin');
-        const extracted = result.data.text.trim();
-        if (extracted) {
-            input.value = (input.value ? input.value + "\n\n" : "") + `[OCR Extracted Text]:\n${extracted}`;
-            CyberAudio.beep(880, 0.1);
-            btn.innerText = "✓ SCANNED";
-        } else {
-            alert("No legible text detected.");
-            btn.innerText = orig;
-        }
-    } catch(err) {
-        alert("OCR Scan error: " + err.message);
-        btn.innerText = orig;
-    }
-}
-
-async function scrapeUrlContent(url) {
-    try {
-        const proxyUrl = `https://api.allorigins.win/raw?url=${encodeURIComponent(url)}`;
-        const res = await fetch(proxyUrl);
-        const html = await res.text();
-        const doc = new DOMParser().parseFromString(html, 'text/html');
-        const elements = doc.querySelectorAll('p, h1, h2, h3, article');
-        let text = Array.from(elements).map(e => e.innerText.trim()).filter(t => t.length > 30).join('\n\n');
-        return text.slice(0, 15000);
-    } catch(err) {
-        return null;
-    }
-}
-
-function filterMemoryThreads(query) {
-    const q = query.toLowerCase().trim();
-    const threadEls = document.querySelectorAll("#threadList .thread-item");
-    state.threads.forEach((t, index) => {
-        const matchTitle = t.title.toLowerCase().includes(q);
-        const matchContent = t.messages.some(m => m.content.toLowerCase().includes(q));
-        if (threadEls[index]) {
-            threadEls[index].style.display = (matchTitle || matchContent || !q) ? "flex" : "none";
-        }
-    });
-}
-
-function openCustomPersonaModal() {
-    CyberAudio.beep(500, 0.04);
-    document.getElementById("customPersonaModal").style.display = "flex";
-}
-function closeCustomPersonaModal() {
-    document.getElementById("customPersonaModal").style.display = "none";
-}
-function saveCustomPersona() {
-    const name = document.getElementById("customBotName").value.trim().replace(/^@/, '');
-    const prompt = document.getElementById("customBotPrompt").value.trim();
-    if (!name || !prompt) {
-        alert("Enter Bot callsign and prompt instructions.");
-        return;
-    }
-    state.personas[name] = prompt;
-    state.persona = name;
-    renderPersonas();
-    saveStateToLocal();
-    closeCustomPersonaModal();
-    CyberAudio.beep(900, 0.08);
-}
-
-// ================= LIVE AUDIO WAVEFORM =================
-function startWaveformVisualizer(stream) {
-    const waveBox = document.getElementById("waveformBox");
-    const waveCanvas = document.getElementById("waveCanvas");
-    waveBox.style.display = "flex";
-    
-    if (!audioCtx) audioCtx = new (window.AudioContext || window.webkitAudioContext)();
-    const source = audioCtx.createMediaStreamSource(stream);
-    analyser = audioCtx.createAnalyser();
-    analyser.fftSize = 64;
-    source.connect(analyser);
-
-    const waveCtx = waveCanvas.getContext("2d");
-    const bufferLength = analyser.frequencyBinCount;
-    const dataArray = new Uint8Array(bufferLength);
-
-    function drawWave() {
-        animFrameWave = requestAnimationFrame(drawWave);
-        analyser.getByteFrequencyData(dataArray);
-
-        waveCtx.clearRect(0, 0, waveCanvas.width, waveCanvas.height);
-        const barWidth = (waveCanvas.width / bufferLength) * 2;
-        let x = 0;
-
-        for (let i = 0; i < bufferLength; i++) {
-            const barHeight = (dataArray[i] / 255) * waveCanvas.height;
-            waveCtx.fillStyle = getComputedStyle(document.body).getPropertyValue('--green');
-            waveCtx.fillRect(x, waveCanvas.height - barHeight, barWidth - 1, barHeight);
-            x += barWidth;
-        }
-    }
-    drawWave();
-}
-
-function stopWaveformVisualizer() {
-    document.getElementById("waveformBox").style.display = "none";
-    if (animFrameWave) cancelAnimationFrame(animFrameWave);
-}
-
-// ================= CAMERA SCANNER =================
-async function openCameraScanner() {
-    CyberAudio.beep(600, 0.04);
-    const modal = document.getElementById("cameraModal");
-    const video = document.getElementById("camVideo");
-    try {
-        cameraStream = await navigator.mediaDevices.getUserMedia({
-            video: { facingMode: "environment" },
-            audio: false
-        });
-        video.srcObject = cameraStream;
-        modal.style.display = "flex";
-    } catch(err) {
-        alert("Camera permission denied or camera not found.");
-    }
-}
-
-function captureCameraSnapshot() {
-    CyberAudio.laser();
-    const video = document.getElementById("camVideo");
-    const canvasSnap = document.createElement("canvas");
-    canvasSnap.width = video.videoWidth || 640;
-    canvasSnap.height = video.videoHeight || 480;
-    const snapCtx = canvasSnap.getContext("2d");
-    snapCtx.drawImage(video, 0, 0, canvasSnap.width, canvasSnap.height);
-
-    const base64 = canvasSnap.toDataURL("image/jpeg", 0.85);
-    originalAttachedBase64 = base64;
-    currentAttachment = {
-        type: 'image',
-        data: base64,
-        name: `Camera_Snapshot_${Date.now()}.jpg`,
-        mimeType: 'image/jpeg'
-    };
-
-    document.getElementById("attachThumb").src = base64;
-    document.getElementById("attachThumb").style.display = "block";
-    document.getElementById("ocrBtn").style.display = "inline-block";
-    document.getElementById("photoFxSelect").style.display = "inline-block";
-    document.getElementById("attachLabel").textContent = "Camera Snapshot attached";
-    document.getElementById("attachPreviewBar").style.display = "flex";
-
-    closeCameraScanner();
-}
-
-function closeCameraScanner() {
-    if (cameraStream) {
-        cameraStream.getTracks().forEach(track => track.stop());
-        cameraStream = null;
-    }
-    document.getElementById("cameraModal").style.display = "none";
-}
-
-// ================= PROMPT ENHANCER =================
-function enhanceCurrentPrompt() {
-    CyberAudio.beep(850, 0.05);
-    const input = document.getElementById("composerInput");
-    const val = input.value.trim();
-    if (!val) {
-        input.placeholder = "Type a simple idea first, then tap 🪄...";
-        return;
-    }
-    if (val.startsWith("/image") || val.startsWith("draw")) {
-        const base = val.replace(/^\/image/i, '').replace(/^draw/i, '').trim();
-        input.value = `/image ${base}, cinematic lighting, photorealistic 8k, highly detailed, octane render, dramatic atmosphere`;
-    } else if (val.includes("code") || val.includes("app")) {
-        input.value = `Write complete interactive code with HTML, clean CSS, and modern JavaScript for: ${val}. Include full functionality and render in Live Workspace.`;
-    } else {
-        input.value = `Act as an elite domain authority. Provide a deep, highly tactical, step-by-step master breakdown for: "${val}".`;
-    }
-}
-
-// ================= UNIVERSAL FILE & SPREADSHEET ATTACHMENTS =================
-async function handleFileSelected(input) {
-    if (!input.files || !input.files[0]) return;
-    const file = input.files[0];
-    const name = file.name;
-    const type = file.type;
-
-    const thumb = document.getElementById("attachThumb");
-    const docIcon = document.getElementById("attachDocIcon");
-    const audioIcon = document.getElementById("attachAudioIcon");
-    const ocrBtn = document.getElementById("ocrBtn");
-    const fxSelect = document.getElementById("photoFxSelect");
-    const loadSqlBtn = document.getElementById("loadSqlTableBtn");
-    const label = document.getElementById("attachLabel");
-    const bar = document.getElementById("attachPreviewBar");
-
-    thumb.style.display = "none";
-    docIcon.style.display = "none";
-    audioIcon.style.display = "none";
-    ocrBtn.style.display = "none";
-    fxSelect.style.display = "none";
-    loadSqlBtn.style.display = "none";
-
-    if (type.startsWith("image/")) {
-        const reader = new FileReader();
-        reader.onload = e => {
-            originalAttachedBase64 = e.target.result;
-            currentAttachment = { type: 'image', data: e.target.result, name: name, mimeType: type };
-            thumb.src = e.target.result;
-            thumb.style.display = "block";
-            ocrBtn.style.display = "inline-block";
-            fxSelect.style.display = "inline-block";
-            label.textContent = `Photo: ${name}`;
-            bar.style.display = "flex";
-            CyberAudio.beep(650, 0.05);
-        };
-        reader.readAsDataURL(file);
-    } 
-    else if (name.endsWith(".csv") || name.endsWith(".xlsx") || name.endsWith(".xls")) {
-        label.textContent = `Reading Spreadsheet: ${name}...`;
-        bar.style.display = "flex";
-        docIcon.style.display = "block";
-
-        const reader = new FileReader();
-        reader.onload = function(e) {
-            try {
-                const data = new Uint8Array(e.target.result);
-                const workbook = XLSX.read(data, {type: 'array'});
-                const firstSheet = workbook.SheetNames[0];
-                parsedDatasetJson = XLSX.utils.sheet_to_json(workbook.Sheets[firstSheet]);
-
-                currentAttachment = {
-                    type: 'text',
-                    data: JSON.stringify(parsedDatasetJson.slice(0, 30)),
-                    name: name,
-                    mimeType: 'application/json'
-                };
-                loadSqlBtn.style.display = "inline-block";
-                label.textContent = `Spreadsheet Attached: ${name} (${parsedDatasetJson.length} rows)`;
-                CyberAudio.laser();
-            } catch(err) {
-                alert("Error parsing spreadsheet: " + err.message);
-                removeAttachment();
-            }
-        };
-        reader.readAsArrayBuffer(file);
-    }
-    else if (type === "application/pdf" || name.endsWith(".pdf")) {
-        label.textContent = `Extracting PDF: ${name}...`;
-        bar.style.display = "flex";
-        docIcon.style.display = "block";
-
-        try {
-            const arrayBuffer = await file.arrayBuffer();
-            const pdf = await pdfjsLib.getDocument({ data: arrayBuffer }).promise;
-            let fullText = "";
-            for (let i = 1; i <= Math.min(pdf.numPages, 20); i++) {
-                const page = await pdf.getPage(i);
-                const textContent = await page.getTextContent();
-                fullText += textContent.items.map(item => item.str).join(" ") + "\n";
-            }
-            currentAttachment = { type: 'pdf', data: fullText, name: name, mimeType: 'application/pdf' };
-            label.textContent = `PDF Attached: ${name} (${pdf.numPages} pages)`;
-            CyberAudio.beep(650, 0.05);
-        } catch(err) {
-            alert("Error reading PDF text.");
-            removeAttachment();
-        }
-    } 
-    else if (type.startsWith("audio/")) {
-        const reader = new FileReader();
-        reader.onload = e => {
-            currentAttachment = { type: 'audio', data: e.target.result, name: name, mimeType: type };
-            audioIcon.style.display = "block";
-            label.textContent = `Audio: ${name}`;
-            bar.style.display = "flex";
-            CyberAudio.beep(650, 0.05);
-        };
-        reader.readAsDataURL(file);
-    } 
-    else {
-        const reader = new FileReader();
-        reader.onload = e => {
-            currentAttachment = { type: 'text', data: e.target.result, name: name, mimeType: 'text/plain' };
-            docIcon.style.display = "block";
-            label.textContent = `Doc: ${name}`;
-            bar.style.display = "flex";
-            CyberAudio.beep(650, 0.05);
-        };
-        reader.readAsText(file);
-    }
-}
-
-function removeAttachment() {
-    currentAttachment = { type: null, data: null, name: null, mimeType: null };
-    originalAttachedBase64 = null;
-    parsedDatasetJson = null;
-    document.getElementById("fileInput").value = "";
-    document.getElementById("attachPreviewBar").style.display = "none";
-}
-
-function applyQuickPrompt(promptText) {
-    CyberAudio.beep(600, 0.03);
-    const input = document.getElementById("composerInput");
-    input.value = promptText;
-    input.focus();
-}
-
-// ================= MARKDOWN & CODE BLOCKS =================
-function formatMarkdown(text) {
-    if (!text) return "";
-    let html = text.replace(/&/g, "&amp;").replace(/</g, "&lt;").replace(/>/g, "&gt;");
-    
-    // 1. Chart.js Block
-    html = html.replace(/```chart\n([\s\S]*?)```/g, (match, configStr) => {
-        const id = 'chart_' + Math.floor(Math.random() * 1000000);
-        setTimeout(() => {
-            try {
-                const ctx = document.getElementById(id);
-                if (ctx) new Chart(ctx, JSON.parse(configStr.trim()));
-            } catch(e){}
-        }, 100);
-        return `<div class="chart-container-box"><canvas id="${id}"></canvas></div>`;
-    });
-
-    // 2. Mermaid Diagram Block
-    html = html.replace(/```mermaid\n([\s\S]*?)```/g, (match, diagramStr) => {
-        const id = 'mermaid_' + Math.floor(Math.random() * 1000000);
-        setTimeout(() => {
-            try {
-                const el = document.getElementById(id);
-                if (el && window.mermaid) {
-                    mermaid.render(id + '_svg', diagramStr.trim()).then(res => { el.innerHTML = res.svg; });
-                }
-            } catch(e){}
-        }, 100);
-        return `<div class="mermaid-diagram-box" id="${id}">Rendering visual diagram...</div>`;
-    });
-
-    // 3. Code Blocks with Pyodide Python Runner & Workspace Launcher
-    html = html.replace(/```([a-zA-Z0-9_-]*)\n([\s\S]*?)
+</html>
